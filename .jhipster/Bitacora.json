@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010146",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "bitacora",
+  "fields": [
+    {
+      "fieldName": "tabla",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "accion",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "creado",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Bitacora",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "bitacora",
+      "relationshipName": "usuario",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "proyecto",
+      "otherEntityRelationshipName": "bitacora",
+      "relationshipName": "proyecto",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

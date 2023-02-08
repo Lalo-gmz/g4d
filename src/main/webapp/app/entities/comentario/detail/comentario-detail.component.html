@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="comentario">
+      <h2 data-cy="comentarioDetailsHeading"><span>Comentario</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ comentario.id }}</span>
+        </dd>
+        <dt><span>Mensaje</span></dt>
+        <dd>
+          <span>{{ comentario.mensaje }}</span>
+        </dd>
+        <dt><span>Creado</span></dt>
+        <dd>
+          <span>{{ comentario.creado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Modificado</span></dt>
+        <dd>
+          <span>{{ comentario.modificado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Funcionalidad</span></dt>
+        <dd>
+          <div *ngIf="comentario.funcionalidad">
+            <a [routerLink]="['/funcionalidad', comentario.funcionalidad.id, 'view']">{{ comentario.funcionalidad.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <div *ngIf="comentario.usuario">
+            <a [routerLink]="['/usuario', comentario.usuario.id, 'view']">{{ comentario.usuario.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/comentario', comentario.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

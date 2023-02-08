@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="funcionalidad">
+      <h2 data-cy="funcionalidadDetailsHeading"><span>Funcionalidad</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ funcionalidad.id }}</span>
+        </dd>
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ funcionalidad.nombre }}</span>
+        </dd>
+        <dt><span>Descripcion</span></dt>
+        <dd>
+          <span>{{ funcionalidad.descripcion }}</span>
+        </dd>
+        <dt><span>Url Git Lab</span></dt>
+        <dd>
+          <span>{{ funcionalidad.urlGitLab }}</span>
+        </dd>
+        <dt><span>Fecha Entrega</span></dt>
+        <dd>
+          <span>{{ funcionalidad.fechaEntrega | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Creado</span></dt>
+        <dd>
+          <span>{{ funcionalidad.creado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Modificado</span></dt>
+        <dd>
+          <span>{{ funcionalidad.modificado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Estatus Funcionalidad</span></dt>
+        <dd>
+          <div *ngIf="funcionalidad.estatusFuncionalidad">
+            <a [routerLink]="['/estatus-funcionalidad', funcionalidad.estatusFuncionalidad.id, 'view']">{{
+              funcionalidad.estatusFuncionalidad.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span>Iteracion</span></dt>
+        <dd>
+          <div *ngIf="funcionalidad.iteracion">
+            <a [routerLink]="['/iteracion', funcionalidad.iteracion.id, 'view']">{{ funcionalidad.iteracion.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/funcionalidad', funcionalidad.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

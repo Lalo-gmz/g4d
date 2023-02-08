@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010155",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "comentario",
+  "fields": [
+    {
+      "fieldName": "mensaje",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "creado",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "modificado",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Comentario",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "comentario",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "comentario",
+      "relationshipName": "usuario",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

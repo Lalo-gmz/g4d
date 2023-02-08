@@ -1,0 +1,35 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010156",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "atributo",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "marcado",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "auxiliar",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Atributo",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "atributo",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

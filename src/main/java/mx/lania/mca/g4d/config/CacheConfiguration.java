@@ -48,6 +48,33 @@ public class CacheConfiguration {
             createCache(cm, mx.lania.mca.g4d.domain.User.class.getName());
             createCache(cm, mx.lania.mca.g4d.domain.Authority.class.getName());
             createCache(cm, mx.lania.mca.g4d.domain.User.class.getName() + ".authorities");
+            createCache(cm, mx.lania.mca.g4d.domain.Bitacora.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Usuario.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Usuario.class.getName() + ".bitacoras");
+            createCache(cm, mx.lania.mca.g4d.domain.Usuario.class.getName() + ".comentarios");
+            createCache(cm, mx.lania.mca.g4d.domain.Iteracion.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Iteracion.class.getName() + ".funcionalidads");
+            createCache(cm, mx.lania.mca.g4d.domain.Permiso.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Rol.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Rol.class.getName() + ".usuarios");
+            createCache(cm, mx.lania.mca.g4d.domain.Rol.class.getName() + ".permisos");
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName() + ".rols");
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName() + ".configuracions");
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName() + ".bitacoras");
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName() + ".usuarios");
+            createCache(cm, mx.lania.mca.g4d.domain.Proyecto.class.getName() + ".iteracions");
+            createCache(cm, mx.lania.mca.g4d.domain.EstatusFuncionalidad.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.EstatusFuncionalidad.class.getName() + ".funcionalidads");
+            createCache(cm, mx.lania.mca.g4d.domain.Etiqueta.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Funcionalidad.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Funcionalidad.class.getName() + ".etiquetas");
+            createCache(cm, mx.lania.mca.g4d.domain.Funcionalidad.class.getName() + ".usuarios");
+            createCache(cm, mx.lania.mca.g4d.domain.Funcionalidad.class.getName() + ".atributos");
+            createCache(cm, mx.lania.mca.g4d.domain.Funcionalidad.class.getName() + ".comentarios");
+            createCache(cm, mx.lania.mca.g4d.domain.Comentario.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Atributo.class.getName());
+            createCache(cm, mx.lania.mca.g4d.domain.Configuracion.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

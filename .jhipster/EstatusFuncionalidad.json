@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010152",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "estatus_funcionalidad",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prioridad",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "EstatusFuncionalidad",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "estatusFuncionalidad",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

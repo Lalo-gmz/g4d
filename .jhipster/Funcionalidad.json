@@ -1,0 +1,77 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010154",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "funcionalidad",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "urlGitLab",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fechaEntrega",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "creado",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "modificado",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Funcionalidad",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "estatusFuncionalidad",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "estatusFuncionalidad",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "iteracion",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "iteracion",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "etiqueta",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "etiqueta",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "usuario",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "atributo",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "atributo",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "comentario",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "comentario",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,0 +1,122 @@
+enum EtiquetaVisual {
+	FUNCIONALIDAD,
+    ITERACION,
+    LISTAS,
+    ESTADO,
+    ATRIBUTOS,
+    COMENTARIOS,
+    ETIQUETAS
+}
+
+entity Bitacora {
+	tabla String required
+    accion String required
+    creado Instant required
+}
+
+
+entity Usuario {
+	nombre String required
+    idGitLab String unique required
+	tokenIdentificacion String
+}
+
+
+entity Iteracion {
+	nombre String required
+    inicio LocalDate
+    fin LocalDate
+
+}
+
+entity Permiso {
+	nombre String
+}
+
+entity Rol {
+	nombre String
+}
+
+entity Proyecto{
+	nombre String
+    idProyectoGitLab String unique required
+}
+
+
+entity EstatusFuncionalidad {
+	nombre String
+  	prioridad Integer
+}
+
+entity Etiqueta{
+	nombre String required
+    prioridad Integer
+}
+
+entity Funcionalidad {
+	nombre String
+    descripcion String
+    urlGitLab String
+    fechaEntrega LocalDate
+    creado Instant
+    modificado Instant
+
+
+}
+
+entity Comentario {
+	mensaje String required
+    creado Instant
+    modificado Instant
+
+}
+
+entity Atributo {
+	nombre String
+    marcado Boolean
+    auxiliar Boolean
+}
+
+entity Configuracion {
+	clave EtiquetaVisual
+    valor String
+}
+
+// Relaciones
+
+relationship OneToMany {
+	Proyecto to Rol
+    EstatusFuncionalidad to Funcionalidad
+	Iteracion to Funcionalidad
+}
+
+relationship ManyToOne {
+	Etiqueta to Funcionalidad
+	Usuario to Funcionalidad
+	Atributo to Funcionalidad
+    Comentario to Funcionalidad
+	Configuracion to Proyecto
+	Bitacora to Usuario
+	Bitacora to Proyecto
+	Usuario to Proyecto
+	Usuario to Rol
+	Comentario to Usuario
+	Permiso to Rol
+	Iteracion to Proyecto
+}
+
+
+
+
+
+
+
+
+paginate * with pagination
+service * with serviceClass
+
+dto * with mapstruct
+
+
+
+

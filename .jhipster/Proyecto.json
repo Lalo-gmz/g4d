@@ -1,0 +1,56 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010151",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "proyecto",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "idProyectoGitLab",
+      "fieldType": "String",
+      "fieldValidateRules": ["unique", "required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Proyecto",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "rol",
+      "otherEntityRelationshipName": "proyecto",
+      "relationshipName": "rol",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "configuracion",
+      "otherEntityRelationshipName": "proyecto",
+      "relationshipName": "configuracion",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "bitacora",
+      "otherEntityRelationshipName": "proyecto",
+      "relationshipName": "bitacora",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "proyecto",
+      "relationshipName": "usuario",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "iteracion",
+      "otherEntityRelationshipName": "proyecto",
+      "relationshipName": "iteracion",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

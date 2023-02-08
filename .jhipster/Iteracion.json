@@ -1,0 +1,42 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010148",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "iteracion",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inicio",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "fin",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Iteracion",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "iteracion",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "proyecto",
+      "otherEntityRelationshipName": "iteracion",
+      "relationshipName": "proyecto",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

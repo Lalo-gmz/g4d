@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="atributo">
+      <h2 data-cy="atributoDetailsHeading"><span>Atributo</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ atributo.id }}</span>
+        </dd>
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ atributo.nombre }}</span>
+        </dd>
+        <dt><span>Marcado</span></dt>
+        <dd>
+          <span>{{ atributo.marcado }}</span>
+        </dd>
+        <dt><span>Auxiliar</span></dt>
+        <dd>
+          <span>{{ atributo.auxiliar }}</span>
+        </dd>
+        <dt><span>Funcionalidad</span></dt>
+        <dd>
+          <div *ngIf="atributo.funcionalidad">
+            <a [routerLink]="['/funcionalidad', atributo.funcionalidad.id, 'view']">{{ atributo.funcionalidad.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/atributo', atributo.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

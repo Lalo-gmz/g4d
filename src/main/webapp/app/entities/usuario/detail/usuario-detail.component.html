@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="usuario">
+      <h2 data-cy="usuarioDetailsHeading"><span>Usuario</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ usuario.id }}</span>
+        </dd>
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ usuario.nombre }}</span>
+        </dd>
+        <dt><span>Id Git Lab</span></dt>
+        <dd>
+          <span>{{ usuario.idGitLab }}</span>
+        </dd>
+        <dt><span>Token Identificacion</span></dt>
+        <dd>
+          <span>{{ usuario.tokenIdentificacion }}</span>
+        </dd>
+        <dt><span>Funcionalidad</span></dt>
+        <dd>
+          <div *ngIf="usuario.funcionalidad">
+            <a [routerLink]="['/funcionalidad', usuario.funcionalidad.id, 'view']">{{ usuario.funcionalidad.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Proyecto</span></dt>
+        <dd>
+          <div *ngIf="usuario.proyecto">
+            <a [routerLink]="['/proyecto', usuario.proyecto.id, 'view']">{{ usuario.proyecto.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Rol</span></dt>
+        <dd>
+          <div *ngIf="usuario.rol">
+            <a [routerLink]="['/rol', usuario.rol.id, 'view']">{{ usuario.rol.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/usuario', usuario.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

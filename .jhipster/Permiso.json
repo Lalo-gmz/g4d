@@ -1,0 +1,27 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010149",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "permiso",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Permiso",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "rol",
+      "otherEntityRelationshipName": "permiso",
+      "relationshipName": "rol",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

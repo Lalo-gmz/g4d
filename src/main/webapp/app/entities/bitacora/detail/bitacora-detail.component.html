@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="bitacora">
+      <h2 data-cy="bitacoraDetailsHeading"><span>Bitacora</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ bitacora.id }}</span>
+        </dd>
+        <dt><span>Tabla</span></dt>
+        <dd>
+          <span>{{ bitacora.tabla }}</span>
+        </dd>
+        <dt><span>Accion</span></dt>
+        <dd>
+          <span>{{ bitacora.accion }}</span>
+        </dd>
+        <dt><span>Creado</span></dt>
+        <dd>
+          <span>{{ bitacora.creado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <div *ngIf="bitacora.usuario">
+            <a [routerLink]="['/usuario', bitacora.usuario.id, 'view']">{{ bitacora.usuario.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Proyecto</span></dt>
+        <dd>
+          <div *ngIf="bitacora.proyecto">
+            <a [routerLink]="['/proyecto', bitacora.proyecto.id, 'view']">{{ bitacora.proyecto.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/bitacora', bitacora.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

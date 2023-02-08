@@ -1,0 +1,39 @@
+{
+  "applications": "*",
+  "changelogDate": "20230208010150",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "rol",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Rol",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "proyecto",
+      "otherEntityRelationshipName": "rol",
+      "relationshipName": "proyecto",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "usuario",
+      "otherEntityRelationshipName": "rol",
+      "relationshipName": "usuario",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "permiso",
+      "otherEntityRelationshipName": "rol",
+      "relationshipName": "permiso",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
