@@ -1,9 +1,29 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="funcionalidad">
-      <h2 data-cy="funcionalidadDetailsHeading"><span>Funcionalidad</span></h2>
+      <!-->
+        <h2 data-cy="funcionalidadDetailsHeading"><span>Funcionalidad</span></h2>
+      <-- -->
+      <span class="text-white-50"> Funcionalidad <i class="bi bi-chevron-right"></i>&nbsp; </span> <span>{{ funcionalidad.id }}</span>
+      <hr />
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="text-white-50">Creado en </span> <span>{{ funcionalidad.creado | formatMediumDate }} </span>
+        </div>
+        <div>
+          <span class="text-white-50"> Asignado a </span> <span> NOMBRE </span> <span class="text-white-50">&nbsp; - Límite &nbsp;</span>
+          <span> {{ funcionalidad.fechaEntrega | formatMediumDate }} </span>
+        </div>
+      </div>
 
       <hr />
+
+      <h4>
+        {{ funcionalidad.nombre }}
+
+        <span *ngIf="funcionalidad.iteracion" class="badge bg-badge-primario">{{ funcionalidad.iteracion }}</span>
+        <span class="badge bg-badge-secundario">New</span>
+      </h4>
 
       <jhi-alert-error></jhi-alert-error>
 
