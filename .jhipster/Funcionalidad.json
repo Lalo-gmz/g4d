@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010154",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051016",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "funcionalidad",
   "fields": [
@@ -31,7 +31,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Funcionalidad",
   "pagination": "pagination",
   "readOnly": false,

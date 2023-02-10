@@ -24,6 +24,8 @@
 
   <jhi-alert></jhi-alert>
 
+  <jhi-filter [filters]="filters"></jhi-filter>
+
   <div class="alert alert-warning" id="no-result" *ngIf="proyectos?.length === 0">
     <span>Ningún Proyectos encontrado</span>
   </div>
@@ -62,6 +64,56 @@
           <td>{{ proyecto.idProyectoGitLab }}</td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/rol']"
+                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Rol</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/configuracion']"
+                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Configuracion</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/bitacora']"
+                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Bitacora</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/usuario']"
+                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Usuario</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/iteracion']"
+                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Iteracion</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/proyecto', proyecto.id, 'view']"

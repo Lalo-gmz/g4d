@@ -24,6 +24,8 @@
 
   <jhi-alert></jhi-alert>
 
+  <jhi-filter [filters]="filters"></jhi-filter>
+
   <div class="alert alert-warning" id="no-result" *ngIf="funcionalidads?.length === 0">
     <span>Ningún Funcionalidads encontrado</span>
   </div>
@@ -114,6 +116,46 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/etiqueta']"
+                [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Etiqueta</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/usuario']"
+                [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Usuario</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/atributo']"
+                [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Atributo</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/comentario']"
+                [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Comentario</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/funcionalidad', funcionalidad.id, 'view']"

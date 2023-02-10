@@ -24,6 +24,8 @@
 
   <jhi-alert></jhi-alert>
 
+  <jhi-filter [filters]="filters"></jhi-filter>
+
   <div class="alert alert-warning" id="no-result" *ngIf="rols?.length === 0">
     <span>Ningún Rols encontrado</span>
   </div>
@@ -66,6 +68,26 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/usuario']"
+                [queryParams]="{ 'filter[rolId.in]': rol.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Usuario</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/permiso']"
+                [queryParams]="{ 'filter[rolId.in]': rol.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Permiso</span>
+              </button>
               <button type="submit" [routerLink]="['/rol', rol.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">Vista</span>

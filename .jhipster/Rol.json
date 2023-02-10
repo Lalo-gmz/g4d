@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010150",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051012",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "rol",
   "fields": [
@@ -11,7 +11,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Rol",
   "pagination": "pagination",
   "readOnly": false,

@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010153",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051015",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "etiqueta",
   "fields": [
@@ -16,7 +16,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Etiqueta",
   "pagination": "pagination",
   "readOnly": false,

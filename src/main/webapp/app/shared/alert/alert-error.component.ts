@@ -16,12 +16,12 @@ export class AlertErrorComponent implements OnDestroy {
   httpErrorListener: Subscription;
 
   constructor(private alertService: AlertService, private eventManager: EventManager) {
-    this.errorListener = eventManager.subscribe('gest4DevApp.error', (response: EventWithContent<unknown> | string) => {
+    this.errorListener = eventManager.subscribe('g4DApp.error', (response: EventWithContent<unknown> | string) => {
       const errorResponse = (response as EventWithContent<AlertError>).content;
       this.addErrorAlert(errorResponse.message);
     });
 
-    this.httpErrorListener = eventManager.subscribe('gest4DevApp.httpError', (response: EventWithContent<unknown> | string) => {
+    this.httpErrorListener = eventManager.subscribe('g4DApp.httpError', (response: EventWithContent<unknown> | string) => {
       const httpErrorResponse = (response as EventWithContent<HttpErrorResponse>).content;
       switch (httpErrorResponse.status) {
         // connection refused, server not reachable

@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010156",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051018",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "atributo",
   "fields": [
@@ -19,7 +19,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Atributo",
   "pagination": "pagination",
   "readOnly": false,

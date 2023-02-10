@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: gest4dev
+    name: g4d
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -33,13 +33,13 @@ spring:
     basename: i18n/messages
   task:
     execution:
-      thread-name-prefix: gest-4-dev-task-
+      thread-name-prefix: g-4-d-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: gest-4-dev-scheduling-
+      thread-name-prefix: g-4-d-scheduling-
       pool:
         size: 20
   thymeleaf:
@@ -56,9 +56,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'gest4DevApp'
+    name: 'g4DApp'
   mail:
-    from: gest4dev@localhost.com
+    from: g4d@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -72,7 +72,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: ZDdhZTllNTgzZmQ5Mzc2MGI3YmE0NmM0NDgyNjA1YzMzOWRjYzA5ZjFhZjI1YmE5YTczMTMzOTIxYTJjN2MzNzhmNDUzMmI1OTdlNzY5MmEwODk5NjYxNmI1MTVhMmY4ZGViZWU3MmMyZTQxYTM3ZDY1YTA5NjVhYWE2ZmM1MDE=
+        base64-secret: OWQ0YzRkNTQxZDZlYWI3YjRjOTUwMWVmM2NiM2Y0MjAxMzIwZmZmYzE5YjkxYTYxM2RmMzMxMzQyY2IzNGU5YzZmNTBiOTc4NTc3Njc4MWRjODU2MjI0OWZhMDFmYzk2YjVjY2RiYWI1MDAyZDY0OTUxMTIxOTM1MzRkMTRiZjU=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 

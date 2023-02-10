@@ -22,7 +22,7 @@ module.exports = async (config, options, targetOptions) => {
         },
       }),
       new WebpackNotifierPlugin({
-        title: 'Gest 4 Dev',
+        title: 'G 4 D',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       })
     );

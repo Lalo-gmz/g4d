@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010147",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051009",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "usuario",
   "fields": [
@@ -21,7 +21,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Usuario",
   "pagination": "pagination",
   "readOnly": false,

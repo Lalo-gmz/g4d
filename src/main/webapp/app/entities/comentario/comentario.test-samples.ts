@@ -10,14 +10,14 @@ export const sampleWithRequiredData: IComentario = {
 export const sampleWithPartialData: IComentario = {
   id: 26999,
   mensaje: 'real-time',
-  modificado: dayjs('2023-02-07T14:22'),
+  modificado: dayjs('2023-02-08T18:30'),
 };
 
 export const sampleWithFullData: IComentario = {
   id: 70349,
   mensaje: 'Seychelles Parafarmacia',
-  creado: dayjs('2023-02-07T03:32'),
-  modificado: dayjs('2023-02-07T05:35'),
+  creado: dayjs('2023-02-08T07:40'),
+  modificado: dayjs('2023-02-08T09:43'),
 };
 
 export const sampleWithNewData: NewComentario = {

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "gest-4-dev": {
+    "g-4-d": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -76,15 +76,15 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "gest-4-dev:build:development",
+            "browserTarget": "g-4-d:build:development",
             "port": 4200
           },
           "configurations": {
             "production": {
-              "browserTarget": "gest-4-dev:build:production"
+              "browserTarget": "g-4-d:build:production"
             },
             "development": {
-              "browserTarget": "gest-4-dev:build:development"
+              "browserTarget": "g-4-d:build:development"
             }
           },
           "defaultConfiguration": "development"

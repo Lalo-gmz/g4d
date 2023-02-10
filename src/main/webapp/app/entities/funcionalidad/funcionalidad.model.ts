@@ -10,7 +10,7 @@ export interface IFuncionalidad {
   fechaEntrega?: dayjs.Dayjs | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
-  estatusFuncionalidad?: Pick<IEstatusFuncionalidad, 'id'> | null;
+  estatusFuncionalidad?: IEstatusFuncionalidad | null;
   iteracion?: Pick<IIteracion, 'id'> | null;
 }
 

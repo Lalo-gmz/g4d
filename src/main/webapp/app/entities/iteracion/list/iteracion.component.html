@@ -24,6 +24,8 @@
 
   <jhi-alert></jhi-alert>
 
+  <jhi-filter [filters]="filters"></jhi-filter>
+
   <div class="alert alert-warning" id="no-result" *ngIf="iteracions?.length === 0">
     <span>Ningún Iteracions encontrado</span>
   </div>
@@ -80,6 +82,16 @@
           </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/funcionalidad']"
+                [queryParams]="{ 'filter[iteracionId.in]': iteracion.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Funcionalidad</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/iteracion', iteracion.id, 'view']"

@@ -4,6 +4,11 @@
       <!-->
         <h2 data-cy="funcionalidadDetailsHeading"><span>Funcionalidad</span></h2>
       <-- -->
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
       <span class="text-white-50"> Funcionalidad <i class="bi bi-chevron-right"></i>&nbsp; </span> <span>{{ funcionalidad.id }}</span>
       <hr />
       <div class="d-flex justify-content-between">
@@ -22,12 +27,67 @@
         {{ funcionalidad.nombre }}
 
         <span *ngIf="funcionalidad.iteracion" class="badge bg-badge-primario">{{ funcionalidad.iteracion }}</span>
-        <span class="badge bg-badge-secundario">New</span>
+        <span class="badge bg-badge-secundario">{{ funcionalidad.iteracion }}</span>
       </h4>
 
-      <jhi-alert-error></jhi-alert-error>
+      <p>{{ funcionalidad.descripcion }}</p>
 
-      <jhi-alert></jhi-alert>
+      <h4>Atributos destacados</h4>
+      <div class="d-block pb-3">
+        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
+        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
+        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
+      </div>
+
+      <div class="border rounded border-secondary mb-3">
+        <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
+          <div class="pl-3">Etiquetas <i class="bi bi-tag"></i> 3</div>
+        </div>
+        <table class="table mb-0">
+          <tbody>
+            <tr>
+              <td>
+                <span class="badge rounded-pill bg-badge-gris"> Etiqueta 1 </span>
+                <span class="badge rounded-pill bg-badge-gris"> Etiqueta 2 </span>
+                <span class="badge rounded-pill bg-badge-gris"> Etiqueta 3 </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="border rounded border-secondary mb-3">
+        <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
+          <div class="pl-3">Comentarios <i class="bi bi-chat"></i> 4</div>
+        </div>
+        <table class="table mb-0">
+          <tbody>
+            <tr>
+              <td>
+                <i class="bi bi-person-circle"></i> Usuario: <span class="text-white-50"> Valor - <u class="underline">24/10/2023</u></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <i class="bi bi-person-circle"></i> Usuario: <span class="text-white-50"> Valor - <u class="underline">24/10/2023</u></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <i class="bi bi-person-circle"></i> Usuario: <span class="text-white-50"> Valor - <u class="underline">24/10/2023</u></span>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <i class="bi bi-person-circle"></i> Usuario: <span class="text-white-50"> Valor - <u class="underline">24/10/2023</u></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-grid">
+          <button class="btn btn-secondary">Nuevo comentario</button>
+        </div>
+      </div>
 
       <dl class="row-md jh-entity-details">
         <dt><span>ID</span></dt>

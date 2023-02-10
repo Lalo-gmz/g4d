@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010149",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051011",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "permiso",
   "fields": [
@@ -11,7 +11,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Permiso",
   "pagination": "pagination",
   "readOnly": false,

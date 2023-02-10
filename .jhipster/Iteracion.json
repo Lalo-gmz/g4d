@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010148",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051010",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "iteracion",
   "fields": [
@@ -20,7 +20,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Iteracion",
   "pagination": "pagination",
   "readOnly": false,

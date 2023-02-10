@@ -112,10 +112,10 @@ relationship ManyToOne {
 
 
 
-paginate * with pagination
 service * with serviceClass
-
-dto * with mapstruct
+paginate * with pagination
+filter all
+//dto * with mapstruct
 
 
 

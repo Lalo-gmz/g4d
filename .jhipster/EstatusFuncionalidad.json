@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010152",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051014",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "estatus_funcionalidad",
   "fields": [
@@ -15,7 +15,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "EstatusFuncionalidad",
   "pagination": "pagination",
   "readOnly": false,

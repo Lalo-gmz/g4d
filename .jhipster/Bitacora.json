@@ -1,7 +1,7 @@
 {
   "applications": "*",
-  "changelogDate": "20230208010146",
-  "dto": "mapstruct",
+  "changelogDate": "20230209051008",
+  "dto": "no",
   "embedded": false,
   "entityTableName": "bitacora",
   "fields": [
@@ -22,7 +22,7 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
   "name": "Bitacora",
   "pagination": "pagination",
   "readOnly": false,

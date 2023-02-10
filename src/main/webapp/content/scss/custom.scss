@@ -86,6 +86,10 @@ jhi-navbar {
   background-color: #033464;
 }
 
+.table-list {
+  border: white solid 1px;
+}
+
 /*  ------------------------  */
 //  Inputs
 /*  ------------------------  */
@@ -123,4 +127,16 @@ option {
 
 .bg-badge-secundario {
   background-color: #074888;
+}
+
+.bg-badge-gris {
+  background-color: #474747;
+}
+
+/*  ------------------------  */
+//  Badge
+/*  ------------------------  */
+
+.pl-3 {
+  padding-left: 0.3em;
 }
