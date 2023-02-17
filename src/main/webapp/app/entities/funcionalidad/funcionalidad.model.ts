@@ -1,6 +1,8 @@
 import dayjs from 'dayjs/esm';
+import { IUser } from 'app/entities/user/user.model';
 import { IEstatusFuncionalidad } from 'app/entities/estatus-funcionalidad/estatus-funcionalidad.model';
 import { IIteracion } from 'app/entities/iteracion/iteracion.model';
+import { IPrioridad } from 'app/entities/prioridad/prioridad.model';
 
 export interface IFuncionalidad {
   id: number;
@@ -10,8 +12,11 @@ export interface IFuncionalidad {
   fechaEntrega?: dayjs.Dayjs | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
+  users?: Pick<IUser, 'id'>[] | null;
+  // estatusFuncionalidad?: Pick<IEstatusFuncionalidad, 'id'> | null;
   estatusFuncionalidad?: IEstatusFuncionalidad | null;
-  iteracion?: Pick<IIteracion, 'id'> | null;
+  iteracion?: IIteracion | null;
+  prioridad?: IPrioridad | null;
 }
 
 export type NewFuncionalidad = Omit<IFuncionalidad, 'id'> & { id: null };

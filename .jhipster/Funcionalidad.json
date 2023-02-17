@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051016",
+  "changelogDate": "20230215173636",
   "dto": "no",
   "embedded": false,
   "entityTableName": "funcionalidad",
@@ -37,6 +37,13 @@
   "readOnly": false,
   "relationships": [
     {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "funcionalidad",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "many-to-many"
+    },
+    {
       "otherEntityName": "estatusFuncionalidad",
       "otherEntityRelationshipName": "funcionalidad",
       "relationshipName": "estatusFuncionalidad",
@@ -49,21 +56,21 @@
       "relationshipType": "many-to-one"
     },
     {
+      "otherEntityName": "prioridad",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "prioridad",
+      "relationshipType": "many-to-one"
+    },
+    {
       "otherEntityName": "etiqueta",
       "otherEntityRelationshipName": "funcionalidad",
       "relationshipName": "etiqueta",
       "relationshipType": "one-to-many"
     },
     {
-      "otherEntityName": "usuario",
+      "otherEntityName": "atributoFuncionalidad",
       "otherEntityRelationshipName": "funcionalidad",
-      "relationshipName": "usuario",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "atributo",
-      "otherEntityRelationshipName": "funcionalidad",
-      "relationshipName": "atributo",
+      "relationshipName": "atributoFuncionalidad",
       "relationshipType": "one-to-many"
     },
     {

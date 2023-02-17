@@ -37,14 +37,13 @@ public class Comentario implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(
-        value = { "estatusFuncionalidad", "iteracion", "etiquetas", "usuarios", "atributos", "comentarios" },
+        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
         allowSetters = true
     )
     private Funcionalidad funcionalidad;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "funcionalidad", "proyecto", "rol", "bitacoras", "comentarios" }, allowSetters = true)
-    private Usuario usuario;
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -113,16 +112,16 @@ public class Comentario implements Serializable {
         return this;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Comentario usuario(Usuario usuario) {
-        this.setUsuario(usuario);
+    public Comentario user(User user) {
+        this.setUser(user);
         return this;
     }
 

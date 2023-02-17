@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20230215173640",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "atributo_funcionalidad",
+  "fields": [
+    {
+      "fieldName": "marcado",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "valor",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "AtributoFuncionalidad",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "atributoFuncionalidad",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "atributo",
+      "otherEntityRelationshipName": "atributoFuncionalidad",
+      "relationshipName": "atributo",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

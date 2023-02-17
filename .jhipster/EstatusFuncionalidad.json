@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051014",
+  "changelogDate": "20230215173634",
   "dto": "no",
   "embedded": false,
   "entityTableName": "estatus_funcionalidad",
@@ -8,10 +8,6 @@
     {
       "fieldName": "nombre",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "prioridad",
-      "fieldType": "Integer"
     }
   ],
   "fluentMethods": true,

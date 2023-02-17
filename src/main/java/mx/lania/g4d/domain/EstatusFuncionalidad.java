@@ -28,13 +28,10 @@ public class EstatusFuncionalidad implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "prioridad")
-    private Integer prioridad;
-
     @OneToMany(mappedBy = "estatusFuncionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "estatusFuncionalidad", "iteracion", "etiquetas", "usuarios", "atributos", "comentarios" },
+        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
         allowSetters = true
     )
     private Set<Funcionalidad> funcionalidads = new HashSet<>();
@@ -65,19 +62,6 @@ public class EstatusFuncionalidad implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public Integer getPrioridad() {
-        return this.prioridad;
-    }
-
-    public EstatusFuncionalidad prioridad(Integer prioridad) {
-        this.setPrioridad(prioridad);
-        return this;
-    }
-
-    public void setPrioridad(Integer prioridad) {
-        this.prioridad = prioridad;
     }
 
     public Set<Funcionalidad> getFuncionalidads() {
@@ -136,7 +120,6 @@ public class EstatusFuncionalidad implements Serializable {
         return "EstatusFuncionalidad{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", prioridad=" + getPrioridad() +
             "}";
     }
 }

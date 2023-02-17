@@ -25,7 +25,7 @@ public class EtiquetaCriteria implements Serializable, Criteria {
 
     private StringFilter nombre;
 
-    private IntegerFilter prioridad;
+    private StringFilter color;
 
     private LongFilter funcionalidadId;
 
@@ -36,7 +36,7 @@ public class EtiquetaCriteria implements Serializable, Criteria {
     public EtiquetaCriteria(EtiquetaCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.nombre = other.nombre == null ? null : other.nombre.copy();
-        this.prioridad = other.prioridad == null ? null : other.prioridad.copy();
+        this.color = other.color == null ? null : other.color.copy();
         this.funcionalidadId = other.funcionalidadId == null ? null : other.funcionalidadId.copy();
         this.distinct = other.distinct;
     }
@@ -76,19 +76,19 @@ public class EtiquetaCriteria implements Serializable, Criteria {
         this.nombre = nombre;
     }
 
-    public IntegerFilter getPrioridad() {
-        return prioridad;
+    public StringFilter getColor() {
+        return color;
     }
 
-    public IntegerFilter prioridad() {
-        if (prioridad == null) {
-            prioridad = new IntegerFilter();
+    public StringFilter color() {
+        if (color == null) {
+            color = new StringFilter();
         }
-        return prioridad;
+        return color;
     }
 
-    public void setPrioridad(IntegerFilter prioridad) {
-        this.prioridad = prioridad;
+    public void setColor(StringFilter color) {
+        this.color = color;
     }
 
     public LongFilter getFuncionalidadId() {
@@ -126,7 +126,7 @@ public class EtiquetaCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(nombre, that.nombre) &&
-            Objects.equals(prioridad, that.prioridad) &&
+            Objects.equals(color, that.color) &&
             Objects.equals(funcionalidadId, that.funcionalidadId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -134,7 +134,7 @@ public class EtiquetaCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, prioridad, funcionalidadId, distinct);
+        return Objects.hash(id, nombre, color, funcionalidadId, distinct);
     }
 
     // prettier-ignore
@@ -143,7 +143,7 @@ public class EtiquetaCriteria implements Serializable, Criteria {
         return "EtiquetaCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (nombre != null ? "nombre=" + nombre + ", " : "") +
-            (prioridad != null ? "prioridad=" + prioridad + ", " : "") +
+            (color != null ? "color=" + color + ", " : "") +
             (funcionalidadId != null ? "funcionalidadId=" + funcionalidadId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

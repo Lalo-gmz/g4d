@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -25,22 +26,14 @@ public class Rol implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nombre")
+    @NotNull
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "rols", "configuracions", "bitacoras", "usuarios", "iteracions" }, allowSetters = true)
-    private Proyecto proyecto;
-
     @OneToMany(mappedBy = "rol")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad", "proyecto", "rol", "bitacoras", "comentarios" }, allowSetters = true)
-    private Set<Usuario> usuarios = new HashSet<>();
-
-    @OneToMany(mappedBy = "rol")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "rol" }, allowSetters = true)
-    private Set<Permiso> permisos = new HashSet<>();
+    @JsonIgnoreProperties(value = { "user", "proyecto", "rol" }, allowSetters = true)
+    private Set<ParticipacionProyecto> participacionProyectos = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -70,78 +63,34 @@ public class Rol implements Serializable {
         this.nombre = nombre;
     }
 
-    public Proyecto getProyecto() {
-        return this.proyecto;
+    public Set<ParticipacionProyecto> getParticipacionProyectos() {
+        return this.participacionProyectos;
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
-    }
-
-    public Rol proyecto(Proyecto proyecto) {
-        this.setProyecto(proyecto);
-        return this;
-    }
-
-    public Set<Usuario> getUsuarios() {
-        return this.usuarios;
-    }
-
-    public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.setRol(null));
+    public void setParticipacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
+        if (this.participacionProyectos != null) {
+            this.participacionProyectos.forEach(i -> i.setRol(null));
         }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.setRol(this));
+        if (participacionProyectos != null) {
+            participacionProyectos.forEach(i -> i.setRol(this));
         }
-        this.usuarios = usuarios;
+        this.participacionProyectos = participacionProyectos;
     }
 
-    public Rol usuarios(Set<Usuario> usuarios) {
-        this.setUsuarios(usuarios);
+    public Rol participacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
+        this.setParticipacionProyectos(participacionProyectos);
         return this;
     }
 
-    public Rol addUsuario(Usuario usuario) {
-        this.usuarios.add(usuario);
-        usuario.setRol(this);
+    public Rol addParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
+        this.participacionProyectos.add(participacionProyecto);
+        participacionProyecto.setRol(this);
         return this;
     }
 
-    public Rol removeUsuario(Usuario usuario) {
-        this.usuarios.remove(usuario);
-        usuario.setRol(null);
-        return this;
-    }
-
-    public Set<Permiso> getPermisos() {
-        return this.permisos;
-    }
-
-    public void setPermisos(Set<Permiso> permisos) {
-        if (this.permisos != null) {
-            this.permisos.forEach(i -> i.setRol(null));
-        }
-        if (permisos != null) {
-            permisos.forEach(i -> i.setRol(this));
-        }
-        this.permisos = permisos;
-    }
-
-    public Rol permisos(Set<Permiso> permisos) {
-        this.setPermisos(permisos);
-        return this;
-    }
-
-    public Rol addPermiso(Permiso permiso) {
-        this.permisos.add(permiso);
-        permiso.setRol(this);
-        return this;
-    }
-
-    public Rol removePermiso(Permiso permiso) {
-        this.permisos.remove(permiso);
-        permiso.setRol(null);
+    public Rol removeParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
+        this.participacionProyectos.remove(participacionProyecto);
+        participacionProyecto.setRol(null);
         return this;
     }
 

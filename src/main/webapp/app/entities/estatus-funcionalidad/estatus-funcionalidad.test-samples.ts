@@ -5,14 +5,12 @@ export const sampleWithRequiredData: IEstatusFuncionalidad = {
 };
 
 export const sampleWithPartialData: IEstatusFuncionalidad = {
-  id: 66896,
-  prioridad: 47158,
+  id: 96372,
 };
 
 export const sampleWithFullData: IEstatusFuncionalidad = {
-  id: 80006,
-  nombre: 'Sopa Descentralizado',
-  prioridad: 50694,
+  id: 66896,
+  nombre: 'online Castilla-La',
 };
 
 export const sampleWithNewData: NewEstatusFuncionalidad = {

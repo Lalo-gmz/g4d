@@ -36,7 +36,7 @@ type ComentarioFormGroupContent = {
   creado: FormControl<ComentarioFormRawValue['creado']>;
   modificado: FormControl<ComentarioFormRawValue['modificado']>;
   funcionalidad: FormControl<ComentarioFormRawValue['funcionalidad']>;
-  usuario: FormControl<ComentarioFormRawValue['usuario']>;
+  user: FormControl<ComentarioFormRawValue['user']>;
 };
 
 export type ComentarioFormGroup = FormGroup<ComentarioFormGroupContent>;
@@ -62,7 +62,7 @@ export class ComentarioFormService {
       creado: new FormControl(comentarioRawValue.creado),
       modificado: new FormControl(comentarioRawValue.modificado),
       funcionalidad: new FormControl(comentarioRawValue.funcionalidad),
-      usuario: new FormControl(comentarioRawValue.usuario),
+      user: new FormControl(comentarioRawValue.user),
     });
   }
 

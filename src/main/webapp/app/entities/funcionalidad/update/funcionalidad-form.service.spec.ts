@@ -26,8 +26,10 @@ describe('Funcionalidad Form Service', () => {
             fechaEntrega: expect.any(Object),
             creado: expect.any(Object),
             modificado: expect.any(Object),
+            users: expect.any(Object),
             estatusFuncionalidad: expect.any(Object),
             iteracion: expect.any(Object),
+            prioridad: expect.any(Object),
           })
         );
       });
@@ -44,8 +46,10 @@ describe('Funcionalidad Form Service', () => {
             fechaEntrega: expect.any(Object),
             creado: expect.any(Object),
             modificado: expect.any(Object),
+            users: expect.any(Object),
             estatusFuncionalidad: expect.any(Object),
             iteracion: expect.any(Object),
+            prioridad: expect.any(Object),
           })
         );
       });

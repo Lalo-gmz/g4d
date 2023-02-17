@@ -34,9 +34,8 @@ class EtiquetaResourceIT {
     private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PRIORIDAD = 1;
-    private static final Integer UPDATED_PRIORIDAD = 2;
-    private static final Integer SMALLER_PRIORIDAD = 1 - 1;
+    private static final String DEFAULT_COLOR = "AAAAAAAAAA";
+    private static final String UPDATED_COLOR = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/etiquetas";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -62,7 +61,7 @@ class EtiquetaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Etiqueta createEntity(EntityManager em) {
-        Etiqueta etiqueta = new Etiqueta().nombre(DEFAULT_NOMBRE).prioridad(DEFAULT_PRIORIDAD);
+        Etiqueta etiqueta = new Etiqueta().nombre(DEFAULT_NOMBRE).color(DEFAULT_COLOR);
         return etiqueta;
     }
 
@@ -73,7 +72,7 @@ class EtiquetaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Etiqueta createUpdatedEntity(EntityManager em) {
-        Etiqueta etiqueta = new Etiqueta().nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        Etiqueta etiqueta = new Etiqueta().nombre(UPDATED_NOMBRE).color(UPDATED_COLOR);
         return etiqueta;
     }
 
@@ -96,7 +95,7 @@ class EtiquetaResourceIT {
         assertThat(etiquetaList).hasSize(databaseSizeBeforeCreate + 1);
         Etiqueta testEtiqueta = etiquetaList.get(etiquetaList.size() - 1);
         assertThat(testEtiqueta.getNombre()).isEqualTo(DEFAULT_NOMBRE);
-        assertThat(testEtiqueta.getPrioridad()).isEqualTo(DEFAULT_PRIORIDAD);
+        assertThat(testEtiqueta.getColor()).isEqualTo(DEFAULT_COLOR);
     }
 
     @Test
@@ -147,7 +146,7 @@ class EtiquetaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(etiqueta.getId().intValue())))
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].prioridad").value(hasItem(DEFAULT_PRIORIDAD)));
+            .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR)));
     }
 
     @Test
@@ -163,7 +162,7 @@ class EtiquetaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(etiqueta.getId().intValue()))
             .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
-            .andExpect(jsonPath("$.prioridad").value(DEFAULT_PRIORIDAD));
+            .andExpect(jsonPath("$.color").value(DEFAULT_COLOR));
     }
 
     @Test
@@ -251,93 +250,67 @@ class EtiquetaResourceIT {
 
     @Test
     @Transactional
-    void getAllEtiquetasByPrioridadIsEqualToSomething() throws Exception {
+    void getAllEtiquetasByColorIsEqualToSomething() throws Exception {
         // Initialize the database
         etiquetaRepository.saveAndFlush(etiqueta);
 
-        // Get all the etiquetaList where prioridad equals to DEFAULT_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.equals=" + DEFAULT_PRIORIDAD);
+        // Get all the etiquetaList where color equals to DEFAULT_COLOR
+        defaultEtiquetaShouldBeFound("color.equals=" + DEFAULT_COLOR);
 
-        // Get all the etiquetaList where prioridad equals to UPDATED_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.equals=" + UPDATED_PRIORIDAD);
+        // Get all the etiquetaList where color equals to UPDATED_COLOR
+        defaultEtiquetaShouldNotBeFound("color.equals=" + UPDATED_COLOR);
     }
 
     @Test
     @Transactional
-    void getAllEtiquetasByPrioridadIsInShouldWork() throws Exception {
+    void getAllEtiquetasByColorIsInShouldWork() throws Exception {
         // Initialize the database
         etiquetaRepository.saveAndFlush(etiqueta);
 
-        // Get all the etiquetaList where prioridad in DEFAULT_PRIORIDAD or UPDATED_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.in=" + DEFAULT_PRIORIDAD + "," + UPDATED_PRIORIDAD);
+        // Get all the etiquetaList where color in DEFAULT_COLOR or UPDATED_COLOR
+        defaultEtiquetaShouldBeFound("color.in=" + DEFAULT_COLOR + "," + UPDATED_COLOR);
 
-        // Get all the etiquetaList where prioridad equals to UPDATED_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.in=" + UPDATED_PRIORIDAD);
+        // Get all the etiquetaList where color equals to UPDATED_COLOR
+        defaultEtiquetaShouldNotBeFound("color.in=" + UPDATED_COLOR);
     }
 
     @Test
     @Transactional
-    void getAllEtiquetasByPrioridadIsNullOrNotNull() throws Exception {
+    void getAllEtiquetasByColorIsNullOrNotNull() throws Exception {
         // Initialize the database
         etiquetaRepository.saveAndFlush(etiqueta);
 
-        // Get all the etiquetaList where prioridad is not null
-        defaultEtiquetaShouldBeFound("prioridad.specified=true");
+        // Get all the etiquetaList where color is not null
+        defaultEtiquetaShouldBeFound("color.specified=true");
 
-        // Get all the etiquetaList where prioridad is null
-        defaultEtiquetaShouldNotBeFound("prioridad.specified=false");
+        // Get all the etiquetaList where color is null
+        defaultEtiquetaShouldNotBeFound("color.specified=false");
     }
 
     @Test
     @Transactional
-    void getAllEtiquetasByPrioridadIsGreaterThanOrEqualToSomething() throws Exception {
+    void getAllEtiquetasByColorContainsSomething() throws Exception {
         // Initialize the database
         etiquetaRepository.saveAndFlush(etiqueta);
 
-        // Get all the etiquetaList where prioridad is greater than or equal to DEFAULT_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.greaterThanOrEqual=" + DEFAULT_PRIORIDAD);
+        // Get all the etiquetaList where color contains DEFAULT_COLOR
+        defaultEtiquetaShouldBeFound("color.contains=" + DEFAULT_COLOR);
 
-        // Get all the etiquetaList where prioridad is greater than or equal to UPDATED_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.greaterThanOrEqual=" + UPDATED_PRIORIDAD);
+        // Get all the etiquetaList where color contains UPDATED_COLOR
+        defaultEtiquetaShouldNotBeFound("color.contains=" + UPDATED_COLOR);
     }
 
     @Test
     @Transactional
-    void getAllEtiquetasByPrioridadIsLessThanOrEqualToSomething() throws Exception {
+    void getAllEtiquetasByColorNotContainsSomething() throws Exception {
         // Initialize the database
         etiquetaRepository.saveAndFlush(etiqueta);
 
-        // Get all the etiquetaList where prioridad is less than or equal to DEFAULT_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.lessThanOrEqual=" + DEFAULT_PRIORIDAD);
+        // Get all the etiquetaList where color does not contain DEFAULT_COLOR
+        defaultEtiquetaShouldNotBeFound("color.doesNotContain=" + DEFAULT_COLOR);
 
-        // Get all the etiquetaList where prioridad is less than or equal to SMALLER_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.lessThanOrEqual=" + SMALLER_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEtiquetasByPrioridadIsLessThanSomething() throws Exception {
-        // Initialize the database
-        etiquetaRepository.saveAndFlush(etiqueta);
-
-        // Get all the etiquetaList where prioridad is less than DEFAULT_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.lessThan=" + DEFAULT_PRIORIDAD);
-
-        // Get all the etiquetaList where prioridad is less than UPDATED_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.lessThan=" + UPDATED_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEtiquetasByPrioridadIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        etiquetaRepository.saveAndFlush(etiqueta);
-
-        // Get all the etiquetaList where prioridad is greater than DEFAULT_PRIORIDAD
-        defaultEtiquetaShouldNotBeFound("prioridad.greaterThan=" + DEFAULT_PRIORIDAD);
-
-        // Get all the etiquetaList where prioridad is greater than SMALLER_PRIORIDAD
-        defaultEtiquetaShouldBeFound("prioridad.greaterThan=" + SMALLER_PRIORIDAD);
+        // Get all the etiquetaList where color does not contain UPDATED_COLOR
+        defaultEtiquetaShouldBeFound("color.doesNotContain=" + UPDATED_COLOR);
     }
 
     @Test
@@ -373,7 +346,7 @@ class EtiquetaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(etiqueta.getId().intValue())))
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].prioridad").value(hasItem(DEFAULT_PRIORIDAD)));
+            .andExpect(jsonPath("$.[*].color").value(hasItem(DEFAULT_COLOR)));
 
         // Check, that the count call also returns 1
         restEtiquetaMockMvc
@@ -421,7 +394,7 @@ class EtiquetaResourceIT {
         Etiqueta updatedEtiqueta = etiquetaRepository.findById(etiqueta.getId()).get();
         // Disconnect from session so that the updates on updatedEtiqueta are not directly saved in db
         em.detach(updatedEtiqueta);
-        updatedEtiqueta.nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        updatedEtiqueta.nombre(UPDATED_NOMBRE).color(UPDATED_COLOR);
 
         restEtiquetaMockMvc
             .perform(
@@ -436,7 +409,7 @@ class EtiquetaResourceIT {
         assertThat(etiquetaList).hasSize(databaseSizeBeforeUpdate);
         Etiqueta testEtiqueta = etiquetaList.get(etiquetaList.size() - 1);
         assertThat(testEtiqueta.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testEtiqueta.getPrioridad()).isEqualTo(UPDATED_PRIORIDAD);
+        assertThat(testEtiqueta.getColor()).isEqualTo(UPDATED_COLOR);
     }
 
     @Test
@@ -507,7 +480,7 @@ class EtiquetaResourceIT {
         Etiqueta partialUpdatedEtiqueta = new Etiqueta();
         partialUpdatedEtiqueta.setId(etiqueta.getId());
 
-        partialUpdatedEtiqueta.prioridad(UPDATED_PRIORIDAD);
+        partialUpdatedEtiqueta.color(UPDATED_COLOR);
 
         restEtiquetaMockMvc
             .perform(
@@ -522,7 +495,7 @@ class EtiquetaResourceIT {
         assertThat(etiquetaList).hasSize(databaseSizeBeforeUpdate);
         Etiqueta testEtiqueta = etiquetaList.get(etiquetaList.size() - 1);
         assertThat(testEtiqueta.getNombre()).isEqualTo(DEFAULT_NOMBRE);
-        assertThat(testEtiqueta.getPrioridad()).isEqualTo(UPDATED_PRIORIDAD);
+        assertThat(testEtiqueta.getColor()).isEqualTo(UPDATED_COLOR);
     }
 
     @Test
@@ -537,7 +510,7 @@ class EtiquetaResourceIT {
         Etiqueta partialUpdatedEtiqueta = new Etiqueta();
         partialUpdatedEtiqueta.setId(etiqueta.getId());
 
-        partialUpdatedEtiqueta.nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        partialUpdatedEtiqueta.nombre(UPDATED_NOMBRE).color(UPDATED_COLOR);
 
         restEtiquetaMockMvc
             .perform(
@@ -552,7 +525,7 @@ class EtiquetaResourceIT {
         assertThat(etiquetaList).hasSize(databaseSizeBeforeUpdate);
         Etiqueta testEtiqueta = etiquetaList.get(etiquetaList.size() - 1);
         assertThat(testEtiqueta.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testEtiqueta.getPrioridad()).isEqualTo(UPDATED_PRIORIDAD);
+        assertThat(testEtiqueta.getColor()).isEqualTo(UPDATED_COLOR);
     }
 
     @Test

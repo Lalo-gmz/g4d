@@ -2,6 +2,8 @@ package mx.lania.g4d.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,18 +28,10 @@ public class Atributo implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "marcado")
-    private Boolean marcado;
-
-    @Column(name = "auxiliar")
-    private Boolean auxiliar;
-
-    @ManyToOne
-    @JsonIgnoreProperties(
-        value = { "estatusFuncionalidad", "iteracion", "etiquetas", "usuarios", "atributos", "comentarios" },
-        allowSetters = true
-    )
-    private Funcionalidad funcionalidad;
+    @OneToMany(mappedBy = "atributo")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
+    private Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -67,42 +61,34 @@ public class Atributo implements Serializable {
         this.nombre = nombre;
     }
 
-    public Boolean getMarcado() {
-        return this.marcado;
+    public Set<AtributoFuncionalidad> getAtributoFuncionalidads() {
+        return this.atributoFuncionalidads;
     }
 
-    public Atributo marcado(Boolean marcado) {
-        this.setMarcado(marcado);
+    public void setAtributoFuncionalidads(Set<AtributoFuncionalidad> atributoFuncionalidads) {
+        if (this.atributoFuncionalidads != null) {
+            this.atributoFuncionalidads.forEach(i -> i.setAtributo(null));
+        }
+        if (atributoFuncionalidads != null) {
+            atributoFuncionalidads.forEach(i -> i.setAtributo(this));
+        }
+        this.atributoFuncionalidads = atributoFuncionalidads;
+    }
+
+    public Atributo atributoFuncionalidads(Set<AtributoFuncionalidad> atributoFuncionalidads) {
+        this.setAtributoFuncionalidads(atributoFuncionalidads);
         return this;
     }
 
-    public void setMarcado(Boolean marcado) {
-        this.marcado = marcado;
-    }
-
-    public Boolean getAuxiliar() {
-        return this.auxiliar;
-    }
-
-    public Atributo auxiliar(Boolean auxiliar) {
-        this.setAuxiliar(auxiliar);
+    public Atributo addAtributoFuncionalidad(AtributoFuncionalidad atributoFuncionalidad) {
+        this.atributoFuncionalidads.add(atributoFuncionalidad);
+        atributoFuncionalidad.setAtributo(this);
         return this;
     }
 
-    public void setAuxiliar(Boolean auxiliar) {
-        this.auxiliar = auxiliar;
-    }
-
-    public Funcionalidad getFuncionalidad() {
-        return this.funcionalidad;
-    }
-
-    public void setFuncionalidad(Funcionalidad funcionalidad) {
-        this.funcionalidad = funcionalidad;
-    }
-
-    public Atributo funcionalidad(Funcionalidad funcionalidad) {
-        this.setFuncionalidad(funcionalidad);
+    public Atributo removeAtributoFuncionalidad(AtributoFuncionalidad atributoFuncionalidad) {
+        this.atributoFuncionalidads.remove(atributoFuncionalidad);
+        atributoFuncionalidad.setAtributo(null);
         return this;
     }
 
@@ -131,8 +117,6 @@ public class Atributo implements Serializable {
         return "Atributo{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", marcado='" + getMarcado() + "'" +
-            ", auxiliar='" + getAuxiliar() + "'" +
             "}";
     }
 }

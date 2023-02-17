@@ -25,11 +25,7 @@ public class RolCriteria implements Serializable, Criteria {
 
     private StringFilter nombre;
 
-    private LongFilter proyectoId;
-
-    private LongFilter usuarioId;
-
-    private LongFilter permisoId;
+    private LongFilter participacionProyectoId;
 
     private Boolean distinct;
 
@@ -38,9 +34,7 @@ public class RolCriteria implements Serializable, Criteria {
     public RolCriteria(RolCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.nombre = other.nombre == null ? null : other.nombre.copy();
-        this.proyectoId = other.proyectoId == null ? null : other.proyectoId.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
-        this.permisoId = other.permisoId == null ? null : other.permisoId.copy();
+        this.participacionProyectoId = other.participacionProyectoId == null ? null : other.participacionProyectoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -79,49 +73,19 @@ public class RolCriteria implements Serializable, Criteria {
         this.nombre = nombre;
     }
 
-    public LongFilter getProyectoId() {
-        return proyectoId;
+    public LongFilter getParticipacionProyectoId() {
+        return participacionProyectoId;
     }
 
-    public LongFilter proyectoId() {
-        if (proyectoId == null) {
-            proyectoId = new LongFilter();
+    public LongFilter participacionProyectoId() {
+        if (participacionProyectoId == null) {
+            participacionProyectoId = new LongFilter();
         }
-        return proyectoId;
+        return participacionProyectoId;
     }
 
-    public void setProyectoId(LongFilter proyectoId) {
-        this.proyectoId = proyectoId;
-    }
-
-    public LongFilter getUsuarioId() {
-        return usuarioId;
-    }
-
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
-        }
-        return usuarioId;
-    }
-
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public LongFilter getPermisoId() {
-        return permisoId;
-    }
-
-    public LongFilter permisoId() {
-        if (permisoId == null) {
-            permisoId = new LongFilter();
-        }
-        return permisoId;
-    }
-
-    public void setPermisoId(LongFilter permisoId) {
-        this.permisoId = permisoId;
+    public void setParticipacionProyectoId(LongFilter participacionProyectoId) {
+        this.participacionProyectoId = participacionProyectoId;
     }
 
     public Boolean getDistinct() {
@@ -144,16 +108,14 @@ public class RolCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(nombre, that.nombre) &&
-            Objects.equals(proyectoId, that.proyectoId) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
-            Objects.equals(permisoId, that.permisoId) &&
+            Objects.equals(participacionProyectoId, that.participacionProyectoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, proyectoId, usuarioId, permisoId, distinct);
+        return Objects.hash(id, nombre, participacionProyectoId, distinct);
     }
 
     // prettier-ignore
@@ -162,9 +124,7 @@ public class RolCriteria implements Serializable, Criteria {
         return "RolCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (nombre != null ? "nombre=" + nombre + ", " : "") +
-            (proyectoId != null ? "proyectoId=" + proyectoId + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
-            (permisoId != null ? "permisoId=" + permisoId + ", " : "") +
+            (participacionProyectoId != null ? "participacionProyectoId=" + participacionProyectoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

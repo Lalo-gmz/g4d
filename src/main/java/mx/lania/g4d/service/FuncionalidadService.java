@@ -96,6 +96,15 @@ public class FuncionalidadService {
     }
 
     /**
+     * Get all the funcionalidads with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Funcionalidad> findAllWithEagerRelationships(Pageable pageable) {
+        return funcionalidadRepository.findAllWithEagerRelationships(pageable);
+    }
+
+    /**
      * Get one funcionalidad by id.
      *
      * @param id the id of the entity.
@@ -104,7 +113,7 @@ public class FuncionalidadService {
     @Transactional(readOnly = true)
     public Optional<Funcionalidad> findOne(Long id) {
         log.debug("Request to get Funcionalidad : {}", id);
-        return funcionalidadRepository.findById(id);
+        return funcionalidadRepository.findOneWithEagerRelationships(id);
     }
 
     /**

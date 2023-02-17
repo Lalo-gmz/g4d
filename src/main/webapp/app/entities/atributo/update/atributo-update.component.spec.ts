@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { AtributoFormService } from './atributo-form.service';
 import { AtributoService } from '../service/atributo.service';
 import { IAtributo } from '../atributo.model';
-import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
-import { FuncionalidadService } from 'app/entities/funcionalidad/service/funcionalidad.service';
 
 import { AtributoUpdateComponent } from './atributo-update.component';
 
@@ -20,7 +18,6 @@ describe('Atributo Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let atributoFormService: AtributoFormService;
   let atributoService: AtributoService;
-  let funcionalidadService: FuncionalidadService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +40,17 @@ describe('Atributo Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     atributoFormService = TestBed.inject(AtributoFormService);
     atributoService = TestBed.inject(AtributoService);
-    funcionalidadService = TestBed.inject(FuncionalidadService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Funcionalidad query and add missing value', () => {
-      const atributo: IAtributo = { id: 456 };
-      const funcionalidad: IFuncionalidad = { id: 89582 };
-      atributo.funcionalidad = funcionalidad;
-
-      const funcionalidadCollection: IFuncionalidad[] = [{ id: 88061 }];
-      jest.spyOn(funcionalidadService, 'query').mockReturnValue(of(new HttpResponse({ body: funcionalidadCollection })));
-      const additionalFuncionalidads = [funcionalidad];
-      const expectedCollection: IFuncionalidad[] = [...additionalFuncionalidads, ...funcionalidadCollection];
-      jest.spyOn(funcionalidadService, 'addFuncionalidadToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ atributo });
-      comp.ngOnInit();
-
-      expect(funcionalidadService.query).toHaveBeenCalled();
-      expect(funcionalidadService.addFuncionalidadToCollectionIfMissing).toHaveBeenCalledWith(
-        funcionalidadCollection,
-        ...additionalFuncionalidads.map(expect.objectContaining)
-      );
-      expect(comp.funcionalidadsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const atributo: IAtributo = { id: 456 };
-      const funcionalidad: IFuncionalidad = { id: 71759 };
-      atributo.funcionalidad = funcionalidad;
 
       activatedRoute.data = of({ atributo });
       comp.ngOnInit();
 
-      expect(comp.funcionalidadsSharedCollection).toContain(funcionalidad);
       expect(comp.atributo).toEqual(atributo);
     });
   });
@@ -149,18 +120,6 @@ describe('Atributo Management Update Component', () => {
       expect(atributoService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareFuncionalidad', () => {
-      it('Should forward to funcionalidadService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(funcionalidadService, 'compareFuncionalidad');
-        comp.compareFuncionalidad(entity, entity2);
-        expect(funcionalidadService.compareFuncionalidad).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

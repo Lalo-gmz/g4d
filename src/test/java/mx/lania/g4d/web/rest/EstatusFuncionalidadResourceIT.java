@@ -34,10 +34,6 @@ class EstatusFuncionalidadResourceIT {
     private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_PRIORIDAD = 1;
-    private static final Integer UPDATED_PRIORIDAD = 2;
-    private static final Integer SMALLER_PRIORIDAD = 1 - 1;
-
     private static final String ENTITY_API_URL = "/api/estatus-funcionalidads";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -62,7 +58,7 @@ class EstatusFuncionalidadResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static EstatusFuncionalidad createEntity(EntityManager em) {
-        EstatusFuncionalidad estatusFuncionalidad = new EstatusFuncionalidad().nombre(DEFAULT_NOMBRE).prioridad(DEFAULT_PRIORIDAD);
+        EstatusFuncionalidad estatusFuncionalidad = new EstatusFuncionalidad().nombre(DEFAULT_NOMBRE);
         return estatusFuncionalidad;
     }
 
@@ -73,7 +69,7 @@ class EstatusFuncionalidadResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static EstatusFuncionalidad createUpdatedEntity(EntityManager em) {
-        EstatusFuncionalidad estatusFuncionalidad = new EstatusFuncionalidad().nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        EstatusFuncionalidad estatusFuncionalidad = new EstatusFuncionalidad().nombre(UPDATED_NOMBRE);
         return estatusFuncionalidad;
     }
 
@@ -100,7 +96,6 @@ class EstatusFuncionalidadResourceIT {
         assertThat(estatusFuncionalidadList).hasSize(databaseSizeBeforeCreate + 1);
         EstatusFuncionalidad testEstatusFuncionalidad = estatusFuncionalidadList.get(estatusFuncionalidadList.size() - 1);
         assertThat(testEstatusFuncionalidad.getNombre()).isEqualTo(DEFAULT_NOMBRE);
-        assertThat(testEstatusFuncionalidad.getPrioridad()).isEqualTo(DEFAULT_PRIORIDAD);
     }
 
     @Test
@@ -137,8 +132,7 @@ class EstatusFuncionalidadResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(estatusFuncionalidad.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].prioridad").value(hasItem(DEFAULT_PRIORIDAD)));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
     }
 
     @Test
@@ -153,8 +147,7 @@ class EstatusFuncionalidadResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(estatusFuncionalidad.getId().intValue()))
-            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
-            .andExpect(jsonPath("$.prioridad").value(DEFAULT_PRIORIDAD));
+            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE));
     }
 
     @Test
@@ -242,97 +235,6 @@ class EstatusFuncionalidadResourceIT {
 
     @Test
     @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsEqualToSomething() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad equals to DEFAULT_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.equals=" + DEFAULT_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad equals to UPDATED_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.equals=" + UPDATED_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsInShouldWork() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad in DEFAULT_PRIORIDAD or UPDATED_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.in=" + DEFAULT_PRIORIDAD + "," + UPDATED_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad equals to UPDATED_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.in=" + UPDATED_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad is not null
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.specified=true");
-
-        // Get all the estatusFuncionalidadList where prioridad is null
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad is greater than or equal to DEFAULT_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.greaterThanOrEqual=" + DEFAULT_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad is greater than or equal to UPDATED_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.greaterThanOrEqual=" + UPDATED_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad is less than or equal to DEFAULT_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.lessThanOrEqual=" + DEFAULT_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad is less than or equal to SMALLER_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.lessThanOrEqual=" + SMALLER_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsLessThanSomething() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad is less than DEFAULT_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.lessThan=" + DEFAULT_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad is less than UPDATED_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.lessThan=" + UPDATED_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
-    void getAllEstatusFuncionalidadsByPrioridadIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        estatusFuncionalidadRepository.saveAndFlush(estatusFuncionalidad);
-
-        // Get all the estatusFuncionalidadList where prioridad is greater than DEFAULT_PRIORIDAD
-        defaultEstatusFuncionalidadShouldNotBeFound("prioridad.greaterThan=" + DEFAULT_PRIORIDAD);
-
-        // Get all the estatusFuncionalidadList where prioridad is greater than SMALLER_PRIORIDAD
-        defaultEstatusFuncionalidadShouldBeFound("prioridad.greaterThan=" + SMALLER_PRIORIDAD);
-    }
-
-    @Test
-    @Transactional
     void getAllEstatusFuncionalidadsByFuncionalidadIsEqualToSomething() throws Exception {
         Funcionalidad funcionalidad;
         if (TestUtil.findAll(em, Funcionalidad.class).isEmpty()) {
@@ -363,8 +265,7 @@ class EstatusFuncionalidadResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(estatusFuncionalidad.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].prioridad").value(hasItem(DEFAULT_PRIORIDAD)));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
 
         // Check, that the count call also returns 1
         restEstatusFuncionalidadMockMvc
@@ -412,7 +313,7 @@ class EstatusFuncionalidadResourceIT {
         EstatusFuncionalidad updatedEstatusFuncionalidad = estatusFuncionalidadRepository.findById(estatusFuncionalidad.getId()).get();
         // Disconnect from session so that the updates on updatedEstatusFuncionalidad are not directly saved in db
         em.detach(updatedEstatusFuncionalidad);
-        updatedEstatusFuncionalidad.nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        updatedEstatusFuncionalidad.nombre(UPDATED_NOMBRE);
 
         restEstatusFuncionalidadMockMvc
             .perform(
@@ -427,7 +328,6 @@ class EstatusFuncionalidadResourceIT {
         assertThat(estatusFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
         EstatusFuncionalidad testEstatusFuncionalidad = estatusFuncionalidadList.get(estatusFuncionalidadList.size() - 1);
         assertThat(testEstatusFuncionalidad.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testEstatusFuncionalidad.getPrioridad()).isEqualTo(UPDATED_PRIORIDAD);
     }
 
     @Test
@@ -515,7 +415,6 @@ class EstatusFuncionalidadResourceIT {
         assertThat(estatusFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
         EstatusFuncionalidad testEstatusFuncionalidad = estatusFuncionalidadList.get(estatusFuncionalidadList.size() - 1);
         assertThat(testEstatusFuncionalidad.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testEstatusFuncionalidad.getPrioridad()).isEqualTo(DEFAULT_PRIORIDAD);
     }
 
     @Test
@@ -530,7 +429,7 @@ class EstatusFuncionalidadResourceIT {
         EstatusFuncionalidad partialUpdatedEstatusFuncionalidad = new EstatusFuncionalidad();
         partialUpdatedEstatusFuncionalidad.setId(estatusFuncionalidad.getId());
 
-        partialUpdatedEstatusFuncionalidad.nombre(UPDATED_NOMBRE).prioridad(UPDATED_PRIORIDAD);
+        partialUpdatedEstatusFuncionalidad.nombre(UPDATED_NOMBRE);
 
         restEstatusFuncionalidadMockMvc
             .perform(
@@ -545,7 +444,6 @@ class EstatusFuncionalidadResourceIT {
         assertThat(estatusFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
         EstatusFuncionalidad testEstatusFuncionalidad = estatusFuncionalidadList.get(estatusFuncionalidadList.size() - 1);
         assertThat(testEstatusFuncionalidad.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testEstatusFuncionalidad.getPrioridad()).isEqualTo(UPDATED_PRIORIDAD);
     }
 
     @Test

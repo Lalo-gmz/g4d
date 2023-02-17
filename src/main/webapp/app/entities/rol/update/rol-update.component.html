@@ -14,21 +14,9 @@
         <div class="row mb-3">
           <label class="form-label" for="field_nombre">Nombre</label>
           <input type="text" class="form-control" name="nombre" id="field_nombre" data-cy="nombre" formControlName="nombre" />
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_proyecto">Proyecto</label>
-          <select
-            class="form-control"
-            id="field_proyecto"
-            data-cy="proyecto"
-            name="proyecto"
-            formControlName="proyecto"
-            [compareWith]="compareProyecto"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="proyectoOption" *ngFor="let proyectoOption of proyectosSharedCollection">{{ proyectoOption.id }}</option>
-          </select>
+          <div *ngIf="editForm.get('nombre')!.invalid && (editForm.get('nombre')!.dirty || editForm.get('nombre')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('nombre')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
       </div>
 

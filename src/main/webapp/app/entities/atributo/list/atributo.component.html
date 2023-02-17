@@ -46,24 +46,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="marcado">
-            <div class="d-flex">
-              <span>Marcado</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="auxiliar">
-            <div class="d-flex">
-              <span>Auxiliar</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="funcionalidad.id">
-            <div class="d-flex">
-              <span>Funcionalidad</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -73,15 +55,18 @@
             <a [routerLink]="['/atributo', atributo.id, 'view']">{{ atributo.id }}</a>
           </td>
           <td>{{ atributo.nombre }}</td>
-          <td>{{ atributo.marcado }}</td>
-          <td>{{ atributo.auxiliar }}</td>
-          <td>
-            <div *ngIf="atributo.funcionalidad">
-              <a [routerLink]="['/funcionalidad', atributo.funcionalidad.id, 'view']">{{ atributo.funcionalidad.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/atributo-funcionalidad']"
+                [queryParams]="{ 'filter[atributoId.in]': atributo.id }"
+                class="btn btn-info btn-sm"
+                data-cy="filterOtherEntityButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Show Atributo Funcionalidad</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/atributo', atributo.id, 'view']"

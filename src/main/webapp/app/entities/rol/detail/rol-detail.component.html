@@ -18,12 +18,6 @@
         <dd>
           <span>{{ rol.nombre }}</span>
         </dd>
-        <dt><span>Proyecto</span></dt>
-        <dd>
-          <div *ngIf="rol.proyecto">
-            <a [routerLink]="['/proyecto', rol.proyecto.id, 'view']">{{ rol.proyecto.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

@@ -35,8 +35,8 @@ public class Proyecto implements Serializable {
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "proyecto", "usuarios", "permisos" }, allowSetters = true)
-    private Set<Rol> rols = new HashSet<>();
+    @JsonIgnoreProperties(value = { "user", "proyecto", "rol" }, allowSetters = true)
+    private Set<ParticipacionProyecto> participacionProyectos = new HashSet<>();
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -45,13 +45,8 @@ public class Proyecto implements Serializable {
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "usuario", "proyecto" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user", "proyecto" }, allowSetters = true)
     private Set<Bitacora> bitacoras = new HashSet<>();
-
-    @OneToMany(mappedBy = "proyecto")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad", "proyecto", "rol", "bitacoras", "comentarios" }, allowSetters = true)
-    private Set<Usuario> usuarios = new HashSet<>();
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -99,34 +94,34 @@ public class Proyecto implements Serializable {
         this.idProyectoGitLab = idProyectoGitLab;
     }
 
-    public Set<Rol> getRols() {
-        return this.rols;
+    public Set<ParticipacionProyecto> getParticipacionProyectos() {
+        return this.participacionProyectos;
     }
 
-    public void setRols(Set<Rol> rols) {
-        if (this.rols != null) {
-            this.rols.forEach(i -> i.setProyecto(null));
+    public void setParticipacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
+        if (this.participacionProyectos != null) {
+            this.participacionProyectos.forEach(i -> i.setProyecto(null));
         }
-        if (rols != null) {
-            rols.forEach(i -> i.setProyecto(this));
+        if (participacionProyectos != null) {
+            participacionProyectos.forEach(i -> i.setProyecto(this));
         }
-        this.rols = rols;
+        this.participacionProyectos = participacionProyectos;
     }
 
-    public Proyecto rols(Set<Rol> rols) {
-        this.setRols(rols);
+    public Proyecto participacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
+        this.setParticipacionProyectos(participacionProyectos);
         return this;
     }
 
-    public Proyecto addRol(Rol rol) {
-        this.rols.add(rol);
-        rol.setProyecto(this);
+    public Proyecto addParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
+        this.participacionProyectos.add(participacionProyecto);
+        participacionProyecto.setProyecto(this);
         return this;
     }
 
-    public Proyecto removeRol(Rol rol) {
-        this.rols.remove(rol);
-        rol.setProyecto(null);
+    public Proyecto removeParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
+        this.participacionProyectos.remove(participacionProyecto);
+        participacionProyecto.setProyecto(null);
         return this;
     }
 
@@ -189,37 +184,6 @@ public class Proyecto implements Serializable {
     public Proyecto removeBitacora(Bitacora bitacora) {
         this.bitacoras.remove(bitacora);
         bitacora.setProyecto(null);
-        return this;
-    }
-
-    public Set<Usuario> getUsuarios() {
-        return this.usuarios;
-    }
-
-    public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.setProyecto(null));
-        }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.setProyecto(this));
-        }
-        this.usuarios = usuarios;
-    }
-
-    public Proyecto usuarios(Set<Usuario> usuarios) {
-        this.setUsuarios(usuarios);
-        return this;
-    }
-
-    public Proyecto addUsuario(Usuario usuario) {
-        this.usuarios.add(usuario);
-        usuario.setProyecto(this);
-        return this;
-    }
-
-    public Proyecto removeUsuario(Usuario usuario) {
-        this.usuarios.remove(usuario);
-        usuario.setProyecto(null);
         return this;
     }
 

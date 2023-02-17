@@ -21,7 +21,6 @@ describe('EstatusFuncionalidad Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            prioridad: expect.any(Object),
           })
         );
       });
@@ -33,7 +32,6 @@ describe('EstatusFuncionalidad Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            prioridad: expect.any(Object),
           })
         );
       });

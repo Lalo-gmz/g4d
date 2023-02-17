@@ -35,15 +35,17 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
 
     private InstantFilter modificado;
 
+    private LongFilter userId;
+
     private LongFilter estatusFuncionalidadId;
 
     private LongFilter iteracionId;
 
+    private LongFilter prioridadId;
+
     private LongFilter etiquetaId;
 
-    private LongFilter usuarioId;
-
-    private LongFilter atributoId;
+    private LongFilter atributoFuncionalidadId;
 
     private LongFilter comentarioId;
 
@@ -59,11 +61,12 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
         this.fechaEntrega = other.fechaEntrega == null ? null : other.fechaEntrega.copy();
         this.creado = other.creado == null ? null : other.creado.copy();
         this.modificado = other.modificado == null ? null : other.modificado.copy();
+        this.userId = other.userId == null ? null : other.userId.copy();
         this.estatusFuncionalidadId = other.estatusFuncionalidadId == null ? null : other.estatusFuncionalidadId.copy();
         this.iteracionId = other.iteracionId == null ? null : other.iteracionId.copy();
+        this.prioridadId = other.prioridadId == null ? null : other.prioridadId.copy();
         this.etiquetaId = other.etiquetaId == null ? null : other.etiquetaId.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
-        this.atributoId = other.atributoId == null ? null : other.atributoId.copy();
+        this.atributoFuncionalidadId = other.atributoFuncionalidadId == null ? null : other.atributoFuncionalidadId.copy();
         this.comentarioId = other.comentarioId == null ? null : other.comentarioId.copy();
         this.distinct = other.distinct;
     }
@@ -178,6 +181,21 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
         this.modificado = modificado;
     }
 
+    public LongFilter getUserId() {
+        return userId;
+    }
+
+    public LongFilter userId() {
+        if (userId == null) {
+            userId = new LongFilter();
+        }
+        return userId;
+    }
+
+    public void setUserId(LongFilter userId) {
+        this.userId = userId;
+    }
+
     public LongFilter getEstatusFuncionalidadId() {
         return estatusFuncionalidadId;
     }
@@ -208,6 +226,21 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
         this.iteracionId = iteracionId;
     }
 
+    public LongFilter getPrioridadId() {
+        return prioridadId;
+    }
+
+    public LongFilter prioridadId() {
+        if (prioridadId == null) {
+            prioridadId = new LongFilter();
+        }
+        return prioridadId;
+    }
+
+    public void setPrioridadId(LongFilter prioridadId) {
+        this.prioridadId = prioridadId;
+    }
+
     public LongFilter getEtiquetaId() {
         return etiquetaId;
     }
@@ -223,34 +256,19 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
         this.etiquetaId = etiquetaId;
     }
 
-    public LongFilter getUsuarioId() {
-        return usuarioId;
+    public LongFilter getAtributoFuncionalidadId() {
+        return atributoFuncionalidadId;
     }
 
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
+    public LongFilter atributoFuncionalidadId() {
+        if (atributoFuncionalidadId == null) {
+            atributoFuncionalidadId = new LongFilter();
         }
-        return usuarioId;
+        return atributoFuncionalidadId;
     }
 
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public LongFilter getAtributoId() {
-        return atributoId;
-    }
-
-    public LongFilter atributoId() {
-        if (atributoId == null) {
-            atributoId = new LongFilter();
-        }
-        return atributoId;
-    }
-
-    public void setAtributoId(LongFilter atributoId) {
-        this.atributoId = atributoId;
+    public void setAtributoFuncionalidadId(LongFilter atributoFuncionalidadId) {
+        this.atributoFuncionalidadId = atributoFuncionalidadId;
     }
 
     public LongFilter getComentarioId() {
@@ -293,11 +311,12 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
             Objects.equals(fechaEntrega, that.fechaEntrega) &&
             Objects.equals(creado, that.creado) &&
             Objects.equals(modificado, that.modificado) &&
+            Objects.equals(userId, that.userId) &&
             Objects.equals(estatusFuncionalidadId, that.estatusFuncionalidadId) &&
             Objects.equals(iteracionId, that.iteracionId) &&
+            Objects.equals(prioridadId, that.prioridadId) &&
             Objects.equals(etiquetaId, that.etiquetaId) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
-            Objects.equals(atributoId, that.atributoId) &&
+            Objects.equals(atributoFuncionalidadId, that.atributoFuncionalidadId) &&
             Objects.equals(comentarioId, that.comentarioId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -313,11 +332,12 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
             fechaEntrega,
             creado,
             modificado,
+            userId,
             estatusFuncionalidadId,
             iteracionId,
+            prioridadId,
             etiquetaId,
-            usuarioId,
-            atributoId,
+            atributoFuncionalidadId,
             comentarioId,
             distinct
         );
@@ -334,11 +354,12 @@ public class FuncionalidadCriteria implements Serializable, Criteria {
             (fechaEntrega != null ? "fechaEntrega=" + fechaEntrega + ", " : "") +
             (creado != null ? "creado=" + creado + ", " : "") +
             (modificado != null ? "modificado=" + modificado + ", " : "") +
+            (userId != null ? "userId=" + userId + ", " : "") +
             (estatusFuncionalidadId != null ? "estatusFuncionalidadId=" + estatusFuncionalidadId + ", " : "") +
             (iteracionId != null ? "iteracionId=" + iteracionId + ", " : "") +
+            (prioridadId != null ? "prioridadId=" + prioridadId + ", " : "") +
             (etiquetaId != null ? "etiquetaId=" + etiquetaId + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
-            (atributoId != null ? "atributoId=" + atributoId + ", " : "") +
+            (atributoFuncionalidadId != null ? "atributoFuncionalidadId=" + atributoFuncionalidadId + ", " : "") +
             (comentarioId != null ? "comentarioId=" + comentarioId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

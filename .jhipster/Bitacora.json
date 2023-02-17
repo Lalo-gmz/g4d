@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051008",
+  "changelogDate": "20230215173631",
   "dto": "no",
   "embedded": false,
   "entityTableName": "bitacora",
@@ -28,9 +28,9 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "bitacora",
-      "relationshipName": "usuario",
+      "relationshipName": "user",
       "relationshipType": "many-to-one"
     },
     {

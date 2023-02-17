@@ -19,7 +19,7 @@ type EtiquetaFormDefaults = Pick<NewEtiqueta, 'id'>;
 type EtiquetaFormGroupContent = {
   id: FormControl<IEtiqueta['id'] | NewEtiqueta['id']>;
   nombre: FormControl<IEtiqueta['nombre']>;
-  prioridad: FormControl<IEtiqueta['prioridad']>;
+  color: FormControl<IEtiqueta['color']>;
   funcionalidad: FormControl<IEtiqueta['funcionalidad']>;
 };
 
@@ -43,7 +43,7 @@ export class EtiquetaFormService {
       nombre: new FormControl(etiquetaRawValue.nombre, {
         validators: [Validators.required],
       }),
-      prioridad: new FormControl(etiquetaRawValue.prioridad),
+      color: new FormControl(etiquetaRawValue.color),
       funcionalidad: new FormControl(etiquetaRawValue.funcionalidad),
     });
   }

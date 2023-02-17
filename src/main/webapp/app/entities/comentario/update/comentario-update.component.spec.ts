@@ -11,8 +11,9 @@ import { ComentarioService } from '../service/comentario.service';
 import { IComentario } from '../comentario.model';
 import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
 import { FuncionalidadService } from 'app/entities/funcionalidad/service/funcionalidad.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { ComentarioUpdateComponent } from './comentario-update.component';
 
@@ -23,7 +24,7 @@ describe('Comentario Management Update Component', () => {
   let comentarioFormService: ComentarioFormService;
   let comentarioService: ComentarioService;
   let funcionalidadService: FuncionalidadService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,7 +48,7 @@ describe('Comentario Management Update Component', () => {
     comentarioFormService = TestBed.inject(ComentarioFormService);
     comentarioService = TestBed.inject(ComentarioService);
     funcionalidadService = TestBed.inject(FuncionalidadService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -75,40 +76,40 @@ describe('Comentario Management Update Component', () => {
       expect(comp.funcionalidadsSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const comentario: IComentario = { id: 456 };
-      const usuario: IUsuario = { id: 51644 };
-      comentario.usuario = usuario;
+      const user: IUser = { id: 83677 };
+      comentario.user = user;
 
-      const usuarioCollection: IUsuario[] = [{ id: 11467 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [usuario];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 3375 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [user];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ comentario });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(
-        usuarioCollection,
-        ...additionalUsuarios.map(expect.objectContaining)
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
       );
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const comentario: IComentario = { id: 456 };
       const funcionalidad: IFuncionalidad = { id: 9848 };
       comentario.funcionalidad = funcionalidad;
-      const usuario: IUsuario = { id: 87143 };
-      comentario.usuario = usuario;
+      const user: IUser = { id: 7424 };
+      comentario.user = user;
 
       activatedRoute.data = of({ comentario });
       comp.ngOnInit();
 
       expect(comp.funcionalidadsSharedCollection).toContain(funcionalidad);
-      expect(comp.usuariosSharedCollection).toContain(usuario);
+      expect(comp.usersSharedCollection).toContain(user);
       expect(comp.comentario).toEqual(comentario);
     });
   });
@@ -192,13 +193,13 @@ describe('Comentario Management Update Component', () => {
       });
     });
 
-    describe('compareUsuario', () => {
-      it('Should forward to usuarioService', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(usuarioService, 'compareUsuario');
-        comp.compareUsuario(entity, entity2);
-        expect(usuarioService.compareUsuario).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

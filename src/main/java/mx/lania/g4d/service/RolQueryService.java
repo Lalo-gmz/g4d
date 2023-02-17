@@ -88,22 +88,13 @@ public class RolQueryService extends QueryService<Rol> {
             if (criteria.getNombre() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNombre(), Rol_.nombre));
             }
-            if (criteria.getProyectoId() != null) {
+            if (criteria.getParticipacionProyectoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getProyectoId(), root -> root.join(Rol_.proyecto, JoinType.LEFT).get(Proyecto_.id))
-                    );
-            }
-            if (criteria.getUsuarioId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Rol_.usuarios, JoinType.LEFT).get(Usuario_.id))
-                    );
-            }
-            if (criteria.getPermisoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getPermisoId(), root -> root.join(Rol_.permisos, JoinType.LEFT).get(Permiso_.id))
+                        buildSpecification(
+                            criteria.getParticipacionProyectoId(),
+                            root -> root.join(Rol_.participacionProyectos, JoinType.LEFT).get(ParticipacionProyecto_.id)
+                        )
                     );
             }
         }

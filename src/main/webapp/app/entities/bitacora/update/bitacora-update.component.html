@@ -49,17 +49,10 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_usuario">Usuario</label>
-          <select
-            class="form-control"
-            id="field_usuario"
-            data-cy="usuario"
-            name="usuario"
-            formControlName="usuario"
-            [compareWith]="compareUsuario"
-          >
+          <label class="form-label" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
             <option [ngValue]="null"></option>
-            <option [ngValue]="usuarioOption" *ngFor="let usuarioOption of usuariosSharedCollection">{{ usuarioOption.id }}</option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
           </select>
         </div>
 

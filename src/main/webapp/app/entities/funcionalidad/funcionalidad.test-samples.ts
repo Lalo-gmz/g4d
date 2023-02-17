@@ -9,8 +9,8 @@ export const sampleWithRequiredData: IFuncionalidad = {
 export const sampleWithPartialData: IFuncionalidad = {
   id: 72695,
   urlGitLab: 'extend Card',
-  fechaEntrega: dayjs('2023-02-08'),
-  modificado: dayjs('2023-02-08T23:12'),
+  fechaEntrega: dayjs('2023-02-15'),
+  modificado: dayjs('2023-02-15T11:38'),
 };
 
 export const sampleWithFullData: IFuncionalidad = {
@@ -18,9 +18,9 @@ export const sampleWithFullData: IFuncionalidad = {
   nombre: 'override',
   descripcion: 'Funcionario',
   urlGitLab: 'Adelante',
-  fechaEntrega: dayjs('2023-02-08'),
-  creado: dayjs('2023-02-09T04:20'),
-  modificado: dayjs('2023-02-08T13:16'),
+  fechaEntrega: dayjs('2023-02-15'),
+  creado: dayjs('2023-02-15T16:47'),
+  modificado: dayjs('2023-02-15T01:42'),
 };
 
 export const sampleWithNewData: NewFuncionalidad = {

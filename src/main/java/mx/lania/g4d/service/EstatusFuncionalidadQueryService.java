@@ -88,9 +88,6 @@ public class EstatusFuncionalidadQueryService extends QueryService<EstatusFuncio
             if (criteria.getNombre() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNombre(), EstatusFuncionalidad_.nombre));
             }
-            if (criteria.getPrioridad() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPrioridad(), EstatusFuncionalidad_.prioridad));
-            }
             if (criteria.getFuncionalidadId() != null) {
                 specification =
                     specification.and(

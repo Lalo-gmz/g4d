@@ -32,11 +32,9 @@
             <a [routerLink]="['/funcionalidad', comentario.funcionalidad.id, 'view']">{{ comentario.funcionalidad.id }}</a>
           </div>
         </dd>
-        <dt><span>Usuario</span></dt>
+        <dt><span>User</span></dt>
         <dd>
-          <div *ngIf="comentario.usuario">
-            <a [routerLink]="['/usuario', comentario.usuario.id, 'view']">{{ comentario.usuario.id }}</a>
-          </div>
+          <span>{{ comentario.user?.id }}</span>
         </dd>
       </dl>
 

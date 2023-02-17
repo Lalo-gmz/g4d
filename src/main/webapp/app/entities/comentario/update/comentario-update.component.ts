@@ -9,8 +9,8 @@ import { IComentario } from '../comentario.model';
 import { ComentarioService } from '../service/comentario.service';
 import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
 import { FuncionalidadService } from 'app/entities/funcionalidad/service/funcionalidad.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-comentario-update',
@@ -21,7 +21,7 @@ export class ComentarioUpdateComponent implements OnInit {
   comentario: IComentario | null = null;
 
   funcionalidadsSharedCollection: IFuncionalidad[] = [];
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm: ComentarioFormGroup = this.comentarioFormService.createComentarioFormGroup();
 
@@ -29,14 +29,14 @@ export class ComentarioUpdateComponent implements OnInit {
     protected comentarioService: ComentarioService,
     protected comentarioFormService: ComentarioFormService,
     protected funcionalidadService: FuncionalidadService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareFuncionalidad = (o1: IFuncionalidad | null, o2: IFuncionalidad | null): boolean =>
     this.funcionalidadService.compareFuncionalidad(o1, o2);
 
-  compareUsuario = (o1: IUsuario | null, o2: IUsuario | null): boolean => this.usuarioService.compareUsuario(o1, o2);
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ comentario }) => {
@@ -90,10 +90,7 @@ export class ComentarioUpdateComponent implements OnInit {
       this.funcionalidadsSharedCollection,
       comentario.funcionalidad
     );
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing<IUsuario>(
-      this.usuariosSharedCollection,
-      comentario.usuario
-    );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, comentario.user);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -107,12 +104,10 @@ export class ComentarioUpdateComponent implements OnInit {
       )
       .subscribe((funcionalidads: IFuncionalidad[]) => (this.funcionalidadsSharedCollection = funcionalidads));
 
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
-      .pipe(
-        map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing<IUsuario>(usuarios, this.comentario?.usuario))
-      )
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.comentario?.user)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }

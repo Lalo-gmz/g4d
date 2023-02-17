@@ -45,6 +45,15 @@ public class Funcionalidad implements Serializable {
     @Column(name = "modificado")
     private Instant modificado;
 
+    @ManyToMany
+    @JoinTable(
+        name = "rel_funcionalidad__user",
+        joinColumns = @JoinColumn(name = "funcionalidad_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<User> users = new HashSet<>();
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
     private EstatusFuncionalidad estatusFuncionalidad;
@@ -53,6 +62,10 @@ public class Funcionalidad implements Serializable {
     @JsonIgnoreProperties(value = { "funcionalidads", "proyecto" }, allowSetters = true)
     private Iteracion iteracion;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
+    private Prioridad prioridad;
+
     @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad" }, allowSetters = true)
@@ -60,17 +73,12 @@ public class Funcionalidad implements Serializable {
 
     @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad", "proyecto", "rol", "bitacoras", "comentarios" }, allowSetters = true)
-    private Set<Usuario> usuarios = new HashSet<>();
+    @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
+    private Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();
 
     @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad" }, allowSetters = true)
-    private Set<Atributo> atributos = new HashSet<>();
-
-    @OneToMany(mappedBy = "funcionalidad")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad", "usuario" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "funcionalidad", "user" }, allowSetters = true)
     private Set<Comentario> comentarios = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -166,6 +174,29 @@ public class Funcionalidad implements Serializable {
         this.modificado = modificado;
     }
 
+    public Set<User> getUsers() {
+        return this.users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Funcionalidad users(Set<User> users) {
+        this.setUsers(users);
+        return this;
+    }
+
+    public Funcionalidad addUser(User user) {
+        this.users.add(user);
+        return this;
+    }
+
+    public Funcionalidad removeUser(User user) {
+        this.users.remove(user);
+        return this;
+    }
+
     public EstatusFuncionalidad getEstatusFuncionalidad() {
         return this.estatusFuncionalidad;
     }
@@ -189,6 +220,19 @@ public class Funcionalidad implements Serializable {
 
     public Funcionalidad iteracion(Iteracion iteracion) {
         this.setIteracion(iteracion);
+        return this;
+    }
+
+    public Prioridad getPrioridad() {
+        return this.prioridad;
+    }
+
+    public void setPrioridad(Prioridad prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public Funcionalidad prioridad(Prioridad prioridad) {
+        this.setPrioridad(prioridad);
         return this;
     }
 
@@ -223,65 +267,34 @@ public class Funcionalidad implements Serializable {
         return this;
     }
 
-    public Set<Usuario> getUsuarios() {
-        return this.usuarios;
+    public Set<AtributoFuncionalidad> getAtributoFuncionalidads() {
+        return this.atributoFuncionalidads;
     }
 
-    public void setUsuarios(Set<Usuario> usuarios) {
-        if (this.usuarios != null) {
-            this.usuarios.forEach(i -> i.setFuncionalidad(null));
+    public void setAtributoFuncionalidads(Set<AtributoFuncionalidad> atributoFuncionalidads) {
+        if (this.atributoFuncionalidads != null) {
+            this.atributoFuncionalidads.forEach(i -> i.setFuncionalidad(null));
         }
-        if (usuarios != null) {
-            usuarios.forEach(i -> i.setFuncionalidad(this));
+        if (atributoFuncionalidads != null) {
+            atributoFuncionalidads.forEach(i -> i.setFuncionalidad(this));
         }
-        this.usuarios = usuarios;
+        this.atributoFuncionalidads = atributoFuncionalidads;
     }
 
-    public Funcionalidad usuarios(Set<Usuario> usuarios) {
-        this.setUsuarios(usuarios);
+    public Funcionalidad atributoFuncionalidads(Set<AtributoFuncionalidad> atributoFuncionalidads) {
+        this.setAtributoFuncionalidads(atributoFuncionalidads);
         return this;
     }
 
-    public Funcionalidad addUsuario(Usuario usuario) {
-        this.usuarios.add(usuario);
-        usuario.setFuncionalidad(this);
+    public Funcionalidad addAtributoFuncionalidad(AtributoFuncionalidad atributoFuncionalidad) {
+        this.atributoFuncionalidads.add(atributoFuncionalidad);
+        atributoFuncionalidad.setFuncionalidad(this);
         return this;
     }
 
-    public Funcionalidad removeUsuario(Usuario usuario) {
-        this.usuarios.remove(usuario);
-        usuario.setFuncionalidad(null);
-        return this;
-    }
-
-    public Set<Atributo> getAtributos() {
-        return this.atributos;
-    }
-
-    public void setAtributos(Set<Atributo> atributos) {
-        if (this.atributos != null) {
-            this.atributos.forEach(i -> i.setFuncionalidad(null));
-        }
-        if (atributos != null) {
-            atributos.forEach(i -> i.setFuncionalidad(this));
-        }
-        this.atributos = atributos;
-    }
-
-    public Funcionalidad atributos(Set<Atributo> atributos) {
-        this.setAtributos(atributos);
-        return this;
-    }
-
-    public Funcionalidad addAtributo(Atributo atributo) {
-        this.atributos.add(atributo);
-        atributo.setFuncionalidad(this);
-        return this;
-    }
-
-    public Funcionalidad removeAtributo(Atributo atributo) {
-        this.atributos.remove(atributo);
-        atributo.setFuncionalidad(null);
+    public Funcionalidad removeAtributoFuncionalidad(AtributoFuncionalidad atributoFuncionalidad) {
+        this.atributoFuncionalidads.remove(atributoFuncionalidad);
+        atributoFuncionalidad.setFuncionalidad(null);
         return this;
     }
 

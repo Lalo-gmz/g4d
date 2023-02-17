@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051017",
+  "changelogDate": "20230215173638",
   "dto": "no",
   "embedded": false,
   "entityTableName": "comentario",
@@ -32,9 +32,9 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "usuario",
+      "otherEntityName": "user",
       "otherEntityRelationshipName": "comentario",
-      "relationshipName": "usuario",
+      "relationshipName": "user",
       "relationshipType": "many-to-one"
     }
   ],

@@ -88,8 +88,8 @@ public class EtiquetaQueryService extends QueryService<Etiqueta> {
             if (criteria.getNombre() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNombre(), Etiqueta_.nombre));
             }
-            if (criteria.getPrioridad() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPrioridad(), Etiqueta_.prioridad));
+            if (criteria.getColor() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getColor(), Etiqueta_.color));
             }
             if (criteria.getFuncionalidadId() != null) {
                 specification =

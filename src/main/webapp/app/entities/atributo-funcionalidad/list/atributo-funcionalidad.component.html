@@ -1,0 +1,139 @@
+<div>
+  <h2 id="page-heading" data-cy="AtributoFuncionalidadHeading">
+    <span>Atributo Funcionalidads</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-atributo-funcionalidad"
+        [routerLink]="['/atributo-funcionalidad/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Atributo Funcionalidad </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <jhi-filter [filters]="filters"></jhi-filter>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="atributoFuncionalidads?.length === 0">
+    <span>Ningún Atributo Funcionalidads encontrado</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="atributoFuncionalidads && atributoFuncionalidads.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="marcado">
+            <div class="d-flex">
+              <span>Marcado</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="valor">
+            <div class="d-flex">
+              <span>Valor</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="funcionalidad.id">
+            <div class="d-flex">
+              <span>Funcionalidad</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="atributo.id">
+            <div class="d-flex">
+              <span>Atributo</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let atributoFuncionalidad of atributoFuncionalidads; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/atributo-funcionalidad', atributoFuncionalidad.id, 'view']">{{ atributoFuncionalidad.id }}</a>
+          </td>
+          <td>{{ atributoFuncionalidad.marcado }}</td>
+          <td>{{ atributoFuncionalidad.valor }}</td>
+          <td>
+            <div *ngIf="atributoFuncionalidad.funcionalidad">
+              <a [routerLink]="['/funcionalidad', atributoFuncionalidad.funcionalidad.id, 'view']">{{
+                atributoFuncionalidad.funcionalidad.id
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="atributoFuncionalidad.atributo">
+              <a [routerLink]="['/atributo', atributoFuncionalidad.atributo.id, 'view']">{{ atributoFuncionalidad.atributo.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/atributo-funcionalidad', atributoFuncionalidad.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/atributo-funcionalidad', atributoFuncionalidad.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(atributoFuncionalidad)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="atributoFuncionalidads && atributoFuncionalidads.length > 0">
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

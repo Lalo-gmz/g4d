@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051015",
+  "changelogDate": "20230215173635",
   "dto": "no",
   "embedded": false,
   "entityTableName": "etiqueta",
@@ -11,8 +11,8 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "prioridad",
-      "fieldType": "Integer"
+      "fieldName": "color",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,

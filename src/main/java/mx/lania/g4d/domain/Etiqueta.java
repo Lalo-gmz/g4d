@@ -28,12 +28,12 @@ public class Etiqueta implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "prioridad")
-    private Integer prioridad;
+    @Column(name = "color")
+    private String color;
 
     @ManyToOne
     @JsonIgnoreProperties(
-        value = { "estatusFuncionalidad", "iteracion", "etiquetas", "usuarios", "atributos", "comentarios" },
+        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
         allowSetters = true
     )
     private Funcionalidad funcionalidad;
@@ -66,17 +66,17 @@ public class Etiqueta implements Serializable {
         this.nombre = nombre;
     }
 
-    public Integer getPrioridad() {
-        return this.prioridad;
+    public String getColor() {
+        return this.color;
     }
 
-    public Etiqueta prioridad(Integer prioridad) {
-        this.setPrioridad(prioridad);
+    public Etiqueta color(String color) {
+        this.setColor(color);
         return this;
     }
 
-    public void setPrioridad(Integer prioridad) {
-        this.prioridad = prioridad;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Funcionalidad getFuncionalidad() {
@@ -117,7 +117,7 @@ public class Etiqueta implements Serializable {
         return "Etiqueta{" +
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
-            ", prioridad=" + getPrioridad() +
+            ", color='" + getColor() + "'" +
             "}";
     }
 }

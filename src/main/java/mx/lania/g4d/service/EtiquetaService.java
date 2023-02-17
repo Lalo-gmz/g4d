@@ -62,8 +62,8 @@ public class EtiquetaService {
                 if (etiqueta.getNombre() != null) {
                     existingEtiqueta.setNombre(etiqueta.getNombre());
                 }
-                if (etiqueta.getPrioridad() != null) {
-                    existingEtiqueta.setPrioridad(etiqueta.getPrioridad());
+                if (etiqueta.getColor() != null) {
+                    existingEtiqueta.setColor(etiqueta.getColor());
                 }
 
                 return existingEtiqueta;

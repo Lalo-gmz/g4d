@@ -2,6 +2,7 @@ package mx.lania.g4d.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -9,24 +10,33 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
-import mx.lania.g4d.domain.Atributo;
+import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.domain.Comentario;
 import mx.lania.g4d.domain.EstatusFuncionalidad;
 import mx.lania.g4d.domain.Etiqueta;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.Iteracion;
-import mx.lania.g4d.domain.Usuario;
+import mx.lania.g4d.domain.Prioridad;
+import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.FuncionalidadRepository;
+import mx.lania.g4d.service.FuncionalidadService;
 import mx.lania.g4d.service.criteria.FuncionalidadCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link FuncionalidadResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class FuncionalidadResourceIT {
@@ -67,6 +78,12 @@ class FuncionalidadResourceIT {
 
     @Autowired
     private FuncionalidadRepository funcionalidadRepository;
+
+    @Mock
+    private FuncionalidadRepository funcionalidadRepositoryMock;
+
+    @Mock
+    private FuncionalidadService funcionalidadServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -172,6 +189,23 @@ class FuncionalidadResourceIT {
             .andExpect(jsonPath("$.[*].fechaEntrega").value(hasItem(DEFAULT_FECHA_ENTREGA.toString())))
             .andExpect(jsonPath("$.[*].creado").value(hasItem(DEFAULT_CREADO.toString())))
             .andExpect(jsonPath("$.[*].modificado").value(hasItem(DEFAULT_MODIFICADO.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFuncionalidadsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(funcionalidadServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFuncionalidadMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(funcionalidadServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllFuncionalidadsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(funcionalidadServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restFuncionalidadMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(funcionalidadRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -578,6 +612,29 @@ class FuncionalidadResourceIT {
 
     @Test
     @Transactional
+    void getAllFuncionalidadsByUserIsEqualToSomething() throws Exception {
+        User user;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
+            funcionalidadRepository.saveAndFlush(funcionalidad);
+            user = UserResourceIT.createEntity(em);
+        } else {
+            user = TestUtil.findAll(em, User.class).get(0);
+        }
+        em.persist(user);
+        em.flush();
+        funcionalidad.addUser(user);
+        funcionalidadRepository.saveAndFlush(funcionalidad);
+        Long userId = user.getId();
+
+        // Get all the funcionalidadList where user equals to userId
+        defaultFuncionalidadShouldBeFound("userId.equals=" + userId);
+
+        // Get all the funcionalidadList where user equals to (userId + 1)
+        defaultFuncionalidadShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllFuncionalidadsByEstatusFuncionalidadIsEqualToSomething() throws Exception {
         EstatusFuncionalidad estatusFuncionalidad;
         if (TestUtil.findAll(em, EstatusFuncionalidad.class).isEmpty()) {
@@ -624,6 +681,29 @@ class FuncionalidadResourceIT {
 
     @Test
     @Transactional
+    void getAllFuncionalidadsByPrioridadIsEqualToSomething() throws Exception {
+        Prioridad prioridad;
+        if (TestUtil.findAll(em, Prioridad.class).isEmpty()) {
+            funcionalidadRepository.saveAndFlush(funcionalidad);
+            prioridad = PrioridadResourceIT.createEntity(em);
+        } else {
+            prioridad = TestUtil.findAll(em, Prioridad.class).get(0);
+        }
+        em.persist(prioridad);
+        em.flush();
+        funcionalidad.setPrioridad(prioridad);
+        funcionalidadRepository.saveAndFlush(funcionalidad);
+        Long prioridadId = prioridad.getId();
+
+        // Get all the funcionalidadList where prioridad equals to prioridadId
+        defaultFuncionalidadShouldBeFound("prioridadId.equals=" + prioridadId);
+
+        // Get all the funcionalidadList where prioridad equals to (prioridadId + 1)
+        defaultFuncionalidadShouldNotBeFound("prioridadId.equals=" + (prioridadId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllFuncionalidadsByEtiquetaIsEqualToSomething() throws Exception {
         Etiqueta etiqueta;
         if (TestUtil.findAll(em, Etiqueta.class).isEmpty()) {
@@ -647,48 +727,25 @@ class FuncionalidadResourceIT {
 
     @Test
     @Transactional
-    void getAllFuncionalidadsByUsuarioIsEqualToSomething() throws Exception {
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
+    void getAllFuncionalidadsByAtributoFuncionalidadIsEqualToSomething() throws Exception {
+        AtributoFuncionalidad atributoFuncionalidad;
+        if (TestUtil.findAll(em, AtributoFuncionalidad.class).isEmpty()) {
             funcionalidadRepository.saveAndFlush(funcionalidad);
-            usuario = UsuarioResourceIT.createEntity(em);
+            atributoFuncionalidad = AtributoFuncionalidadResourceIT.createEntity(em);
         } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
+            atributoFuncionalidad = TestUtil.findAll(em, AtributoFuncionalidad.class).get(0);
         }
-        em.persist(usuario);
+        em.persist(atributoFuncionalidad);
         em.flush();
-        funcionalidad.addUsuario(usuario);
+        funcionalidad.addAtributoFuncionalidad(atributoFuncionalidad);
         funcionalidadRepository.saveAndFlush(funcionalidad);
-        Long usuarioId = usuario.getId();
+        Long atributoFuncionalidadId = atributoFuncionalidad.getId();
 
-        // Get all the funcionalidadList where usuario equals to usuarioId
-        defaultFuncionalidadShouldBeFound("usuarioId.equals=" + usuarioId);
+        // Get all the funcionalidadList where atributoFuncionalidad equals to atributoFuncionalidadId
+        defaultFuncionalidadShouldBeFound("atributoFuncionalidadId.equals=" + atributoFuncionalidadId);
 
-        // Get all the funcionalidadList where usuario equals to (usuarioId + 1)
-        defaultFuncionalidadShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllFuncionalidadsByAtributoIsEqualToSomething() throws Exception {
-        Atributo atributo;
-        if (TestUtil.findAll(em, Atributo.class).isEmpty()) {
-            funcionalidadRepository.saveAndFlush(funcionalidad);
-            atributo = AtributoResourceIT.createEntity(em);
-        } else {
-            atributo = TestUtil.findAll(em, Atributo.class).get(0);
-        }
-        em.persist(atributo);
-        em.flush();
-        funcionalidad.addAtributo(atributo);
-        funcionalidadRepository.saveAndFlush(funcionalidad);
-        Long atributoId = atributo.getId();
-
-        // Get all the funcionalidadList where atributo equals to atributoId
-        defaultFuncionalidadShouldBeFound("atributoId.equals=" + atributoId);
-
-        // Get all the funcionalidadList where atributo equals to (atributoId + 1)
-        defaultFuncionalidadShouldNotBeFound("atributoId.equals=" + (atributoId + 1));
+        // Get all the funcionalidadList where atributoFuncionalidad equals to (atributoFuncionalidadId + 1)
+        defaultFuncionalidadShouldNotBeFound("atributoFuncionalidadId.equals=" + (atributoFuncionalidadId + 1));
     }
 
     @Test

@@ -103,10 +103,10 @@ public class ComentarioQueryService extends QueryService<Comentario> {
                         )
                     );
             }
-            if (criteria.getUsuarioId() != null) {
+            if (criteria.getUserId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Comentario_.usuario, JoinType.LEFT).get(Usuario_.id))
+                        buildSpecification(criteria.getUserId(), root -> root.join(Comentario_.user, JoinType.LEFT).get(User_.id))
                     );
             }
         }

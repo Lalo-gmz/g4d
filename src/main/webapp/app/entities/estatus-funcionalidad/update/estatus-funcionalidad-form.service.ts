@@ -19,7 +19,6 @@ type EstatusFuncionalidadFormDefaults = Pick<NewEstatusFuncionalidad, 'id'>;
 type EstatusFuncionalidadFormGroupContent = {
   id: FormControl<IEstatusFuncionalidad['id'] | NewEstatusFuncionalidad['id']>;
   nombre: FormControl<IEstatusFuncionalidad['nombre']>;
-  prioridad: FormControl<IEstatusFuncionalidad['prioridad']>;
 };
 
 export type EstatusFuncionalidadFormGroup = FormGroup<EstatusFuncionalidadFormGroupContent>;
@@ -42,7 +41,6 @@ export class EstatusFuncionalidadFormService {
         }
       ),
       nombre: new FormControl(estatusFuncionalidadRawValue.nombre),
-      prioridad: new FormControl(estatusFuncionalidadRawValue.prioridad),
     });
   }
 

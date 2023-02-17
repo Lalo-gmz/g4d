@@ -5,15 +5,13 @@ export const sampleWithRequiredData: IAtributo = {
 };
 
 export const sampleWithPartialData: IAtributo = {
-  id: 9460,
-  nombre: 'alto',
+  id: 38506,
+  nombre: 'Increible',
 };
 
 export const sampleWithFullData: IAtributo = {
-  id: 95872,
-  nombre: 'Metical',
-  marcado: true,
-  auxiliar: true,
+  id: 43211,
+  nombre: 'Seguridada Murcia',
 };
 
 export const sampleWithNewData: NewAtributo = {

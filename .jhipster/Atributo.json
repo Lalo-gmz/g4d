@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051018",
+  "changelogDate": "20230215173639",
   "dto": "no",
   "embedded": false,
   "entityTableName": "atributo",
@@ -8,14 +8,6 @@
     {
       "fieldName": "nombre",
       "fieldType": "String"
-    },
-    {
-      "fieldName": "marcado",
-      "fieldType": "Boolean"
-    },
-    {
-      "fieldName": "auxiliar",
-      "fieldType": "Boolean"
     }
   ],
   "fluentMethods": true,
@@ -25,10 +17,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "funcionalidad",
+      "otherEntityName": "atributoFuncionalidad",
       "otherEntityRelationshipName": "atributo",
-      "relationshipName": "funcionalidad",
-      "relationshipType": "many-to-one"
+      "relationshipName": "atributoFuncionalidad",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "serviceClass"

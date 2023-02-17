@@ -94,10 +94,10 @@ public class BitacoraQueryService extends QueryService<Bitacora> {
             if (criteria.getCreado() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getCreado(), Bitacora_.creado));
             }
-            if (criteria.getUsuarioId() != null) {
+            if (criteria.getUserId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Bitacora_.usuario, JoinType.LEFT).get(Usuario_.id))
+                        buildSpecification(criteria.getUserId(), root -> root.join(Bitacora_.user, JoinType.LEFT).get(User_.id))
                     );
             }
             if (criteria.getProyectoId() != null) {

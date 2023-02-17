@@ -15,7 +15,7 @@
 
 spring:
   application:
-    name: g4d
+    name: G4D
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -58,7 +58,7 @@ jhipster:
   clientApp:
     name: 'g4DApp'
   mail:
-    from: g4d@localhost.com
+    from: G4D@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -72,7 +72,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: OWQ0YzRkNTQxZDZlYWI3YjRjOTUwMWVmM2NiM2Y0MjAxMzIwZmZmYzE5YjkxYTYxM2RmMzMxMzQyY2IzNGU5YzZmNTBiOTc4NTc3Njc4MWRjODU2MjI0OWZhMDFmYzk2YjVjY2RiYWI1MDAyZDY0OTUxMTIxOTM1MzRkMTRiZjU=
+        base64-secret: YTgxMmNmNTNkOWI2NTcwMmMwZmMzMTk5NGJiYWM4YTQwN2QyOGJmN2YxYmIxZGRjYzA1ZmVmMjE5ZDZjNmQ1M2Q5MTdlYWU2YWY5N2M1Y2MzYzMzOWFjNDQxZmVjZTZlNzk2OWM3ZDcwZTIzNzFlNTU3OTUwZDMwMjI0NDU5MTE=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 

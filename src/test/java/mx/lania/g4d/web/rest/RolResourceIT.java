@@ -10,10 +10,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
-import mx.lania.g4d.domain.Permiso;
-import mx.lania.g4d.domain.Proyecto;
+import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.domain.Rol;
-import mx.lania.g4d.domain.Usuario;
 import mx.lania.g4d.repository.RolRepository;
 import mx.lania.g4d.service.criteria.RolCriteria;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,6 +110,23 @@ class RolResourceIT {
         // Validate the Rol in the database
         List<Rol> rolList = rolRepository.findAll();
         assertThat(rolList).hasSize(databaseSizeBeforeCreate);
+    }
+
+    @Test
+    @Transactional
+    void checkNombreIsRequired() throws Exception {
+        int databaseSizeBeforeTest = rolRepository.findAll().size();
+        // set the field null
+        rol.setNombre(null);
+
+        // Create the Rol, which fails.
+
+        restRolMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(rol)))
+            .andExpect(status().isBadRequest());
+
+        List<Rol> rolList = rolRepository.findAll();
+        assertThat(rolList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -229,71 +244,25 @@ class RolResourceIT {
 
     @Test
     @Transactional
-    void getAllRolsByProyectoIsEqualToSomething() throws Exception {
-        Proyecto proyecto;
-        if (TestUtil.findAll(em, Proyecto.class).isEmpty()) {
+    void getAllRolsByParticipacionProyectoIsEqualToSomething() throws Exception {
+        ParticipacionProyecto participacionProyecto;
+        if (TestUtil.findAll(em, ParticipacionProyecto.class).isEmpty()) {
             rolRepository.saveAndFlush(rol);
-            proyecto = ProyectoResourceIT.createEntity(em);
+            participacionProyecto = ParticipacionProyectoResourceIT.createEntity(em);
         } else {
-            proyecto = TestUtil.findAll(em, Proyecto.class).get(0);
+            participacionProyecto = TestUtil.findAll(em, ParticipacionProyecto.class).get(0);
         }
-        em.persist(proyecto);
+        em.persist(participacionProyecto);
         em.flush();
-        rol.setProyecto(proyecto);
+        rol.addParticipacionProyecto(participacionProyecto);
         rolRepository.saveAndFlush(rol);
-        Long proyectoId = proyecto.getId();
+        Long participacionProyectoId = participacionProyecto.getId();
 
-        // Get all the rolList where proyecto equals to proyectoId
-        defaultRolShouldBeFound("proyectoId.equals=" + proyectoId);
+        // Get all the rolList where participacionProyecto equals to participacionProyectoId
+        defaultRolShouldBeFound("participacionProyectoId.equals=" + participacionProyectoId);
 
-        // Get all the rolList where proyecto equals to (proyectoId + 1)
-        defaultRolShouldNotBeFound("proyectoId.equals=" + (proyectoId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllRolsByUsuarioIsEqualToSomething() throws Exception {
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            rolRepository.saveAndFlush(rol);
-            usuario = UsuarioResourceIT.createEntity(em);
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        em.persist(usuario);
-        em.flush();
-        rol.addUsuario(usuario);
-        rolRepository.saveAndFlush(rol);
-        Long usuarioId = usuario.getId();
-
-        // Get all the rolList where usuario equals to usuarioId
-        defaultRolShouldBeFound("usuarioId.equals=" + usuarioId);
-
-        // Get all the rolList where usuario equals to (usuarioId + 1)
-        defaultRolShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllRolsByPermisoIsEqualToSomething() throws Exception {
-        Permiso permiso;
-        if (TestUtil.findAll(em, Permiso.class).isEmpty()) {
-            rolRepository.saveAndFlush(rol);
-            permiso = PermisoResourceIT.createEntity(em);
-        } else {
-            permiso = TestUtil.findAll(em, Permiso.class).get(0);
-        }
-        em.persist(permiso);
-        em.flush();
-        rol.addPermiso(permiso);
-        rolRepository.saveAndFlush(rol);
-        Long permisoId = permiso.getId();
-
-        // Get all the rolList where permiso equals to permisoId
-        defaultRolShouldBeFound("permisoId.equals=" + permisoId);
-
-        // Get all the rolList where permiso equals to (permisoId + 1)
-        defaultRolShouldNotBeFound("permisoId.equals=" + (permisoId + 1));
+        // Get all the rolList where participacionProyecto equals to (participacionProyectoId + 1)
+        defaultRolShouldNotBeFound("participacionProyectoId.equals=" + (participacionProyectoId + 1));
     }
 
     /**

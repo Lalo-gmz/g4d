@@ -23,7 +23,7 @@ describe('Bitacora Form Service', () => {
             tabla: expect.any(Object),
             accion: expect.any(Object),
             creado: expect.any(Object),
-            usuario: expect.any(Object),
+            user: expect.any(Object),
             proyecto: expect.any(Object),
           })
         );
@@ -38,7 +38,7 @@ describe('Bitacora Form Service', () => {
             tabla: expect.any(Object),
             accion: expect.any(Object),
             creado: expect.any(Object),
-            usuario: expect.any(Object),
+            user: expect.any(Object),
             proyecto: expect.any(Object),
           })
         );

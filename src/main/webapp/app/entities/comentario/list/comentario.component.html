@@ -64,9 +64,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="usuario.id">
+          <th scope="col" jhiSortBy="user.id">
             <div class="d-flex">
-              <span>Usuario</span>
+              <span>User</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -87,9 +87,7 @@
             </div>
           </td>
           <td>
-            <div *ngIf="comentario.usuario">
-              <a [routerLink]="['/usuario', comentario.usuario.id, 'view']">{{ comentario.usuario.id }}</a>
-            </div>
+            {{ comentario.user?.id }}
           </td>
           <td class="text-end">
             <div class="btn-group">

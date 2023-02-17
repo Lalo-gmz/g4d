@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051013",
+  "changelogDate": "20230215173633",
   "dto": "no",
   "embedded": false,
   "entityTableName": "proyecto",
@@ -22,9 +22,9 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "rol",
+      "otherEntityName": "participacionProyecto",
       "otherEntityRelationshipName": "proyecto",
-      "relationshipName": "rol",
+      "relationshipName": "participacionProyecto",
       "relationshipType": "one-to-many"
     },
     {
@@ -37,12 +37,6 @@
       "otherEntityName": "bitacora",
       "otherEntityRelationshipName": "proyecto",
       "relationshipName": "bitacora",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "usuario",
-      "otherEntityRelationshipName": "proyecto",
-      "relationshipName": "usuario",
       "relationshipType": "one-to-many"
     },
     {

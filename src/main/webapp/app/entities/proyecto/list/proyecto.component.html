@@ -66,13 +66,13 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/rol']"
+                [routerLink]="['/participacion-proyecto']"
                 [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
                 class="btn btn-info btn-sm"
                 data-cy="filterOtherEntityButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Rol</span>
+                <span class="d-none d-md-inline">Show Participacion Proyecto</span>
               </button>
               <button
                 type="submit"
@@ -93,16 +93,6 @@
               >
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">Show Bitacora</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/usuario']"
-                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Usuario</span>
               </button>
               <button
                 type="submit"

@@ -18,20 +18,6 @@
         <dd>
           <span>{{ atributo.nombre }}</span>
         </dd>
-        <dt><span>Marcado</span></dt>
-        <dd>
-          <span>{{ atributo.marcado }}</span>
-        </dd>
-        <dt><span>Auxiliar</span></dt>
-        <dd>
-          <span>{{ atributo.auxiliar }}</span>
-        </dd>
-        <dt><span>Funcionalidad</span></dt>
-        <dd>
-          <div *ngIf="atributo.funcionalidad">
-            <a [routerLink]="['/funcionalidad', atributo.funcionalidad.id, 'view']">{{ atributo.funcionalidad.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

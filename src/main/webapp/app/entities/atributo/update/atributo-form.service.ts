@@ -14,14 +14,11 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type AtributoFormGroupInput = IAtributo | PartialWithRequiredKeyOf<NewAtributo>;
 
-type AtributoFormDefaults = Pick<NewAtributo, 'id' | 'marcado' | 'auxiliar'>;
+type AtributoFormDefaults = Pick<NewAtributo, 'id'>;
 
 type AtributoFormGroupContent = {
   id: FormControl<IAtributo['id'] | NewAtributo['id']>;
   nombre: FormControl<IAtributo['nombre']>;
-  marcado: FormControl<IAtributo['marcado']>;
-  auxiliar: FormControl<IAtributo['auxiliar']>;
-  funcionalidad: FormControl<IAtributo['funcionalidad']>;
 };
 
 export type AtributoFormGroup = FormGroup<AtributoFormGroupContent>;
@@ -42,9 +39,6 @@ export class AtributoFormService {
         }
       ),
       nombre: new FormControl(atributoRawValue.nombre),
-      marcado: new FormControl(atributoRawValue.marcado),
-      auxiliar: new FormControl(atributoRawValue.auxiliar),
-      funcionalidad: new FormControl(atributoRawValue.funcionalidad),
     });
   }
 
@@ -65,8 +59,6 @@ export class AtributoFormService {
   private getFormDefaults(): AtributoFormDefaults {
     return {
       id: null,
-      marcado: false,
-      auxiliar: false,
     };
   }
 }

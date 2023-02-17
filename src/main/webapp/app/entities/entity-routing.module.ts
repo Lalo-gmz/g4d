@@ -10,24 +10,9 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./bitacora/bitacora.module').then(m => m.BitacoraModule),
       },
       {
-        path: 'usuario',
-        data: { pageTitle: 'Usuarios' },
-        loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule),
-      },
-      {
         path: 'iteracion',
         data: { pageTitle: 'Iteracions' },
         loadChildren: () => import('./iteracion/iteracion.module').then(m => m.IteracionModule),
-      },
-      {
-        path: 'permiso',
-        data: { pageTitle: 'Permisos' },
-        loadChildren: () => import('./permiso/permiso.module').then(m => m.PermisoModule),
-      },
-      {
-        path: 'rol',
-        data: { pageTitle: 'Rols' },
-        loadChildren: () => import('./rol/rol.module').then(m => m.RolModule),
       },
       {
         path: 'proyecto',
@@ -50,6 +35,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./funcionalidad/funcionalidad.module').then(m => m.FuncionalidadModule),
       },
       {
+        path: 'prioridad',
+        data: { pageTitle: 'Prioridads' },
+        loadChildren: () => import('./prioridad/prioridad.module').then(m => m.PrioridadModule),
+      },
+      {
         path: 'comentario',
         data: { pageTitle: 'Comentarios' },
         loadChildren: () => import('./comentario/comentario.module').then(m => m.ComentarioModule),
@@ -60,9 +50,24 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./atributo/atributo.module').then(m => m.AtributoModule),
       },
       {
+        path: 'atributo-funcionalidad',
+        data: { pageTitle: 'AtributoFuncionalidads' },
+        loadChildren: () => import('./atributo-funcionalidad/atributo-funcionalidad.module').then(m => m.AtributoFuncionalidadModule),
+      },
+      {
         path: 'configuracion',
         data: { pageTitle: 'Configuracions' },
         loadChildren: () => import('./configuracion/configuracion.module').then(m => m.ConfiguracionModule),
+      },
+      {
+        path: 'rol',
+        data: { pageTitle: 'Rols' },
+        loadChildren: () => import('./rol/rol.module').then(m => m.RolModule),
+      },
+      {
+        path: 'participacion-proyecto',
+        data: { pageTitle: 'ParticipacionProyectos' },
+        loadChildren: () => import('./participacion-proyecto/participacion-proyecto.module').then(m => m.ParticipacionProyectoModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

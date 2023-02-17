@@ -103,6 +103,12 @@ public class FuncionalidadQueryService extends QueryService<Funcionalidad> {
             if (criteria.getModificado() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getModificado(), Funcionalidad_.modificado));
             }
+            if (criteria.getUserId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUserId(), root -> root.join(Funcionalidad_.users, JoinType.LEFT).get(User_.id))
+                    );
+            }
             if (criteria.getEstatusFuncionalidadId() != null) {
                 specification =
                     specification.and(
@@ -121,6 +127,15 @@ public class FuncionalidadQueryService extends QueryService<Funcionalidad> {
                         )
                     );
             }
+            if (criteria.getPrioridadId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getPrioridadId(),
+                            root -> root.join(Funcionalidad_.prioridad, JoinType.LEFT).get(Prioridad_.id)
+                        )
+                    );
+            }
             if (criteria.getEtiquetaId() != null) {
                 specification =
                     specification.and(
@@ -130,21 +145,12 @@ public class FuncionalidadQueryService extends QueryService<Funcionalidad> {
                         )
                     );
             }
-            if (criteria.getUsuarioId() != null) {
+            if (criteria.getAtributoFuncionalidadId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getUsuarioId(),
-                            root -> root.join(Funcionalidad_.usuarios, JoinType.LEFT).get(Usuario_.id)
-                        )
-                    );
-            }
-            if (criteria.getAtributoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getAtributoId(),
-                            root -> root.join(Funcionalidad_.atributos, JoinType.LEFT).get(Atributo_.id)
+                            criteria.getAtributoFuncionalidadId(),
+                            root -> root.join(Funcionalidad_.atributoFuncionalidads, JoinType.LEFT).get(AtributoFuncionalidad_.id)
                         )
                     );
             }

@@ -46,9 +46,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="prioridad">
+          <th scope="col" jhiSortBy="color">
             <div class="d-flex">
-              <span>Prioridad</span>
+              <span>Color</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -67,7 +67,7 @@
             <a [routerLink]="['/etiqueta', etiqueta.id, 'view']">{{ etiqueta.id }}</a>
           </td>
           <td>{{ etiqueta.nombre }}</td>
-          <td>{{ etiqueta.prioridad }}</td>
+          <td>{{ etiqueta.color }}</td>
           <td>
             <div *ngIf="etiqueta.funcionalidad">
               <a [routerLink]="['/funcionalidad', etiqueta.funcionalidad.id, 'view']">{{ etiqueta.funcionalidad.id }}</a>

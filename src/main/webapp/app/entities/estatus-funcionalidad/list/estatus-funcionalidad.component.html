@@ -46,12 +46,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="prioridad">
-            <div class="d-flex">
-              <span>Prioridad</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -61,7 +55,6 @@
             <a [routerLink]="['/estatus-funcionalidad', estatusFuncionalidad.id, 'view']">{{ estatusFuncionalidad.id }}</a>
           </td>
           <td>{{ estatusFuncionalidad.nombre }}</td>
-          <td>{{ estatusFuncionalidad.prioridad }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

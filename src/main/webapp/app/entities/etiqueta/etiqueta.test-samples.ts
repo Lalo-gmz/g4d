@@ -8,13 +8,13 @@ export const sampleWithRequiredData: IEtiqueta = {
 export const sampleWithPartialData: IEtiqueta = {
   id: 52864,
   nombre: 'withdrawal Cataluña',
-  prioridad: 70638,
+  color: 'Verde',
 };
 
 export const sampleWithFullData: IEtiqueta = {
   id: 69775,
   nombre: 'holística',
-  prioridad: 82857,
+  color: 'Morado',
 };
 
 export const sampleWithNewData: NewEtiqueta = {

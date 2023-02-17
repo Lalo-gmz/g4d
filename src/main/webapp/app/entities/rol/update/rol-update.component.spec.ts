@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { RolFormService } from './rol-form.service';
 import { RolService } from '../service/rol.service';
 import { IRol } from '../rol.model';
-import { IProyecto } from 'app/entities/proyecto/proyecto.model';
-import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
 
 import { RolUpdateComponent } from './rol-update.component';
 
@@ -20,7 +18,6 @@ describe('Rol Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let rolFormService: RolFormService;
   let rolService: RolService;
-  let proyectoService: ProyectoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +40,17 @@ describe('Rol Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     rolFormService = TestBed.inject(RolFormService);
     rolService = TestBed.inject(RolService);
-    proyectoService = TestBed.inject(ProyectoService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Proyecto query and add missing value', () => {
-      const rol: IRol = { id: 456 };
-      const proyecto: IProyecto = { id: 74289 };
-      rol.proyecto = proyecto;
-
-      const proyectoCollection: IProyecto[] = [{ id: 83021 }];
-      jest.spyOn(proyectoService, 'query').mockReturnValue(of(new HttpResponse({ body: proyectoCollection })));
-      const additionalProyectos = [proyecto];
-      const expectedCollection: IProyecto[] = [...additionalProyectos, ...proyectoCollection];
-      jest.spyOn(proyectoService, 'addProyectoToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ rol });
-      comp.ngOnInit();
-
-      expect(proyectoService.query).toHaveBeenCalled();
-      expect(proyectoService.addProyectoToCollectionIfMissing).toHaveBeenCalledWith(
-        proyectoCollection,
-        ...additionalProyectos.map(expect.objectContaining)
-      );
-      expect(comp.proyectosSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const rol: IRol = { id: 456 };
-      const proyecto: IProyecto = { id: 21219 };
-      rol.proyecto = proyecto;
 
       activatedRoute.data = of({ rol });
       comp.ngOnInit();
 
-      expect(comp.proyectosSharedCollection).toContain(proyecto);
       expect(comp.rol).toEqual(rol);
     });
   });
@@ -149,18 +120,6 @@ describe('Rol Management Update Component', () => {
       expect(rolService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareProyecto', () => {
-      it('Should forward to proyectoService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(proyectoService, 'compareProyecto');
-        comp.compareProyecto(entity, entity2);
-        expect(proyectoService.compareProyecto).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

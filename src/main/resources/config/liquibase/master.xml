@@ -11,29 +11,28 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051008_added_entity_Bitacora.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051009_added_entity_Usuario.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051010_added_entity_Iteracion.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051011_added_entity_Permiso.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051012_added_entity_Rol.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051013_added_entity_Proyecto.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051014_added_entity_EstatusFuncionalidad.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051015_added_entity_Etiqueta.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051016_added_entity_Funcionalidad.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051017_added_entity_Comentario.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051018_added_entity_Atributo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051019_added_entity_Configuracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173631_added_entity_Bitacora.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173632_added_entity_Iteracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173633_added_entity_Proyecto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173634_added_entity_EstatusFuncionalidad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173635_added_entity_Etiqueta.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173636_added_entity_Funcionalidad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173637_added_entity_Prioridad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173638_added_entity_Comentario.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173639_added_entity_Atributo.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173640_added_entity_AtributoFuncionalidad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173641_added_entity_Configuracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173642_added_entity_Rol.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173643_added_entity_ParticipacionProyecto.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20230209051008_added_entity_constraints_Bitacora.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051009_added_entity_constraints_Usuario.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051010_added_entity_constraints_Iteracion.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051011_added_entity_constraints_Permiso.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051012_added_entity_constraints_Rol.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051015_added_entity_constraints_Etiqueta.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051016_added_entity_constraints_Funcionalidad.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051017_added_entity_constraints_Comentario.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051018_added_entity_constraints_Atributo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230209051019_added_entity_constraints_Configuracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173631_added_entity_constraints_Bitacora.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173632_added_entity_constraints_Iteracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173635_added_entity_constraints_Etiqueta.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173636_added_entity_constraints_Funcionalidad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173638_added_entity_constraints_Comentario.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173640_added_entity_constraints_AtributoFuncionalidad.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173641_added_entity_constraints_Configuracion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230215173643_added_entity_constraints_ParticipacionProyecto.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

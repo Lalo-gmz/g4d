@@ -10,15 +10,15 @@ export const sampleWithRequiredData: IIteracion = {
 export const sampleWithPartialData: IIteracion = {
   id: 18694,
   nombre: 'Gorro',
-  inicio: dayjs('2023-02-09'),
-  fin: dayjs('2023-02-08'),
+  inicio: dayjs('2023-02-15'),
+  fin: dayjs('2023-02-15'),
 };
 
 export const sampleWithFullData: IIteracion = {
   id: 30504,
   nombre: 'Tajikistan Nacional',
-  inicio: dayjs('2023-02-08'),
-  fin: dayjs('2023-02-08'),
+  inicio: dayjs('2023-02-15'),
+  fin: dayjs('2023-02-15'),
 };
 
 export const sampleWithNewData: NewIteracion = {

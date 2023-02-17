@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Proyecto;
-import mx.lania.g4d.domain.Usuario;
+import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.service.criteria.BitacoraCriteria;
 import org.junit.jupiter.api.BeforeEach;
@@ -397,25 +397,25 @@ class BitacoraResourceIT {
 
     @Test
     @Transactional
-    void getAllBitacorasByUsuarioIsEqualToSomething() throws Exception {
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
+    void getAllBitacorasByUserIsEqualToSomething() throws Exception {
+        User user;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
             bitacoraRepository.saveAndFlush(bitacora);
-            usuario = UsuarioResourceIT.createEntity(em);
+            user = UserResourceIT.createEntity(em);
         } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
+            user = TestUtil.findAll(em, User.class).get(0);
         }
-        em.persist(usuario);
+        em.persist(user);
         em.flush();
-        bitacora.setUsuario(usuario);
+        bitacora.setUser(user);
         bitacoraRepository.saveAndFlush(bitacora);
-        Long usuarioId = usuario.getId();
+        Long userId = user.getId();
 
-        // Get all the bitacoraList where usuario equals to usuarioId
-        defaultBitacoraShouldBeFound("usuarioId.equals=" + usuarioId);
+        // Get all the bitacoraList where user equals to userId
+        defaultBitacoraShouldBeFound("userId.equals=" + userId);
 
-        // Get all the bitacoraList where usuario equals to (usuarioId + 1)
-        defaultBitacoraShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
+        // Get all the bitacoraList where user equals to (userId + 1)
+        defaultBitacoraShouldNotBeFound("userId.equals=" + (userId + 1));
     }
 
     @Test

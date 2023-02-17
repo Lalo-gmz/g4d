@@ -19,7 +19,6 @@ type RolFormDefaults = Pick<NewRol, 'id'>;
 type RolFormGroupContent = {
   id: FormControl<IRol['id'] | NewRol['id']>;
   nombre: FormControl<IRol['nombre']>;
-  proyecto: FormControl<IRol['proyecto']>;
 };
 
 export type RolFormGroup = FormGroup<RolFormGroupContent>;
@@ -39,8 +38,9 @@ export class RolFormService {
           validators: [Validators.required],
         }
       ),
-      nombre: new FormControl(rolRawValue.nombre),
-      proyecto: new FormControl(rolRawValue.proyecto),
+      nombre: new FormControl(rolRawValue.nombre, {
+        validators: [Validators.required],
+      }),
     });
   }
 

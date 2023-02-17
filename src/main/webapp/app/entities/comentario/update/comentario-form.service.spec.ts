@@ -24,7 +24,7 @@ describe('Comentario Form Service', () => {
             creado: expect.any(Object),
             modificado: expect.any(Object),
             funcionalidad: expect.any(Object),
-            usuario: expect.any(Object),
+            user: expect.any(Object),
           })
         );
       });
@@ -39,7 +39,7 @@ describe('Comentario Form Service', () => {
             creado: expect.any(Object),
             modificado: expect.any(Object),
             funcionalidad: expect.any(Object),
-            usuario: expect.any(Object),
+            user: expect.any(Object),
           })
         );
       });

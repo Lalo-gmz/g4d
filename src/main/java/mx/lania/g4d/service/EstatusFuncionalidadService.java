@@ -62,9 +62,6 @@ public class EstatusFuncionalidadService {
                 if (estatusFuncionalidad.getNombre() != null) {
                     existingEstatusFuncionalidad.setNombre(estatusFuncionalidad.getNombre());
                 }
-                if (estatusFuncionalidad.getPrioridad() != null) {
-                    existingEstatusFuncionalidad.setPrioridad(estatusFuncionalidad.getPrioridad());
-                }
 
                 return existingEstatusFuncionalidad;
             })

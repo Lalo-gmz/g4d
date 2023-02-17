@@ -88,18 +88,12 @@ public class AtributoQueryService extends QueryService<Atributo> {
             if (criteria.getNombre() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNombre(), Atributo_.nombre));
             }
-            if (criteria.getMarcado() != null) {
-                specification = specification.and(buildSpecification(criteria.getMarcado(), Atributo_.marcado));
-            }
-            if (criteria.getAuxiliar() != null) {
-                specification = specification.and(buildSpecification(criteria.getAuxiliar(), Atributo_.auxiliar));
-            }
-            if (criteria.getFuncionalidadId() != null) {
+            if (criteria.getAtributoFuncionalidadId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getFuncionalidadId(),
-                            root -> root.join(Atributo_.funcionalidad, JoinType.LEFT).get(Funcionalidad_.id)
+                            criteria.getAtributoFuncionalidadId(),
+                            root -> root.join(Atributo_.atributoFuncionalidads, JoinType.LEFT).get(AtributoFuncionalidad_.id)
                         )
                     );
             }

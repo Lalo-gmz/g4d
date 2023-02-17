@@ -91,10 +91,13 @@ public class ProyectoQueryService extends QueryService<Proyecto> {
             if (criteria.getIdProyectoGitLab() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getIdProyectoGitLab(), Proyecto_.idProyectoGitLab));
             }
-            if (criteria.getRolId() != null) {
+            if (criteria.getParticipacionProyectoId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getRolId(), root -> root.join(Proyecto_.rols, JoinType.LEFT).get(Rol_.id))
+                        buildSpecification(
+                            criteria.getParticipacionProyectoId(),
+                            root -> root.join(Proyecto_.participacionProyectos, JoinType.LEFT).get(ParticipacionProyecto_.id)
+                        )
                     );
             }
             if (criteria.getConfiguracionId() != null) {
@@ -113,12 +116,6 @@ public class ProyectoQueryService extends QueryService<Proyecto> {
                             criteria.getBitacoraId(),
                             root -> root.join(Proyecto_.bitacoras, JoinType.LEFT).get(Bitacora_.id)
                         )
-                    );
-            }
-            if (criteria.getUsuarioId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getUsuarioId(), root -> root.join(Proyecto_.usuarios, JoinType.LEFT).get(Usuario_.id))
                     );
             }
             if (criteria.getIteracionId() != null) {

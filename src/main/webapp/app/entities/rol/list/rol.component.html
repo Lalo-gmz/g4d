@@ -46,12 +46,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="proyecto.id">
-            <div class="d-flex">
-              <span>Proyecto</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -61,32 +55,17 @@
             <a [routerLink]="['/rol', rol.id, 'view']">{{ rol.id }}</a>
           </td>
           <td>{{ rol.nombre }}</td>
-          <td>
-            <div *ngIf="rol.proyecto">
-              <a [routerLink]="['/proyecto', rol.proyecto.id, 'view']">{{ rol.proyecto.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/usuario']"
+                [routerLink]="['/participacion-proyecto']"
                 [queryParams]="{ 'filter[rolId.in]': rol.id }"
                 class="btn btn-info btn-sm"
                 data-cy="filterOtherEntityButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Usuario</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/permiso']"
-                [queryParams]="{ 'filter[rolId.in]': rol.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Permiso</span>
+                <span class="d-none d-md-inline">Show Participacion Proyecto</span>
               </button>
               <button type="submit" [routerLink]="['/rol', rol.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="eye"></fa-icon>

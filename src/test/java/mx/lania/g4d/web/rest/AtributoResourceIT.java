@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.Atributo;
-import mx.lania.g4d.domain.Funcionalidad;
+import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.repository.AtributoRepository;
 import mx.lania.g4d.service.criteria.AtributoCriteria;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,12 +33,6 @@ class AtributoResourceIT {
 
     private static final String DEFAULT_NOMBRE = "AAAAAAAAAA";
     private static final String UPDATED_NOMBRE = "BBBBBBBBBB";
-
-    private static final Boolean DEFAULT_MARCADO = false;
-    private static final Boolean UPDATED_MARCADO = true;
-
-    private static final Boolean DEFAULT_AUXILIAR = false;
-    private static final Boolean UPDATED_AUXILIAR = true;
 
     private static final String ENTITY_API_URL = "/api/atributos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -64,7 +58,7 @@ class AtributoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Atributo createEntity(EntityManager em) {
-        Atributo atributo = new Atributo().nombre(DEFAULT_NOMBRE).marcado(DEFAULT_MARCADO).auxiliar(DEFAULT_AUXILIAR);
+        Atributo atributo = new Atributo().nombre(DEFAULT_NOMBRE);
         return atributo;
     }
 
@@ -75,7 +69,7 @@ class AtributoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Atributo createUpdatedEntity(EntityManager em) {
-        Atributo atributo = new Atributo().nombre(UPDATED_NOMBRE).marcado(UPDATED_MARCADO).auxiliar(UPDATED_AUXILIAR);
+        Atributo atributo = new Atributo().nombre(UPDATED_NOMBRE);
         return atributo;
     }
 
@@ -98,8 +92,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeCreate + 1);
         Atributo testAtributo = atributoList.get(atributoList.size() - 1);
         assertThat(testAtributo.getNombre()).isEqualTo(DEFAULT_NOMBRE);
-        assertThat(testAtributo.getMarcado()).isEqualTo(DEFAULT_MARCADO);
-        assertThat(testAtributo.getAuxiliar()).isEqualTo(DEFAULT_AUXILIAR);
     }
 
     @Test
@@ -132,9 +124,7 @@ class AtributoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(atributo.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].marcado").value(hasItem(DEFAULT_MARCADO.booleanValue())))
-            .andExpect(jsonPath("$.[*].auxiliar").value(hasItem(DEFAULT_AUXILIAR.booleanValue())));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
     }
 
     @Test
@@ -149,9 +139,7 @@ class AtributoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(atributo.getId().intValue()))
-            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
-            .andExpect(jsonPath("$.marcado").value(DEFAULT_MARCADO.booleanValue()))
-            .andExpect(jsonPath("$.auxiliar").value(DEFAULT_AUXILIAR.booleanValue()));
+            .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE));
     }
 
     @Test
@@ -239,103 +227,25 @@ class AtributoResourceIT {
 
     @Test
     @Transactional
-    void getAllAtributosByMarcadoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where marcado equals to DEFAULT_MARCADO
-        defaultAtributoShouldBeFound("marcado.equals=" + DEFAULT_MARCADO);
-
-        // Get all the atributoList where marcado equals to UPDATED_MARCADO
-        defaultAtributoShouldNotBeFound("marcado.equals=" + UPDATED_MARCADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByMarcadoIsInShouldWork() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where marcado in DEFAULT_MARCADO or UPDATED_MARCADO
-        defaultAtributoShouldBeFound("marcado.in=" + DEFAULT_MARCADO + "," + UPDATED_MARCADO);
-
-        // Get all the atributoList where marcado equals to UPDATED_MARCADO
-        defaultAtributoShouldNotBeFound("marcado.in=" + UPDATED_MARCADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByMarcadoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where marcado is not null
-        defaultAtributoShouldBeFound("marcado.specified=true");
-
-        // Get all the atributoList where marcado is null
-        defaultAtributoShouldNotBeFound("marcado.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByAuxiliarIsEqualToSomething() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where auxiliar equals to DEFAULT_AUXILIAR
-        defaultAtributoShouldBeFound("auxiliar.equals=" + DEFAULT_AUXILIAR);
-
-        // Get all the atributoList where auxiliar equals to UPDATED_AUXILIAR
-        defaultAtributoShouldNotBeFound("auxiliar.equals=" + UPDATED_AUXILIAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByAuxiliarIsInShouldWork() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where auxiliar in DEFAULT_AUXILIAR or UPDATED_AUXILIAR
-        defaultAtributoShouldBeFound("auxiliar.in=" + DEFAULT_AUXILIAR + "," + UPDATED_AUXILIAR);
-
-        // Get all the atributoList where auxiliar equals to UPDATED_AUXILIAR
-        defaultAtributoShouldNotBeFound("auxiliar.in=" + UPDATED_AUXILIAR);
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByAuxiliarIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        atributoRepository.saveAndFlush(atributo);
-
-        // Get all the atributoList where auxiliar is not null
-        defaultAtributoShouldBeFound("auxiliar.specified=true");
-
-        // Get all the atributoList where auxiliar is null
-        defaultAtributoShouldNotBeFound("auxiliar.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllAtributosByFuncionalidadIsEqualToSomething() throws Exception {
-        Funcionalidad funcionalidad;
-        if (TestUtil.findAll(em, Funcionalidad.class).isEmpty()) {
+    void getAllAtributosByAtributoFuncionalidadIsEqualToSomething() throws Exception {
+        AtributoFuncionalidad atributoFuncionalidad;
+        if (TestUtil.findAll(em, AtributoFuncionalidad.class).isEmpty()) {
             atributoRepository.saveAndFlush(atributo);
-            funcionalidad = FuncionalidadResourceIT.createEntity(em);
+            atributoFuncionalidad = AtributoFuncionalidadResourceIT.createEntity(em);
         } else {
-            funcionalidad = TestUtil.findAll(em, Funcionalidad.class).get(0);
+            atributoFuncionalidad = TestUtil.findAll(em, AtributoFuncionalidad.class).get(0);
         }
-        em.persist(funcionalidad);
+        em.persist(atributoFuncionalidad);
         em.flush();
-        atributo.setFuncionalidad(funcionalidad);
+        atributo.addAtributoFuncionalidad(atributoFuncionalidad);
         atributoRepository.saveAndFlush(atributo);
-        Long funcionalidadId = funcionalidad.getId();
+        Long atributoFuncionalidadId = atributoFuncionalidad.getId();
 
-        // Get all the atributoList where funcionalidad equals to funcionalidadId
-        defaultAtributoShouldBeFound("funcionalidadId.equals=" + funcionalidadId);
+        // Get all the atributoList where atributoFuncionalidad equals to atributoFuncionalidadId
+        defaultAtributoShouldBeFound("atributoFuncionalidadId.equals=" + atributoFuncionalidadId);
 
-        // Get all the atributoList where funcionalidad equals to (funcionalidadId + 1)
-        defaultAtributoShouldNotBeFound("funcionalidadId.equals=" + (funcionalidadId + 1));
+        // Get all the atributoList where atributoFuncionalidad equals to (atributoFuncionalidadId + 1)
+        defaultAtributoShouldNotBeFound("atributoFuncionalidadId.equals=" + (atributoFuncionalidadId + 1));
     }
 
     /**
@@ -347,9 +257,7 @@ class AtributoResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(atributo.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].marcado").value(hasItem(DEFAULT_MARCADO.booleanValue())))
-            .andExpect(jsonPath("$.[*].auxiliar").value(hasItem(DEFAULT_AUXILIAR.booleanValue())));
+            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
 
         // Check, that the count call also returns 1
         restAtributoMockMvc
@@ -397,7 +305,7 @@ class AtributoResourceIT {
         Atributo updatedAtributo = atributoRepository.findById(atributo.getId()).get();
         // Disconnect from session so that the updates on updatedAtributo are not directly saved in db
         em.detach(updatedAtributo);
-        updatedAtributo.nombre(UPDATED_NOMBRE).marcado(UPDATED_MARCADO).auxiliar(UPDATED_AUXILIAR);
+        updatedAtributo.nombre(UPDATED_NOMBRE);
 
         restAtributoMockMvc
             .perform(
@@ -412,8 +320,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
         Atributo testAtributo = atributoList.get(atributoList.size() - 1);
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testAtributo.getMarcado()).isEqualTo(UPDATED_MARCADO);
-        assertThat(testAtributo.getAuxiliar()).isEqualTo(UPDATED_AUXILIAR);
     }
 
     @Test
@@ -484,7 +390,7 @@ class AtributoResourceIT {
         Atributo partialUpdatedAtributo = new Atributo();
         partialUpdatedAtributo.setId(atributo.getId());
 
-        partialUpdatedAtributo.nombre(UPDATED_NOMBRE).marcado(UPDATED_MARCADO).auxiliar(UPDATED_AUXILIAR);
+        partialUpdatedAtributo.nombre(UPDATED_NOMBRE);
 
         restAtributoMockMvc
             .perform(
@@ -499,8 +405,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
         Atributo testAtributo = atributoList.get(atributoList.size() - 1);
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testAtributo.getMarcado()).isEqualTo(UPDATED_MARCADO);
-        assertThat(testAtributo.getAuxiliar()).isEqualTo(UPDATED_AUXILIAR);
     }
 
     @Test
@@ -515,7 +419,7 @@ class AtributoResourceIT {
         Atributo partialUpdatedAtributo = new Atributo();
         partialUpdatedAtributo.setId(atributo.getId());
 
-        partialUpdatedAtributo.nombre(UPDATED_NOMBRE).marcado(UPDATED_MARCADO).auxiliar(UPDATED_AUXILIAR);
+        partialUpdatedAtributo.nombre(UPDATED_NOMBRE);
 
         restAtributoMockMvc
             .perform(
@@ -530,8 +434,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
         Atributo testAtributo = atributoList.get(atributoList.size() - 1);
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
-        assertThat(testAtributo.getMarcado()).isEqualTo(UPDATED_MARCADO);
-        assertThat(testAtributo.getAuxiliar()).isEqualTo(UPDATED_AUXILIAR);
     }
 
     @Test

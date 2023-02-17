@@ -25,8 +25,6 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
 
     private StringFilter nombre;
 
-    private IntegerFilter prioridad;
-
     private LongFilter funcionalidadId;
 
     private Boolean distinct;
@@ -36,7 +34,6 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
     public EstatusFuncionalidadCriteria(EstatusFuncionalidadCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.nombre = other.nombre == null ? null : other.nombre.copy();
-        this.prioridad = other.prioridad == null ? null : other.prioridad.copy();
         this.funcionalidadId = other.funcionalidadId == null ? null : other.funcionalidadId.copy();
         this.distinct = other.distinct;
     }
@@ -76,21 +73,6 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
         this.nombre = nombre;
     }
 
-    public IntegerFilter getPrioridad() {
-        return prioridad;
-    }
-
-    public IntegerFilter prioridad() {
-        if (prioridad == null) {
-            prioridad = new IntegerFilter();
-        }
-        return prioridad;
-    }
-
-    public void setPrioridad(IntegerFilter prioridad) {
-        this.prioridad = prioridad;
-    }
-
     public LongFilter getFuncionalidadId() {
         return funcionalidadId;
     }
@@ -126,7 +108,6 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(nombre, that.nombre) &&
-            Objects.equals(prioridad, that.prioridad) &&
             Objects.equals(funcionalidadId, that.funcionalidadId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -134,7 +115,7 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, prioridad, funcionalidadId, distinct);
+        return Objects.hash(id, nombre, funcionalidadId, distinct);
     }
 
     // prettier-ignore
@@ -143,7 +124,6 @@ public class EstatusFuncionalidadCriteria implements Serializable, Criteria {
         return "EstatusFuncionalidadCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (nombre != null ? "nombre=" + nombre + ", " : "") +
-            (prioridad != null ? "prioridad=" + prioridad + ", " : "") +
             (funcionalidadId != null ? "funcionalidadId=" + funcionalidadId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

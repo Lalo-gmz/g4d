@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.Comentario;
 import mx.lania.g4d.domain.Funcionalidad;
-import mx.lania.g4d.domain.Usuario;
+import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ComentarioRepository;
 import mx.lania.g4d.service.criteria.ComentarioCriteria;
 import org.junit.jupiter.api.BeforeEach;
@@ -360,25 +360,25 @@ class ComentarioResourceIT {
 
     @Test
     @Transactional
-    void getAllComentariosByUsuarioIsEqualToSomething() throws Exception {
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
+    void getAllComentariosByUserIsEqualToSomething() throws Exception {
+        User user;
+        if (TestUtil.findAll(em, User.class).isEmpty()) {
             comentarioRepository.saveAndFlush(comentario);
-            usuario = UsuarioResourceIT.createEntity(em);
+            user = UserResourceIT.createEntity(em);
         } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
+            user = TestUtil.findAll(em, User.class).get(0);
         }
-        em.persist(usuario);
+        em.persist(user);
         em.flush();
-        comentario.setUsuario(usuario);
+        comentario.setUser(user);
         comentarioRepository.saveAndFlush(comentario);
-        Long usuarioId = usuario.getId();
+        Long userId = user.getId();
 
-        // Get all the comentarioList where usuario equals to usuarioId
-        defaultComentarioShouldBeFound("usuarioId.equals=" + usuarioId);
+        // Get all the comentarioList where user equals to userId
+        defaultComentarioShouldBeFound("userId.equals=" + userId);
 
-        // Get all the comentarioList where usuario equals to (usuarioId + 1)
-        defaultComentarioShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
+        // Get all the comentarioList where user equals to (userId + 1)
+        defaultComentarioShouldNotBeFound("userId.equals=" + (userId + 1));
     }
 
     /**

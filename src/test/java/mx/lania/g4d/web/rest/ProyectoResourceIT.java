@@ -13,9 +13,8 @@ import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Configuracion;
 import mx.lania.g4d.domain.Iteracion;
+import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.domain.Proyecto;
-import mx.lania.g4d.domain.Rol;
-import mx.lania.g4d.domain.Usuario;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.service.criteria.ProyectoCriteria;
 import org.junit.jupiter.api.BeforeEach;
@@ -319,25 +318,25 @@ class ProyectoResourceIT {
 
     @Test
     @Transactional
-    void getAllProyectosByRolIsEqualToSomething() throws Exception {
-        Rol rol;
-        if (TestUtil.findAll(em, Rol.class).isEmpty()) {
+    void getAllProyectosByParticipacionProyectoIsEqualToSomething() throws Exception {
+        ParticipacionProyecto participacionProyecto;
+        if (TestUtil.findAll(em, ParticipacionProyecto.class).isEmpty()) {
             proyectoRepository.saveAndFlush(proyecto);
-            rol = RolResourceIT.createEntity(em);
+            participacionProyecto = ParticipacionProyectoResourceIT.createEntity(em);
         } else {
-            rol = TestUtil.findAll(em, Rol.class).get(0);
+            participacionProyecto = TestUtil.findAll(em, ParticipacionProyecto.class).get(0);
         }
-        em.persist(rol);
+        em.persist(participacionProyecto);
         em.flush();
-        proyecto.addRol(rol);
+        proyecto.addParticipacionProyecto(participacionProyecto);
         proyectoRepository.saveAndFlush(proyecto);
-        Long rolId = rol.getId();
+        Long participacionProyectoId = participacionProyecto.getId();
 
-        // Get all the proyectoList where rol equals to rolId
-        defaultProyectoShouldBeFound("rolId.equals=" + rolId);
+        // Get all the proyectoList where participacionProyecto equals to participacionProyectoId
+        defaultProyectoShouldBeFound("participacionProyectoId.equals=" + participacionProyectoId);
 
-        // Get all the proyectoList where rol equals to (rolId + 1)
-        defaultProyectoShouldNotBeFound("rolId.equals=" + (rolId + 1));
+        // Get all the proyectoList where participacionProyecto equals to (participacionProyectoId + 1)
+        defaultProyectoShouldNotBeFound("participacionProyectoId.equals=" + (participacionProyectoId + 1));
     }
 
     @Test
@@ -384,29 +383,6 @@ class ProyectoResourceIT {
 
         // Get all the proyectoList where bitacora equals to (bitacoraId + 1)
         defaultProyectoShouldNotBeFound("bitacoraId.equals=" + (bitacoraId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByUsuarioIsEqualToSomething() throws Exception {
-        Usuario usuario;
-        if (TestUtil.findAll(em, Usuario.class).isEmpty()) {
-            proyectoRepository.saveAndFlush(proyecto);
-            usuario = UsuarioResourceIT.createEntity(em);
-        } else {
-            usuario = TestUtil.findAll(em, Usuario.class).get(0);
-        }
-        em.persist(usuario);
-        em.flush();
-        proyecto.addUsuario(usuario);
-        proyectoRepository.saveAndFlush(proyecto);
-        Long usuarioId = usuario.getId();
-
-        // Get all the proyectoList where usuario equals to usuarioId
-        defaultProyectoShouldBeFound("usuarioId.equals=" + usuarioId);
-
-        // Get all the proyectoList where usuario equals to (usuarioId + 1)
-        defaultProyectoShouldNotBeFound("usuarioId.equals=" + (usuarioId + 1));
     }
 
     @Test

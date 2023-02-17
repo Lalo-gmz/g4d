@@ -21,7 +21,7 @@ describe('Etiqueta Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            prioridad: expect.any(Object),
+            color: expect.any(Object),
             funcionalidad: expect.any(Object),
           })
         );
@@ -34,7 +34,7 @@ describe('Etiqueta Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            prioridad: expect.any(Object),
+            color: expect.any(Object),
             funcionalidad: expect.any(Object),
           })
         );

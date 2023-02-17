@@ -1,0 +1,34 @@
+{
+  "applications": "*",
+  "changelogDate": "20230215173643",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "participacion_proyecto",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "ParticipacionProyecto",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "participacionProyecto",
+      "relationshipName": "user",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "proyecto",
+      "otherEntityRelationshipName": "participacionProyecto",
+      "relationshipName": "proyecto",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "rol",
+      "otherEntityRelationshipName": "participacionProyecto",
+      "relationshipName": "rol",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

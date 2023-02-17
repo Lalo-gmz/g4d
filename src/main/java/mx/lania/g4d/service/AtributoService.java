@@ -62,12 +62,6 @@ public class AtributoService {
                 if (atributo.getNombre() != null) {
                     existingAtributo.setNombre(atributo.getNombre());
                 }
-                if (atributo.getMarcado() != null) {
-                    existingAtributo.setMarcado(atributo.getMarcado());
-                }
-                if (atributo.getAuxiliar() != null) {
-                    existingAtributo.setAuxiliar(atributo.getAuxiliar());
-                }
 
                 return existingAtributo;
             })

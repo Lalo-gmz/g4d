@@ -9,8 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { BitacoraFormService } from './bitacora-form.service';
 import { BitacoraService } from '../service/bitacora.service';
 import { IBitacora } from '../bitacora.model';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IProyecto } from 'app/entities/proyecto/proyecto.model';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
 
@@ -22,7 +23,7 @@ describe('Bitacora Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let bitacoraFormService: BitacoraFormService;
   let bitacoraService: BitacoraService;
-  let usuarioService: UsuarioService;
+  let userService: UserService;
   let proyectoService: ProyectoService;
 
   beforeEach(() => {
@@ -46,33 +47,33 @@ describe('Bitacora Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     bitacoraFormService = TestBed.inject(BitacoraFormService);
     bitacoraService = TestBed.inject(BitacoraService);
-    usuarioService = TestBed.inject(UsuarioService);
+    userService = TestBed.inject(UserService);
     proyectoService = TestBed.inject(ProyectoService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Usuario query and add missing value', () => {
+    it('Should call User query and add missing value', () => {
       const bitacora: IBitacora = { id: 456 };
-      const usuario: IUsuario = { id: 67674 };
-      bitacora.usuario = usuario;
+      const user: IUser = { id: 79838 };
+      bitacora.user = user;
 
-      const usuarioCollection: IUsuario[] = [{ id: 89254 }];
-      jest.spyOn(usuarioService, 'query').mockReturnValue(of(new HttpResponse({ body: usuarioCollection })));
-      const additionalUsuarios = [usuario];
-      const expectedCollection: IUsuario[] = [...additionalUsuarios, ...usuarioCollection];
-      jest.spyOn(usuarioService, 'addUsuarioToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 33701 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [user];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ bitacora });
       comp.ngOnInit();
 
-      expect(usuarioService.query).toHaveBeenCalled();
-      expect(usuarioService.addUsuarioToCollectionIfMissing).toHaveBeenCalledWith(
-        usuarioCollection,
-        ...additionalUsuarios.map(expect.objectContaining)
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
       );
-      expect(comp.usuariosSharedCollection).toEqual(expectedCollection);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should call Proyecto query and add missing value', () => {
@@ -99,15 +100,15 @@ describe('Bitacora Management Update Component', () => {
 
     it('Should update editForm', () => {
       const bitacora: IBitacora = { id: 456 };
-      const usuario: IUsuario = { id: 2216 };
-      bitacora.usuario = usuario;
+      const user: IUser = { id: 28738 };
+      bitacora.user = user;
       const proyecto: IProyecto = { id: 73132 };
       bitacora.proyecto = proyecto;
 
       activatedRoute.data = of({ bitacora });
       comp.ngOnInit();
 
-      expect(comp.usuariosSharedCollection).toContain(usuario);
+      expect(comp.usersSharedCollection).toContain(user);
       expect(comp.proyectosSharedCollection).toContain(proyecto);
       expect(comp.bitacora).toEqual(bitacora);
     });
@@ -182,13 +183,13 @@ describe('Bitacora Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareUsuario', () => {
-      it('Should forward to usuarioService', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(usuarioService, 'compareUsuario');
-        comp.compareUsuario(entity, entity2);
-        expect(usuarioService.compareUsuario).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

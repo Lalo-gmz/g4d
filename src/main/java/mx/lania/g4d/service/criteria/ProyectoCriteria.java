@@ -27,13 +27,11 @@ public class ProyectoCriteria implements Serializable, Criteria {
 
     private StringFilter idProyectoGitLab;
 
-    private LongFilter rolId;
+    private LongFilter participacionProyectoId;
 
     private LongFilter configuracionId;
 
     private LongFilter bitacoraId;
-
-    private LongFilter usuarioId;
 
     private LongFilter iteracionId;
 
@@ -45,10 +43,9 @@ public class ProyectoCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.nombre = other.nombre == null ? null : other.nombre.copy();
         this.idProyectoGitLab = other.idProyectoGitLab == null ? null : other.idProyectoGitLab.copy();
-        this.rolId = other.rolId == null ? null : other.rolId.copy();
+        this.participacionProyectoId = other.participacionProyectoId == null ? null : other.participacionProyectoId.copy();
         this.configuracionId = other.configuracionId == null ? null : other.configuracionId.copy();
         this.bitacoraId = other.bitacoraId == null ? null : other.bitacoraId.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
         this.iteracionId = other.iteracionId == null ? null : other.iteracionId.copy();
         this.distinct = other.distinct;
     }
@@ -103,19 +100,19 @@ public class ProyectoCriteria implements Serializable, Criteria {
         this.idProyectoGitLab = idProyectoGitLab;
     }
 
-    public LongFilter getRolId() {
-        return rolId;
+    public LongFilter getParticipacionProyectoId() {
+        return participacionProyectoId;
     }
 
-    public LongFilter rolId() {
-        if (rolId == null) {
-            rolId = new LongFilter();
+    public LongFilter participacionProyectoId() {
+        if (participacionProyectoId == null) {
+            participacionProyectoId = new LongFilter();
         }
-        return rolId;
+        return participacionProyectoId;
     }
 
-    public void setRolId(LongFilter rolId) {
-        this.rolId = rolId;
+    public void setParticipacionProyectoId(LongFilter participacionProyectoId) {
+        this.participacionProyectoId = participacionProyectoId;
     }
 
     public LongFilter getConfiguracionId() {
@@ -146,21 +143,6 @@ public class ProyectoCriteria implements Serializable, Criteria {
 
     public void setBitacoraId(LongFilter bitacoraId) {
         this.bitacoraId = bitacoraId;
-    }
-
-    public LongFilter getUsuarioId() {
-        return usuarioId;
-    }
-
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
-        }
-        return usuarioId;
-    }
-
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
     }
 
     public LongFilter getIteracionId() {
@@ -199,10 +181,9 @@ public class ProyectoCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(nombre, that.nombre) &&
             Objects.equals(idProyectoGitLab, that.idProyectoGitLab) &&
-            Objects.equals(rolId, that.rolId) &&
+            Objects.equals(participacionProyectoId, that.participacionProyectoId) &&
             Objects.equals(configuracionId, that.configuracionId) &&
             Objects.equals(bitacoraId, that.bitacoraId) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
             Objects.equals(iteracionId, that.iteracionId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -210,7 +191,7 @@ public class ProyectoCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, idProyectoGitLab, rolId, configuracionId, bitacoraId, usuarioId, iteracionId, distinct);
+        return Objects.hash(id, nombre, idProyectoGitLab, participacionProyectoId, configuracionId, bitacoraId, iteracionId, distinct);
     }
 
     // prettier-ignore
@@ -220,10 +201,9 @@ public class ProyectoCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (nombre != null ? "nombre=" + nombre + ", " : "") +
             (idProyectoGitLab != null ? "idProyectoGitLab=" + idProyectoGitLab + ", " : "") +
-            (rolId != null ? "rolId=" + rolId + ", " : "") +
+            (participacionProyectoId != null ? "participacionProyectoId=" + participacionProyectoId + ", " : "") +
             (configuracionId != null ? "configuracionId=" + configuracionId + ", " : "") +
             (bitacoraId != null ? "bitacoraId=" + bitacoraId + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
             (iteracionId != null ? "iteracionId=" + iteracionId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

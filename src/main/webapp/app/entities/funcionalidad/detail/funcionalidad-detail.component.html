@@ -1,15 +1,20 @@
 <div class="d-flex justify-content-center">
   <div class="col-8">
     <div *ngIf="funcionalidad">
-      <!-->
-        <h2 data-cy="funcionalidadDetailsHeading"><span>Funcionalidad</span></h2>
-      <-- -->
-
       <jhi-alert-error></jhi-alert-error>
 
       <jhi-alert></jhi-alert>
 
-      <span class="text-white-50"> Funcionalidad <i class="bi bi-chevron-right"></i>&nbsp; </span> <span>{{ funcionalidad.id }}</span>
+      <div class="d-flex justify-content-between">
+        <div>
+          <span class="text-white-50">
+            <a [routerLink]="['/funcionalidad']">Funcionalidad </a> <i class="bi bi-chevron-right"></i>&nbsp;
+          </span>
+          <span>{{ funcionalidad.id }}</span>
+        </div>
+        <span> <a target="”_blank”" class="btn btn-primary" [attr.href]="funcionalidad.urlGitLab"> Ir a GitLab </a> </span>
+      </div>
+
       <hr />
       <div class="d-flex justify-content-between">
         <div>
@@ -26,8 +31,10 @@
       <h4>
         {{ funcionalidad.nombre }}
 
-        <span *ngIf="funcionalidad.iteracion" class="badge bg-badge-primario">{{ funcionalidad.iteracion }}</span>
-        <span class="badge bg-badge-secundario">{{ funcionalidad.iteracion }}</span>
+        <span *ngIf="funcionalidad.iteracion" class="badge bg-badge-primario">{{ funcionalidad.iteracion.nombre }}</span>
+        <span *ngIf="funcionalidad.estatusFuncionalidad" class="badge bg-badge-secundario">{{
+          funcionalidad.estatusFuncionalidad.nombre
+        }}</span>
       </h4>
 
       <p>{{ funcionalidad.descripcion }}</p>
@@ -55,6 +62,8 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Comentarios -->
 
       <div class="border rounded border-secondary mb-3">
         <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
@@ -89,6 +98,47 @@
         </div>
       </div>
 
+      <!-- Atributos auxilares -->
+      <div class="border rounded border-secondary mb-3">
+        <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
+          <div class="pl-3">Atributos Auxiliares <i class="bi bi-bookmarks"></i> 3</div>
+        </div>
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Clave</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Valor</td>
+              <td>Clave</td>
+            </tr>
+            <tr>
+              <td>Valor</td>
+              <td>Clave</td>
+            </tr>
+            <tr>
+              <td>Valor</td>
+              <td>Clave</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Actividad -->
+
+      <h4>Actividad</h4>
+      <div>
+        Última Actualización: <span class="text-white-50"> {{ funcionalidad.modificado | formatMediumDatetime }} </span>
+      </div>
+      <div class="d-block pb-3">
+        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
+        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
+        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
+      </div>
+
       <dl class="row-md jh-entity-details">
         <dt><span>ID</span></dt>
         <dd>
@@ -118,6 +168,10 @@
         <dd>
           <span>{{ funcionalidad.modificado | formatMediumDatetime }}</span>
         </dd>
+        <dt><span>User</span></dt>
+        <dd>
+          <span *ngFor="let user of funcionalidad.users; let last = last"> {{ user.id }}{{ last ? '' : ', ' }} </span>
+        </dd>
         <dt><span>Estatus Funcionalidad</span></dt>
         <dd>
           <div *ngIf="funcionalidad.estatusFuncionalidad">
@@ -130,6 +184,12 @@
         <dd>
           <div *ngIf="funcionalidad.iteracion">
             <a [routerLink]="['/iteracion', funcionalidad.iteracion.id, 'view']">{{ funcionalidad.iteracion.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Prioridad</span></dt>
+        <dd>
+          <div *ngIf="funcionalidad.prioridad">
+            <a [routerLink]="['/prioridad', funcionalidad.prioridad.id, 'view']">{{ funcionalidad.prioridad.id }}</a>
           </div>
         </dd>
       </dl>

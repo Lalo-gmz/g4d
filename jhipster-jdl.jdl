@@ -5,7 +5,8 @@ enum EtiquetaVisual {
     ESTADO,
     ATRIBUTOS,
     COMENTARIOS,
-    ETIQUETAS
+    ETIQUETAS,
+    PRIORIDAD
 }
 
 entity Bitacora {
@@ -15,11 +16,11 @@ entity Bitacora {
 }
 
 
-entity Usuario {
-	nombre String required
-    idGitLab String unique required
-	tokenIdentificacion String
-}
+//entity Usuario {
+//	nombre String required
+//    idGitLab String unique required
+//	tokenIdentificacion String
+//}
 
 
 entity Iteracion {
@@ -29,13 +30,13 @@ entity Iteracion {
 
 }
 
-entity Permiso {
-	nombre String
-}
+//entity Permiso {
+//	nombre String
+//}
 
-entity Rol {
-	nombre String
-}
+//entity Rol {
+//	nombre String
+//}
 
 entity Proyecto{
 	nombre String
@@ -45,12 +46,11 @@ entity Proyecto{
 
 entity EstatusFuncionalidad {
 	nombre String
-  	prioridad Integer
 }
 
 entity Etiqueta{
 	nombre String required
-    prioridad Integer
+    color String
 }
 
 entity Funcionalidad {
@@ -63,6 +63,10 @@ entity Funcionalidad {
 
 
 }
+entity Prioridad{
+	nombre String
+    prioridadNumerica Integer
+}
 
 entity Comentario {
 	mensaje String required
@@ -73,8 +77,7 @@ entity Comentario {
 
 entity Atributo {
 	nombre String
-    marcado Boolean
-    auxiliar Boolean
+
 }
 
 entity Configuracion {
@@ -82,26 +85,51 @@ entity Configuracion {
     valor String
 }
 
+entity Rol {
+  nombre String required
+}
+
+entity ParticipacionProyecto
+
+
+entity AtributoFuncionalidad {
+    marcado Boolean
+    valor String
+}
+
+
 // Relaciones
 
+relationship ManyToMany {
+  Funcionalidad to User
+}
+
 relationship OneToMany {
-	Proyecto to Rol
+	//Proyecto to Rol
     EstatusFuncionalidad to Funcionalidad
 	Iteracion to Funcionalidad
+	Prioridad to Funcionalidad
+
 }
 
 relationship ManyToOne {
+
+  ParticipacionProyecto to User
+  ParticipacionProyecto to Proyecto
+  ParticipacionProyecto to Rol
+
 	Etiqueta to Funcionalidad
-	Usuario to Funcionalidad
-	Atributo to Funcionalidad
+
+    AtributoFuncionalidad to Funcionalidad
+    AtributoFuncionalidad to Atributo
+
     Comentario to Funcionalidad
 	Configuracion to Proyecto
-	Bitacora to Usuario
+	Bitacora to User
 	Bitacora to Proyecto
-	Usuario to Proyecto
-	Usuario to Rol
-	Comentario to Usuario
-	Permiso to Rol
+	//Usuario to Rol
+	Comentario to User
+	//Permiso to Rol
 	Iteracion to Proyecto
 }
 

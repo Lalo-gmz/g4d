@@ -38,11 +38,10 @@ public class Bitacora implements Serializable {
     private Instant creado;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "funcionalidad", "proyecto", "rol", "bitacoras", "comentarios" }, allowSetters = true)
-    private Usuario usuario;
+    private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "rols", "configuracions", "bitacoras", "usuarios", "iteracions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "participacionProyectos", "configuracions", "bitacoras", "iteracions" }, allowSetters = true)
     private Proyecto proyecto;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -99,16 +98,16 @@ public class Bitacora implements Serializable {
         this.creado = creado;
     }
 
-    public Usuario getUsuario() {
-        return this.usuario;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Bitacora usuario(Usuario usuario) {
-        this.setUsuario(usuario);
+    public Bitacora user(User user) {
+        this.setUser(user);
         return this;
     }
 

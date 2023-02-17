@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051019",
+  "changelogDate": "20230215173641",
   "dto": "no",
   "embedded": false,
   "entityTableName": "configuracion",
@@ -8,7 +8,7 @@
     {
       "fieldName": "clave",
       "fieldType": "EtiquetaVisual",
-      "fieldValues": "FUNCIONALIDAD,ITERACION,LISTAS,ESTADO,ATRIBUTOS,COMENTARIOS,ETIQUETAS"
+      "fieldValues": "FUNCIONALIDAD,ITERACION,LISTAS,ESTADO,ATRIBUTOS,COMENTARIOS,ETIQUETAS,PRIORIDAD"
     },
     {
       "fieldName": "valor",

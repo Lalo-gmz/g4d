@@ -21,9 +21,6 @@ describe('Atributo Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            marcado: expect.any(Object),
-            auxiliar: expect.any(Object),
-            funcionalidad: expect.any(Object),
           })
         );
       });
@@ -35,9 +32,6 @@ describe('Atributo Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
-            marcado: expect.any(Object),
-            auxiliar: expect.any(Object),
-            funcionalidad: expect.any(Object),
           })
         );
       });

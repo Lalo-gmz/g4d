@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Rol;
 import mx.lania.g4d.repository.RolRepository;
 import mx.lania.g4d.service.RolQueryService;
@@ -58,7 +60,7 @@ public class RolResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/rols")
-    public ResponseEntity<Rol> createRol(@RequestBody Rol rol) throws URISyntaxException {
+    public ResponseEntity<Rol> createRol(@Valid @RequestBody Rol rol) throws URISyntaxException {
         log.debug("REST request to save Rol : {}", rol);
         if (rol.getId() != null) {
             throw new BadRequestAlertException("A new rol cannot already have an ID", ENTITY_NAME, "idexists");
@@ -81,7 +83,7 @@ public class RolResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/rols/{id}")
-    public ResponseEntity<Rol> updateRol(@PathVariable(value = "id", required = false) final Long id, @RequestBody Rol rol)
+    public ResponseEntity<Rol> updateRol(@PathVariable(value = "id", required = false) final Long id, @Valid @RequestBody Rol rol)
         throws URISyntaxException {
         log.debug("REST request to update Rol : {}, {}", id, rol);
         if (rol.getId() == null) {
@@ -114,7 +116,7 @@ public class RolResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/rols/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Rol> partialUpdateRol(@PathVariable(value = "id", required = false) final Long id, @RequestBody Rol rol)
+    public ResponseEntity<Rol> partialUpdateRol(@PathVariable(value = "id", required = false) final Long id, @NotNull @RequestBody Rol rol)
         throws URISyntaxException {
         log.debug("REST request to partial update Rol partially : {}, {}", id, rol);
         if (rol.getId() == null) {

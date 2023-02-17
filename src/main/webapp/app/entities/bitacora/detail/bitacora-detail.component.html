@@ -26,11 +26,9 @@
         <dd>
           <span>{{ bitacora.creado | formatMediumDatetime }}</span>
         </dd>
-        <dt><span>Usuario</span></dt>
+        <dt><span>User</span></dt>
         <dd>
-          <div *ngIf="bitacora.usuario">
-            <a [routerLink]="['/usuario', bitacora.usuario.id, 'view']">{{ bitacora.usuario.id }}</a>
-          </div>
+          <span>{{ bitacora.user?.id }}</span>
         </dd>
         <dt><span>Proyecto</span></dt>
         <dd>

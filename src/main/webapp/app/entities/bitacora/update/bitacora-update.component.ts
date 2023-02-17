@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { BitacoraFormService, BitacoraFormGroup } from './bitacora-form.service';
 import { IBitacora } from '../bitacora.model';
 import { BitacoraService } from '../service/bitacora.service';
-import { IUsuario } from 'app/entities/usuario/usuario.model';
-import { UsuarioService } from 'app/entities/usuario/service/usuario.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 import { IProyecto } from 'app/entities/proyecto/proyecto.model';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
 
@@ -20,7 +20,7 @@ export class BitacoraUpdateComponent implements OnInit {
   isSaving = false;
   bitacora: IBitacora | null = null;
 
-  usuariosSharedCollection: IUsuario[] = [];
+  usersSharedCollection: IUser[] = [];
   proyectosSharedCollection: IProyecto[] = [];
 
   editForm: BitacoraFormGroup = this.bitacoraFormService.createBitacoraFormGroup();
@@ -28,12 +28,12 @@ export class BitacoraUpdateComponent implements OnInit {
   constructor(
     protected bitacoraService: BitacoraService,
     protected bitacoraFormService: BitacoraFormService,
-    protected usuarioService: UsuarioService,
+    protected userService: UserService,
     protected proyectoService: ProyectoService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareUsuario = (o1: IUsuario | null, o2: IUsuario | null): boolean => this.usuarioService.compareUsuario(o1, o2);
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   compareProyecto = (o1: IProyecto | null, o2: IProyecto | null): boolean => this.proyectoService.compareProyecto(o1, o2);
 
@@ -85,10 +85,7 @@ export class BitacoraUpdateComponent implements OnInit {
     this.bitacora = bitacora;
     this.bitacoraFormService.resetForm(this.editForm, bitacora);
 
-    this.usuariosSharedCollection = this.usuarioService.addUsuarioToCollectionIfMissing<IUsuario>(
-      this.usuariosSharedCollection,
-      bitacora.usuario
-    );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, bitacora.user);
     this.proyectosSharedCollection = this.proyectoService.addProyectoToCollectionIfMissing<IProyecto>(
       this.proyectosSharedCollection,
       bitacora.proyecto
@@ -96,11 +93,11 @@ export class BitacoraUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.usuarioService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IUsuario[]>) => res.body ?? []))
-      .pipe(map((usuarios: IUsuario[]) => this.usuarioService.addUsuarioToCollectionIfMissing<IUsuario>(usuarios, this.bitacora?.usuario)))
-      .subscribe((usuarios: IUsuario[]) => (this.usuariosSharedCollection = usuarios));
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.bitacora?.user)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
     this.proyectoService
       .query()

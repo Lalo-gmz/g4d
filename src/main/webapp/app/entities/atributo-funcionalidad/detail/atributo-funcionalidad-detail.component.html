@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="atributoFuncionalidad">
+      <h2 data-cy="atributoFuncionalidadDetailsHeading"><span>Atributo Funcionalidad</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ atributoFuncionalidad.id }}</span>
+        </dd>
+        <dt><span>Marcado</span></dt>
+        <dd>
+          <span>{{ atributoFuncionalidad.marcado }}</span>
+        </dd>
+        <dt><span>Valor</span></dt>
+        <dd>
+          <span>{{ atributoFuncionalidad.valor }}</span>
+        </dd>
+        <dt><span>Funcionalidad</span></dt>
+        <dd>
+          <div *ngIf="atributoFuncionalidad.funcionalidad">
+            <a [routerLink]="['/funcionalidad', atributoFuncionalidad.funcionalidad.id, 'view']">{{
+              atributoFuncionalidad.funcionalidad.id
+            }}</a>
+          </div>
+        </dd>
+        <dt><span>Atributo</span></dt>
+        <dd>
+          <div *ngIf="atributoFuncionalidad.atributo">
+            <a [routerLink]="['/atributo', atributoFuncionalidad.atributo.id, 'view']">{{ atributoFuncionalidad.atributo.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/atributo-funcionalidad', atributoFuncionalidad.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

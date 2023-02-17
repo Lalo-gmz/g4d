@@ -88,6 +88,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="prioridad.id">
+            <div class="d-flex">
+              <span>Prioridad</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -114,6 +120,11 @@
               <a [routerLink]="['/iteracion', funcionalidad.iteracion.id, 'view']">{{ funcionalidad.iteracion.id }}</a>
             </div>
           </td>
+          <td>
+            <div *ngIf="funcionalidad.prioridad">
+              <a [routerLink]="['/prioridad', funcionalidad.prioridad.id, 'view']">{{ funcionalidad.prioridad.id }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -128,23 +139,13 @@
               </button>
               <button
                 type="submit"
-                [routerLink]="['/usuario']"
+                [routerLink]="['/atributo-funcionalidad']"
                 [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
                 class="btn btn-info btn-sm"
                 data-cy="filterOtherEntityButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Usuario</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/atributo']"
-                [queryParams]="{ 'filter[funcionalidadId.in]': funcionalidad.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Atributo</span>
+                <span class="d-none d-md-inline">Show Atributo Funcionalidad</span>
               </button>
               <button
                 type="submit"

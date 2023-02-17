@@ -12,4 +12,6 @@ export enum EtiquetaVisual {
   COMENTARIOS = 'COMENTARIOS',
 
   ETIQUETAS = 'ETIQUETAS',
+
+  PRIORIDAD = 'PRIORIDAD',
 }

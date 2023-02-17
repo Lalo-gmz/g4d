@@ -29,7 +29,7 @@ public class BitacoraCriteria implements Serializable, Criteria {
 
     private InstantFilter creado;
 
-    private LongFilter usuarioId;
+    private LongFilter userId;
 
     private LongFilter proyectoId;
 
@@ -42,7 +42,7 @@ public class BitacoraCriteria implements Serializable, Criteria {
         this.tabla = other.tabla == null ? null : other.tabla.copy();
         this.accion = other.accion == null ? null : other.accion.copy();
         this.creado = other.creado == null ? null : other.creado.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
+        this.userId = other.userId == null ? null : other.userId.copy();
         this.proyectoId = other.proyectoId == null ? null : other.proyectoId.copy();
         this.distinct = other.distinct;
     }
@@ -112,19 +112,19 @@ public class BitacoraCriteria implements Serializable, Criteria {
         this.creado = creado;
     }
 
-    public LongFilter getUsuarioId() {
-        return usuarioId;
+    public LongFilter getUserId() {
+        return userId;
     }
 
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
+    public LongFilter userId() {
+        if (userId == null) {
+            userId = new LongFilter();
         }
-        return usuarioId;
+        return userId;
     }
 
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(LongFilter userId) {
+        this.userId = userId;
     }
 
     public LongFilter getProyectoId() {
@@ -164,7 +164,7 @@ public class BitacoraCriteria implements Serializable, Criteria {
             Objects.equals(tabla, that.tabla) &&
             Objects.equals(accion, that.accion) &&
             Objects.equals(creado, that.creado) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
+            Objects.equals(userId, that.userId) &&
             Objects.equals(proyectoId, that.proyectoId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -172,7 +172,7 @@ public class BitacoraCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tabla, accion, creado, usuarioId, proyectoId, distinct);
+        return Objects.hash(id, tabla, accion, creado, userId, proyectoId, distinct);
     }
 
     // prettier-ignore
@@ -183,7 +183,7 @@ public class BitacoraCriteria implements Serializable, Criteria {
             (tabla != null ? "tabla=" + tabla + ", " : "") +
             (accion != null ? "accion=" + accion + ", " : "") +
             (creado != null ? "creado=" + creado + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
+            (userId != null ? "userId=" + userId + ", " : "") +
             (proyectoId != null ? "proyectoId=" + proyectoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

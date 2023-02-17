@@ -31,7 +31,7 @@ public class ComentarioCriteria implements Serializable, Criteria {
 
     private LongFilter funcionalidadId;
 
-    private LongFilter usuarioId;
+    private LongFilter userId;
 
     private Boolean distinct;
 
@@ -43,7 +43,7 @@ public class ComentarioCriteria implements Serializable, Criteria {
         this.creado = other.creado == null ? null : other.creado.copy();
         this.modificado = other.modificado == null ? null : other.modificado.copy();
         this.funcionalidadId = other.funcionalidadId == null ? null : other.funcionalidadId.copy();
-        this.usuarioId = other.usuarioId == null ? null : other.usuarioId.copy();
+        this.userId = other.userId == null ? null : other.userId.copy();
         this.distinct = other.distinct;
     }
 
@@ -127,19 +127,19 @@ public class ComentarioCriteria implements Serializable, Criteria {
         this.funcionalidadId = funcionalidadId;
     }
 
-    public LongFilter getUsuarioId() {
-        return usuarioId;
+    public LongFilter getUserId() {
+        return userId;
     }
 
-    public LongFilter usuarioId() {
-        if (usuarioId == null) {
-            usuarioId = new LongFilter();
+    public LongFilter userId() {
+        if (userId == null) {
+            userId = new LongFilter();
         }
-        return usuarioId;
+        return userId;
     }
 
-    public void setUsuarioId(LongFilter usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setUserId(LongFilter userId) {
+        this.userId = userId;
     }
 
     public Boolean getDistinct() {
@@ -165,14 +165,14 @@ public class ComentarioCriteria implements Serializable, Criteria {
             Objects.equals(creado, that.creado) &&
             Objects.equals(modificado, that.modificado) &&
             Objects.equals(funcionalidadId, that.funcionalidadId) &&
-            Objects.equals(usuarioId, that.usuarioId) &&
+            Objects.equals(userId, that.userId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, mensaje, creado, modificado, funcionalidadId, usuarioId, distinct);
+        return Objects.hash(id, mensaje, creado, modificado, funcionalidadId, userId, distinct);
     }
 
     // prettier-ignore
@@ -184,7 +184,7 @@ public class ComentarioCriteria implements Serializable, Criteria {
             (creado != null ? "creado=" + creado + ", " : "") +
             (modificado != null ? "modificado=" + modificado + ", " : "") +
             (funcionalidadId != null ? "funcionalidadId=" + funcionalidadId + ", " : "") +
-            (usuarioId != null ? "usuarioId=" + usuarioId + ", " : "") +
+            (userId != null ? "userId=" + userId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

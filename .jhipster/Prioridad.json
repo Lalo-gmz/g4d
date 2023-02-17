@@ -1,0 +1,31 @@
+{
+  "applications": "*",
+  "changelogDate": "20230215173637",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "prioridad",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "prioridadNumerica",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Prioridad",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "funcionalidad",
+      "otherEntityRelationshipName": "prioridad",
+      "relationshipName": "funcionalidad",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,13 +1,14 @@
 {
   "applications": "*",
-  "changelogDate": "20230209051012",
+  "changelogDate": "20230215173642",
   "dto": "no",
   "embedded": false,
   "entityTableName": "rol",
   "fields": [
     {
       "fieldName": "nombre",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,
@@ -17,21 +18,9 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "proyecto",
+      "otherEntityName": "participacionProyecto",
       "otherEntityRelationshipName": "rol",
-      "relationshipName": "proyecto",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "usuario",
-      "otherEntityRelationshipName": "rol",
-      "relationshipName": "usuario",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "permiso",
-      "otherEntityRelationshipName": "rol",
-      "relationshipName": "permiso",
+      "relationshipName": "participacionProyecto",
       "relationshipType": "one-to-many"
     }
   ],

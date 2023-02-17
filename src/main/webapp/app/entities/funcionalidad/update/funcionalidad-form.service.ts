@@ -28,7 +28,7 @@ type FuncionalidadFormRawValue = FormValueOf<IFuncionalidad>;
 
 type NewFuncionalidadFormRawValue = FormValueOf<NewFuncionalidad>;
 
-type FuncionalidadFormDefaults = Pick<NewFuncionalidad, 'id' | 'creado' | 'modificado'>;
+type FuncionalidadFormDefaults = Pick<NewFuncionalidad, 'id' | 'creado' | 'modificado' | 'users'>;
 
 type FuncionalidadFormGroupContent = {
   id: FormControl<FuncionalidadFormRawValue['id'] | NewFuncionalidad['id']>;
@@ -38,8 +38,10 @@ type FuncionalidadFormGroupContent = {
   fechaEntrega: FormControl<FuncionalidadFormRawValue['fechaEntrega']>;
   creado: FormControl<FuncionalidadFormRawValue['creado']>;
   modificado: FormControl<FuncionalidadFormRawValue['modificado']>;
+  users: FormControl<FuncionalidadFormRawValue['users']>;
   estatusFuncionalidad: FormControl<FuncionalidadFormRawValue['estatusFuncionalidad']>;
   iteracion: FormControl<FuncionalidadFormRawValue['iteracion']>;
+  prioridad: FormControl<FuncionalidadFormRawValue['prioridad']>;
 };
 
 export type FuncionalidadFormGroup = FormGroup<FuncionalidadFormGroupContent>;
@@ -65,8 +67,10 @@ export class FuncionalidadFormService {
       fechaEntrega: new FormControl(funcionalidadRawValue.fechaEntrega),
       creado: new FormControl(funcionalidadRawValue.creado),
       modificado: new FormControl(funcionalidadRawValue.modificado),
+      users: new FormControl(funcionalidadRawValue.users ?? []),
       estatusFuncionalidad: new FormControl(funcionalidadRawValue.estatusFuncionalidad),
       iteracion: new FormControl(funcionalidadRawValue.iteracion),
+      prioridad: new FormControl(funcionalidadRawValue.prioridad),
     });
   }
 
@@ -91,6 +95,7 @@ export class FuncionalidadFormService {
       id: null,
       creado: currentTime,
       modificado: currentTime,
+      users: [],
     };
   }
 
@@ -111,6 +116,7 @@ export class FuncionalidadFormService {
       ...funcionalidad,
       creado: funcionalidad.creado ? funcionalidad.creado.format(DATE_TIME_FORMAT) : undefined,
       modificado: funcionalidad.modificado ? funcionalidad.modificado.format(DATE_TIME_FORMAT) : undefined,
+      users: funcionalidad.users ?? [],
     };
   }
 }
