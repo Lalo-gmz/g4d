@@ -66,7 +66,7 @@ public class Funcionalidad implements Serializable {
     @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
     private Prioridad prioridad;
 
-    @OneToMany(mappedBy = "funcionalidad")
+    @OneToMany(mappedBy = "funcionalidad", fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad" }, allowSetters = true)
     private Set<Etiqueta> etiquetas = new HashSet<>();

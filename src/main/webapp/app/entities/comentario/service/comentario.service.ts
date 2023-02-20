@@ -65,6 +65,12 @@ export class ComentarioService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  findByFuncId(id: number): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<RestComentario[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

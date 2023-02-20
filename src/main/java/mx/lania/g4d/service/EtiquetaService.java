@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Etiqueta;
 import mx.lania.g4d.repository.EtiquetaRepository;
@@ -81,6 +82,12 @@ public class EtiquetaService {
     public Page<Etiqueta> findAll(Pageable pageable) {
         log.debug("Request to get all Etiquetas");
         return etiquetaRepository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<List<Etiqueta>> findAllByFuncionalidadId(Long id) {
+        log.debug("Request to get all Etiquetas by funcionalidad id");
+        return etiquetaRepository.findAllByFuncionalidadId(id);
     }
 
     /**

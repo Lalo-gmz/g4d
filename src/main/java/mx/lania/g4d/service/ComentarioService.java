@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Comentario;
 import mx.lania.g4d.repository.ComentarioRepository;
@@ -84,6 +85,12 @@ public class ComentarioService {
     public Page<Comentario> findAll(Pageable pageable) {
         log.debug("Request to get all Comentarios");
         return comentarioRepository.findAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<List<Comentario>> findAllByFuncId(Long id) {
+        log.debug("Request to get all Comentarios");
+        return comentarioRepository.findAllByFuncionalidadId(id);
     }
 
     /**

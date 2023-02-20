@@ -189,6 +189,13 @@ public class EtiquetaResource {
         return ResponseUtil.wrapOrNotFound(etiqueta);
     }
 
+    @GetMapping("/etiquetas/funcionalidad/{id}")
+    public ResponseEntity<List<Etiqueta>> getEtiquetasByFuncionalidadId(@PathVariable Long id) {
+        log.debug("REST request to get Etiquetas de una funcionalidad por id : {}", id);
+        Optional<List<Etiqueta>> etiquetas = etiquetaService.findAllByFuncionalidadId(id);
+        return ResponseUtil.wrapOrNotFound(etiquetas);
+    }
+
     /**
      * {@code DELETE  /etiquetas/:id} : delete the "id" etiqueta.
      *

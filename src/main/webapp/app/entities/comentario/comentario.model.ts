@@ -8,7 +8,7 @@ export interface IComentario {
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
   funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
-  user?: Pick<IUser, 'id'> | null;
+  user?: IUser | null;
 }
 
 export type NewComentario = Omit<IComentario, 'id'> & { id: null };

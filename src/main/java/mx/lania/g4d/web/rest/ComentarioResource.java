@@ -190,6 +190,19 @@ public class ComentarioResource {
     }
 
     /**
+     * {@code GET  /comentarios/:id} : get the "id" comentario.
+     *
+     * @param id the id of the funciton to retrieve comentario.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the comentario, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/comentarios/funcionalidad/{id}")
+    public ResponseEntity<List<Comentario>> getComentarioByFuncId(@PathVariable Long id) {
+        log.debug("REST request to get Comentarios by func id : {}", id);
+        Optional<List<Comentario>> comentario = comentarioService.findAllByFuncId(id);
+        return ResponseUtil.wrapOrNotFound(comentario);
+    }
+
+    /**
      * {@code DELETE  /comentarios/:id} : delete the "id" comentario.
      *
      * @param id the id of the comentario to delete.
