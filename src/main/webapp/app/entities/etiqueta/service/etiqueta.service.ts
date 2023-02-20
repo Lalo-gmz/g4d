@@ -39,6 +39,10 @@ export class EtiquetaService {
     return this.http.get<IEtiqueta[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  findByFuncionalidadId(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IEtiqueta[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

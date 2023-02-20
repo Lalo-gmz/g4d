@@ -12,7 +12,7 @@ export interface IFuncionalidad {
   fechaEntrega?: dayjs.Dayjs | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
-  users?: Pick<IUser, 'id'>[] | null;
+  users?: IUser[] | null;
   // estatusFuncionalidad?: Pick<IEstatusFuncionalidad, 'id'> | null;
   estatusFuncionalidad?: IEstatusFuncionalidad | null;
   iteracion?: IIteracion | null;

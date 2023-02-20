@@ -1,0 +1,21 @@
+<div class="border rounded border-secondary mb-3">
+  <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
+    <div class="pl-3">Etiquetas <i class="bi bi-tag"></i> {{ etiquetas?.length ?? '0' }}</div>
+  </div>
+  <table class="table mb-0">
+    <tbody>
+      <tr>
+        <td>
+          <span
+            *ngFor="let etiqueta of etiquetas"
+            class="badge rounded-pill"
+            [style.backgroundColor]="etiqueta.color"
+            [style.color]="etiqueta.contrasteColor"
+          >
+            {{ etiqueta.nombre }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

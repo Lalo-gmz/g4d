@@ -5,6 +5,7 @@ export interface IEtiqueta {
   nombre?: string | null;
   color?: string | null;
   funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
+  contrasteColor?: string | '#ffffff';
 }
 
 export type NewEtiqueta = Omit<IEtiqueta, 'id'> & { id: null };

@@ -6,6 +6,7 @@ import { FuncionalidadUpdateComponent } from './update/funcionalidad-update.comp
 import { FuncionalidadDeleteDialogComponent } from './delete/funcionalidad-delete-dialog.component';
 import { FuncionalidadRoutingModule } from './route/funcionalidad-routing.module';
 import { ComentarioListByIdComponent } from '../comentario/list-by-id/list-by-id.component';
+import { EtiquetaListByFuncionalIdComponent } from '../etiqueta/etiqueta-list-by-funcional-id/etiqueta-list-by-funcional-id.component';
 
 @NgModule({
   imports: [SharedModule, FuncionalidadRoutingModule],
@@ -15,6 +16,7 @@ import { ComentarioListByIdComponent } from '../comentario/list-by-id/list-by-id
     FuncionalidadUpdateComponent,
     FuncionalidadDeleteDialogComponent,
     ComentarioListByIdComponent,
+    EtiquetaListByFuncionalIdComponent,
   ],
 })
 export class FuncionalidadModule {}
