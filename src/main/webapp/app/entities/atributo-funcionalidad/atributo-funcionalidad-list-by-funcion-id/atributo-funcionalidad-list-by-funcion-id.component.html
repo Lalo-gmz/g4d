@@ -1,0 +1,36 @@
+<ng-container *ngIf="destacados">
+  <h4>Atributos destacados</h4>
+  <div class="d-block pb-3">
+    <div *ngFor="let atributosFuncionalidad of atributosFuncionalidads">
+      <ng-container *ngIf="atributosFuncionalidad.marcado">
+        <i class="bi bi-star"></i> {{ atributosFuncionalidad.atributo?.nombre }} :<span class="text-white-50">
+          {{ atributosFuncionalidad.valor }}</span
+        >
+      </ng-container>
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!destacados">
+  <div class="border rounded border-secondary mb-3">
+    <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
+      <div class="pl-3">Atributos Auxiliares <i class="bi bi-bookmarks"></i> {{ atributosFuncionalidads?.length ?? '0' }}</div>
+    </div>
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Clave</th>
+          <th>Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let atributosFuncionalidad of atributosFuncionalidads">
+          <tr *ngIf="!atributosFuncionalidad.marcado">
+            <td>{{ atributosFuncionalidad.atributo?.nombre }}</td>
+            <td>{{ atributosFuncionalidad.valor }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

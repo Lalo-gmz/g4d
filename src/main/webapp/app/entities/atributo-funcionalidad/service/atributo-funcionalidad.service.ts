@@ -55,6 +55,10 @@ export class AtributoFuncionalidadService {
     return atributoFuncionalidad.id;
   }
 
+  findByFuncionalidadId(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IAtributoFuncionalidad[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' });
+  }
+
   compareAtributoFuncionalidad(o1: Pick<IAtributoFuncionalidad, 'id'> | null, o2: Pick<IAtributoFuncionalidad, 'id'> | null): boolean {
     return o1 && o2 ? this.getAtributoFuncionalidadIdentifier(o1) === this.getAtributoFuncionalidadIdentifier(o2) : o1 === o2;
   }

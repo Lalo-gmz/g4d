@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { IEtiqueta } from '../etiqueta.model';
-import { EtiquetaService } from '../service/etiqueta.service';
 
 import { ActivatedRoute } from '@angular/router';
+import { IEtiqueta } from '../etiqueta.model';
+import { EtiquetaService } from '../service/etiqueta.service';
 
 @Component({
   selector: 'jhi-etiqueta-list-by-funcional-id',

@@ -16,17 +16,20 @@
       </div>
 
       <hr />
-      <div class="d-flex justify-content-between">
+      <div class="justify-content-between d-lg-flex">
         <div>
           <span class="text-white-50">Creado en </span> <span>{{ funcionalidad.creado | formatMediumDate }} </span>
         </div>
         <div>
           <span class="text-white-50"> Asignado a </span>
           <ng-container *ngIf="funcionalidad.users">
-            <span *ngFor="let user of funcionalidad.users"> {{ user.firstName }} </span>
+            <span *ngFor="let user of funcionalidad.users"> [{{ user.firstName }}] </span>
           </ng-container>
           <span class="text-white-50">&nbsp; - Límite &nbsp;</span>
-          <span> {{ funcionalidad.fechaEntrega | formatMediumDate }} </span>
+          <span>
+            {{ funcionalidad.fechaEntrega | formatMediumDate }} |
+            <span *ngIf="funcionalidad.prioridad" class="badge text-bg-success">{{ funcionalidad.prioridad.nombre }}</span>
+          </span>
         </div>
       </div>
 
@@ -43,47 +46,17 @@
 
       <p>{{ funcionalidad.descripcion }}</p>
 
-      <h4>Atributos destacados</h4>
-      <div class="d-block pb-3">
-        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
-        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
-        <div><i class="bi bi-star"></i> Atributo 1 :<span class="text-white-50"> Valor</span></div>
-      </div>
+      <!-- Atributos destacados -->
+      <jhi-atributo-funcionalidad-list-by-funcion-id [destacados]="true"></jhi-atributo-funcionalidad-list-by-funcion-id>
 
+      <!-- Etiquetas -->
       <jhi-etiqueta-list-by-funcional-id></jhi-etiqueta-list-by-funcional-id>
 
       <!-- Comentarios -->
-
       <jhi-list-by-id></jhi-list-by-id>
 
       <!-- Atributos auxilares -->
-      <div class="border rounded border-secondary mb-3">
-        <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
-          <div class="pl-3">Atributos Auxiliares <i class="bi bi-bookmarks"></i> 3</div>
-        </div>
-        <table class="table mb-0">
-          <thead>
-            <tr>
-              <th>Clave</th>
-              <th>Valor</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Valor</td>
-              <td>Clave</td>
-            </tr>
-            <tr>
-              <td>Valor</td>
-              <td>Clave</td>
-            </tr>
-            <tr>
-              <td>Valor</td>
-              <td>Clave</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <jhi-atributo-funcionalidad-list-by-funcion-id [destacados]="false"></jhi-atributo-funcionalidad-list-by-funcion-id>
 
       <!-- Actividad -->
 

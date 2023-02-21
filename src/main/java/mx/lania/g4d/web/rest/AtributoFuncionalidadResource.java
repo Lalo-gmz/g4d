@@ -188,6 +188,15 @@ public class AtributoFuncionalidadResource {
         return ResponseUtil.wrapOrNotFound(atributoFuncionalidad);
     }
 
+    @GetMapping("/atributo-funcionalidads/funcionalidad/{id}")
+    public ResponseEntity<List<AtributoFuncionalidad>> getAtributoFuncionalidadsByFuncionalidadId(@PathVariable Long id) {
+        log.debug("REST request to get AtributoFuncionalidad by funcionalidad id : {}", id);
+        Optional<List<AtributoFuncionalidad>> atributoFuncionalidad = atributoFuncionalidadService.findAtributoFuncionalidadByFuncionalidadId(
+            id
+        );
+        return ResponseUtil.wrapOrNotFound(atributoFuncionalidad);
+    }
+
     /**
      * {@code DELETE  /atributo-funcionalidads/:id} : delete the "id" atributoFuncionalidad.
      *

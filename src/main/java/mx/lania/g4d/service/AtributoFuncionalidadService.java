@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.repository.AtributoFuncionalidadRepository;
@@ -93,6 +94,13 @@ public class AtributoFuncionalidadService {
     public Optional<AtributoFuncionalidad> findOne(Long id) {
         log.debug("Request to get AtributoFuncionalidad : {}", id);
         return atributoFuncionalidadRepository.findById(id);
+    }
+
+    //findAtributoFuncionalidadByFuncionalidadId
+    @Transactional(readOnly = true)
+    public Optional<List<AtributoFuncionalidad>> findAtributoFuncionalidadByFuncionalidadId(Long id) {
+        log.debug("Request to get AtributoFuncionalidad by funcionalidad id: {}", id);
+        return atributoFuncionalidadRepository.findAtributoFuncionalidadByFuncionalidadId(id);
     }
 
     /**

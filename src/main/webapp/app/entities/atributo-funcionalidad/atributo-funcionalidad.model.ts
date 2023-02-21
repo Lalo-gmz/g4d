@@ -6,7 +6,7 @@ export interface IAtributoFuncionalidad {
   marcado?: boolean | null;
   valor?: string | null;
   funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
-  atributo?: Pick<IAtributo, 'id'> | null;
+  atributo?: IAtributo | null;
 }
 
 export type NewAtributoFuncionalidad = Omit<IAtributoFuncionalidad, 'id'> & { id: null };

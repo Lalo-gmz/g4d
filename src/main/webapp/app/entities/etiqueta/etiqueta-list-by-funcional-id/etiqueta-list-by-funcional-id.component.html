@@ -6,16 +6,20 @@
     <tbody>
       <tr>
         <td>
-          <span
-            *ngFor="let etiqueta of etiquetas"
-            class="badge rounded-pill"
+          <div
+            *ngFor="let etiqueta of etiquetas; let last = last"
+            class="badge rounded-pill {{ !last ? 'mr-2' : '' }}"
             [style.backgroundColor]="etiqueta.color"
             [style.color]="etiqueta.contrasteColor"
           >
             {{ etiqueta.nombre }}
-          </span>
+          </div>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+<!--
+  propiedad permite agreagar estilos reactivos
+  [ngStyle]="{ 'marginRight': last ? '0' : '.4em' }"
+-->
