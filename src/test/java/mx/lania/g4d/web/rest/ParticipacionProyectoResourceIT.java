@@ -11,11 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.ParticipacionProyecto;
-import mx.lania.g4d.domain.Proyecto;
-import mx.lania.g4d.domain.Rol;
-import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ParticipacionProyectoRepository;
-import mx.lania.g4d.service.criteria.ParticipacionProyectoCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +28,9 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class ParticipacionProyectoResourceIT {
+
+    private static final Boolean DEFAULT_ES_ADMIN = false;
+    private static final Boolean UPDATED_ES_ADMIN = true;
 
     private static final String ENTITY_API_URL = "/api/participacion-proyectos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -57,7 +56,7 @@ class ParticipacionProyectoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ParticipacionProyecto createEntity(EntityManager em) {
-        ParticipacionProyecto participacionProyecto = new ParticipacionProyecto();
+        ParticipacionProyecto participacionProyecto = new ParticipacionProyecto().esAdmin(DEFAULT_ES_ADMIN);
         return participacionProyecto;
     }
 
@@ -68,7 +67,7 @@ class ParticipacionProyectoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ParticipacionProyecto createUpdatedEntity(EntityManager em) {
-        ParticipacionProyecto participacionProyecto = new ParticipacionProyecto();
+        ParticipacionProyecto participacionProyecto = new ParticipacionProyecto().esAdmin(UPDATED_ES_ADMIN);
         return participacionProyecto;
     }
 
@@ -94,6 +93,7 @@ class ParticipacionProyectoResourceIT {
         List<ParticipacionProyecto> participacionProyectoList = participacionProyectoRepository.findAll();
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeCreate + 1);
         ParticipacionProyecto testParticipacionProyecto = participacionProyectoList.get(participacionProyectoList.size() - 1);
+        assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(DEFAULT_ES_ADMIN);
     }
 
     @Test
@@ -129,7 +129,8 @@ class ParticipacionProyectoResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(participacionProyecto.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(participacionProyecto.getId().intValue())))
+            .andExpect(jsonPath("$.[*].esAdmin").value(hasItem(DEFAULT_ES_ADMIN.booleanValue())));
     }
 
     @Test
@@ -143,131 +144,8 @@ class ParticipacionProyectoResourceIT {
             .perform(get(ENTITY_API_URL_ID, participacionProyecto.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(participacionProyecto.getId().intValue()));
-    }
-
-    @Test
-    @Transactional
-    void getParticipacionProyectosByIdFiltering() throws Exception {
-        // Initialize the database
-        participacionProyectoRepository.saveAndFlush(participacionProyecto);
-
-        Long id = participacionProyecto.getId();
-
-        defaultParticipacionProyectoShouldBeFound("id.equals=" + id);
-        defaultParticipacionProyectoShouldNotBeFound("id.notEquals=" + id);
-
-        defaultParticipacionProyectoShouldBeFound("id.greaterThanOrEqual=" + id);
-        defaultParticipacionProyectoShouldNotBeFound("id.greaterThan=" + id);
-
-        defaultParticipacionProyectoShouldBeFound("id.lessThanOrEqual=" + id);
-        defaultParticipacionProyectoShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllParticipacionProyectosByUserIsEqualToSomething() throws Exception {
-        User user;
-        if (TestUtil.findAll(em, User.class).isEmpty()) {
-            participacionProyectoRepository.saveAndFlush(participacionProyecto);
-            user = UserResourceIT.createEntity(em);
-        } else {
-            user = TestUtil.findAll(em, User.class).get(0);
-        }
-        em.persist(user);
-        em.flush();
-        participacionProyecto.setUser(user);
-        participacionProyectoRepository.saveAndFlush(participacionProyecto);
-        Long userId = user.getId();
-
-        // Get all the participacionProyectoList where user equals to userId
-        defaultParticipacionProyectoShouldBeFound("userId.equals=" + userId);
-
-        // Get all the participacionProyectoList where user equals to (userId + 1)
-        defaultParticipacionProyectoShouldNotBeFound("userId.equals=" + (userId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllParticipacionProyectosByProyectoIsEqualToSomething() throws Exception {
-        Proyecto proyecto;
-        if (TestUtil.findAll(em, Proyecto.class).isEmpty()) {
-            participacionProyectoRepository.saveAndFlush(participacionProyecto);
-            proyecto = ProyectoResourceIT.createEntity(em);
-        } else {
-            proyecto = TestUtil.findAll(em, Proyecto.class).get(0);
-        }
-        em.persist(proyecto);
-        em.flush();
-        participacionProyecto.setProyecto(proyecto);
-        participacionProyectoRepository.saveAndFlush(participacionProyecto);
-        Long proyectoId = proyecto.getId();
-
-        // Get all the participacionProyectoList where proyecto equals to proyectoId
-        defaultParticipacionProyectoShouldBeFound("proyectoId.equals=" + proyectoId);
-
-        // Get all the participacionProyectoList where proyecto equals to (proyectoId + 1)
-        defaultParticipacionProyectoShouldNotBeFound("proyectoId.equals=" + (proyectoId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllParticipacionProyectosByRolIsEqualToSomething() throws Exception {
-        Rol rol;
-        if (TestUtil.findAll(em, Rol.class).isEmpty()) {
-            participacionProyectoRepository.saveAndFlush(participacionProyecto);
-            rol = RolResourceIT.createEntity(em);
-        } else {
-            rol = TestUtil.findAll(em, Rol.class).get(0);
-        }
-        em.persist(rol);
-        em.flush();
-        participacionProyecto.setRol(rol);
-        participacionProyectoRepository.saveAndFlush(participacionProyecto);
-        Long rolId = rol.getId();
-
-        // Get all the participacionProyectoList where rol equals to rolId
-        defaultParticipacionProyectoShouldBeFound("rolId.equals=" + rolId);
-
-        // Get all the participacionProyectoList where rol equals to (rolId + 1)
-        defaultParticipacionProyectoShouldNotBeFound("rolId.equals=" + (rolId + 1));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is returned.
-     */
-    private void defaultParticipacionProyectoShouldBeFound(String filter) throws Exception {
-        restParticipacionProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(participacionProyecto.getId().intValue())));
-
-        // Check, that the count call also returns 1
-        restParticipacionProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("1"));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is not returned.
-     */
-    private void defaultParticipacionProyectoShouldNotBeFound(String filter) throws Exception {
-        restParticipacionProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").isEmpty());
-
-        // Check, that the count call also returns 0
-        restParticipacionProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("0"));
+            .andExpect(jsonPath("$.id").value(participacionProyecto.getId().intValue()))
+            .andExpect(jsonPath("$.esAdmin").value(DEFAULT_ES_ADMIN.booleanValue()));
     }
 
     @Test
@@ -289,6 +167,7 @@ class ParticipacionProyectoResourceIT {
         ParticipacionProyecto updatedParticipacionProyecto = participacionProyectoRepository.findById(participacionProyecto.getId()).get();
         // Disconnect from session so that the updates on updatedParticipacionProyecto are not directly saved in db
         em.detach(updatedParticipacionProyecto);
+        updatedParticipacionProyecto.esAdmin(UPDATED_ES_ADMIN);
 
         restParticipacionProyectoMockMvc
             .perform(
@@ -302,6 +181,7 @@ class ParticipacionProyectoResourceIT {
         List<ParticipacionProyecto> participacionProyectoList = participacionProyectoRepository.findAll();
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
         ParticipacionProyecto testParticipacionProyecto = participacionProyectoList.get(participacionProyectoList.size() - 1);
+        assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
     @Test
@@ -376,6 +256,8 @@ class ParticipacionProyectoResourceIT {
         ParticipacionProyecto partialUpdatedParticipacionProyecto = new ParticipacionProyecto();
         partialUpdatedParticipacionProyecto.setId(participacionProyecto.getId());
 
+        partialUpdatedParticipacionProyecto.esAdmin(UPDATED_ES_ADMIN);
+
         restParticipacionProyectoMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedParticipacionProyecto.getId())
@@ -388,6 +270,7 @@ class ParticipacionProyectoResourceIT {
         List<ParticipacionProyecto> participacionProyectoList = participacionProyectoRepository.findAll();
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
         ParticipacionProyecto testParticipacionProyecto = participacionProyectoList.get(participacionProyectoList.size() - 1);
+        assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
     @Test
@@ -402,6 +285,8 @@ class ParticipacionProyectoResourceIT {
         ParticipacionProyecto partialUpdatedParticipacionProyecto = new ParticipacionProyecto();
         partialUpdatedParticipacionProyecto.setId(participacionProyecto.getId());
 
+        partialUpdatedParticipacionProyecto.esAdmin(UPDATED_ES_ADMIN);
+
         restParticipacionProyectoMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedParticipacionProyecto.getId())
@@ -414,6 +299,7 @@ class ParticipacionProyectoResourceIT {
         List<ParticipacionProyecto> participacionProyectoList = participacionProyectoRepository.findAll();
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
         ParticipacionProyecto testParticipacionProyecto = participacionProyectoList.get(participacionProyectoList.size() - 1);
+        assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
     @Test

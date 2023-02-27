@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface EstatusFuncionalidadRepository
-    extends JpaRepository<EstatusFuncionalidad, Long>, JpaSpecificationExecutor<EstatusFuncionalidad> {}
+public interface EstatusFuncionalidadRepository extends JpaRepository<EstatusFuncionalidad, Long> {}

@@ -14,8 +14,6 @@ import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 import { IProyecto } from 'app/entities/proyecto/proyecto.model';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
-import { IRol } from 'app/entities/rol/rol.model';
-import { RolService } from 'app/entities/rol/service/rol.service';
 
 import { ParticipacionProyectoUpdateComponent } from './participacion-proyecto-update.component';
 
@@ -27,7 +25,6 @@ describe('ParticipacionProyecto Management Update Component', () => {
   let participacionProyectoService: ParticipacionProyectoService;
   let userService: UserService;
   let proyectoService: ProyectoService;
-  let rolService: RolService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,7 +49,6 @@ describe('ParticipacionProyecto Management Update Component', () => {
     participacionProyectoService = TestBed.inject(ParticipacionProyectoService);
     userService = TestBed.inject(UserService);
     proyectoService = TestBed.inject(ProyectoService);
-    rolService = TestBed.inject(RolService);
 
     comp = fixture.componentInstance;
   });
@@ -60,12 +56,12 @@ describe('ParticipacionProyecto Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call User query and add missing value', () => {
       const participacionProyecto: IParticipacionProyecto = { id: 456 };
-      const user: IUser = { id: 4009 };
-      participacionProyecto.user = user;
+      const usuario: IUser = { id: 4009 };
+      participacionProyecto.usuario = usuario;
 
       const userCollection: IUser[] = [{ id: 82105 }];
       jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
-      const additionalUsers = [user];
+      const additionalUsers = [usuario];
       const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
       jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -102,40 +98,18 @@ describe('ParticipacionProyecto Management Update Component', () => {
       expect(comp.proyectosSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Rol query and add missing value', () => {
-      const participacionProyecto: IParticipacionProyecto = { id: 456 };
-      const rol: IRol = { id: 15383 };
-      participacionProyecto.rol = rol;
-
-      const rolCollection: IRol[] = [{ id: 98234 }];
-      jest.spyOn(rolService, 'query').mockReturnValue(of(new HttpResponse({ body: rolCollection })));
-      const additionalRols = [rol];
-      const expectedCollection: IRol[] = [...additionalRols, ...rolCollection];
-      jest.spyOn(rolService, 'addRolToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ participacionProyecto });
-      comp.ngOnInit();
-
-      expect(rolService.query).toHaveBeenCalled();
-      expect(rolService.addRolToCollectionIfMissing).toHaveBeenCalledWith(rolCollection, ...additionalRols.map(expect.objectContaining));
-      expect(comp.rolsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const participacionProyecto: IParticipacionProyecto = { id: 456 };
-      const user: IUser = { id: 1071 };
-      participacionProyecto.user = user;
+      const usuario: IUser = { id: 1071 };
+      participacionProyecto.usuario = usuario;
       const proyecto: IProyecto = { id: 83369 };
       participacionProyecto.proyecto = proyecto;
-      const rol: IRol = { id: 31925 };
-      participacionProyecto.rol = rol;
 
       activatedRoute.data = of({ participacionProyecto });
       comp.ngOnInit();
 
-      expect(comp.usersSharedCollection).toContain(user);
+      expect(comp.usersSharedCollection).toContain(usuario);
       expect(comp.proyectosSharedCollection).toContain(proyecto);
-      expect(comp.rolsSharedCollection).toContain(rol);
       expect(comp.participacionProyecto).toEqual(participacionProyecto);
     });
   });
@@ -226,16 +200,6 @@ describe('ParticipacionProyecto Management Update Component', () => {
         jest.spyOn(proyectoService, 'compareProyecto');
         comp.compareProyecto(entity, entity2);
         expect(proyectoService.compareProyecto).toHaveBeenCalledWith(entity, entity2);
-      });
-    });
-
-    describe('compareRol', () => {
-      it('Should forward to rolService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(rolService, 'compareRol');
-        comp.compareRol(entity, entity2);
-        expect(rolService.compareRol).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

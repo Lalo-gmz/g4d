@@ -1,12 +1,11 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.repository.ParticipacionProyectoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,6 +58,10 @@ public class ParticipacionProyectoService {
         return participacionProyectoRepository
             .findById(participacionProyecto.getId())
             .map(existingParticipacionProyecto -> {
+                if (participacionProyecto.getEsAdmin() != null) {
+                    existingParticipacionProyecto.setEsAdmin(participacionProyecto.getEsAdmin());
+                }
+
                 return existingParticipacionProyecto;
             })
             .map(participacionProyectoRepository::save);
@@ -67,13 +70,12 @@ public class ParticipacionProyectoService {
     /**
      * Get all the participacionProyectos.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<ParticipacionProyecto> findAll(Pageable pageable) {
+    public List<ParticipacionProyecto> findAll() {
         log.debug("Request to get all ParticipacionProyectos");
-        return participacionProyectoRepository.findAll(pageable);
+        return participacionProyectoRepository.findAll();
     }
 
     /**

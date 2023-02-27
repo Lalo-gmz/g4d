@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173635",
+  "changelogDate": "20230224170629",
   "dto": "no",
   "embedded": false,
   "entityTableName": "etiqueta",
@@ -16,9 +16,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Etiqueta",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

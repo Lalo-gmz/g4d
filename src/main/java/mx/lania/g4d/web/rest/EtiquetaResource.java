@@ -9,21 +9,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Etiqueta;
 import mx.lania.g4d.repository.EtiquetaRepository;
-import mx.lania.g4d.service.EtiquetaQueryService;
 import mx.lania.g4d.service.EtiquetaService;
-import mx.lania.g4d.service.criteria.EtiquetaCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -44,16 +37,9 @@ public class EtiquetaResource {
 
     private final EtiquetaRepository etiquetaRepository;
 
-    private final EtiquetaQueryService etiquetaQueryService;
-
-    public EtiquetaResource(
-        EtiquetaService etiquetaService,
-        EtiquetaRepository etiquetaRepository,
-        EtiquetaQueryService etiquetaQueryService
-    ) {
+    public EtiquetaResource(EtiquetaService etiquetaService, EtiquetaRepository etiquetaRepository) {
         this.etiquetaService = etiquetaService;
         this.etiquetaRepository = etiquetaRepository;
-        this.etiquetaQueryService = etiquetaQueryService;
     }
 
     /**
@@ -149,31 +135,12 @@ public class EtiquetaResource {
     /**
      * {@code GET  /etiquetas} : get all the etiquetas.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of etiquetas in body.
      */
     @GetMapping("/etiquetas")
-    public ResponseEntity<List<Etiqueta>> getAllEtiquetas(
-        EtiquetaCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Etiquetas by criteria: {}", criteria);
-        Page<Etiqueta> page = etiquetaQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /etiquetas/count} : count all the etiquetas.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/etiquetas/count")
-    public ResponseEntity<Long> countEtiquetas(EtiquetaCriteria criteria) {
-        log.debug("REST request to count Etiquetas by criteria: {}", criteria);
-        return ResponseEntity.ok().body(etiquetaQueryService.countByCriteria(criteria));
+    public List<Etiqueta> getAllEtiquetas() {
+        log.debug("REST request to get all Etiquetas");
+        return etiquetaService.findAll();
     }
 
     /**

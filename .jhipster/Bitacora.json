@@ -1,15 +1,10 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173631",
+  "changelogDate": "20230224170625",
   "dto": "no",
   "embedded": false,
   "entityTableName": "bitacora",
   "fields": [
-    {
-      "fieldName": "tabla",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
-    },
     {
       "fieldName": "accion",
       "fieldType": "String",
@@ -22,9 +17,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Bitacora",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {
@@ -34,9 +29,9 @@
       "relationshipType": "many-to-one"
     },
     {
-      "otherEntityName": "proyecto",
+      "otherEntityName": "funcionalidad",
       "otherEntityRelationshipName": "bitacora",
-      "relationshipName": "proyecto",
+      "relationshipName": "funcionalidad",
       "relationshipType": "many-to-one"
     }
   ],

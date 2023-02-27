@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173634",
+  "changelogDate": "20230224170628",
   "dto": "no",
   "embedded": false,
   "entityTableName": "estatus_funcionalidad",
@@ -11,9 +11,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "EstatusFuncionalidad",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

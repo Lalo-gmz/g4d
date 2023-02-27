@@ -10,6 +10,9 @@ import { ProyectoFormService } from './proyecto-form.service';
 import { ProyectoService } from '../service/proyecto.service';
 import { IProyecto } from '../proyecto.model';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { ProyectoUpdateComponent } from './proyecto-update.component';
 
 describe('Proyecto Management Update Component', () => {
@@ -18,6 +21,7 @@ describe('Proyecto Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let proyectoFormService: ProyectoFormService;
   let proyectoService: ProyectoService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,17 +44,43 @@ describe('Proyecto Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     proyectoFormService = TestBed.inject(ProyectoFormService);
     proyectoService = TestBed.inject(ProyectoService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should update editForm', () => {
+    it('Should call User query and add missing value', () => {
       const proyecto: IProyecto = { id: 456 };
+      const participantes: IUser[] = [{ id: 86597 }];
+      proyecto.participantes = participantes;
+
+      const userCollection: IUser[] = [{ id: 7426 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [...participantes];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ proyecto });
       comp.ngOnInit();
 
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
+    it('Should update editForm', () => {
+      const proyecto: IProyecto = { id: 456 };
+      const participantes: IUser = { id: 10584 };
+      proyecto.participantes = [participantes];
+
+      activatedRoute.data = of({ proyecto });
+      comp.ngOnInit();
+
+      expect(comp.usersSharedCollection).toContain(participantes);
       expect(comp.proyecto).toEqual(proyecto);
     });
   });
@@ -120,6 +150,18 @@ describe('Proyecto Management Update Component', () => {
       expect(proyectoService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('Compare relationships', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
+      });
     });
   });
 });

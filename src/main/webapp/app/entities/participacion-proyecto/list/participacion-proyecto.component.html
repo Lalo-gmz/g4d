@@ -24,8 +24,6 @@
 
   <jhi-alert></jhi-alert>
 
-  <jhi-filter [filters]="filters"></jhi-filter>
-
   <div class="alert alert-warning" id="no-result" *ngIf="participacionProyectos?.length === 0">
     <span>Ningún Participacion Proyectos encontrado</span>
   </div>
@@ -40,21 +38,21 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="user.id">
+          <th scope="col" jhiSortBy="esAdmin">
             <div class="d-flex">
-              <span>User</span>
+              <span>Es Admin</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="usuario.id">
+            <div class="d-flex">
+              <span>Usuario</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col" jhiSortBy="proyecto.id">
             <div class="d-flex">
               <span>Proyecto</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="rol.id">
-            <div class="d-flex">
-              <span>Rol</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -66,17 +64,13 @@
           <td>
             <a [routerLink]="['/participacion-proyecto', participacionProyecto.id, 'view']">{{ participacionProyecto.id }}</a>
           </td>
+          <td>{{ participacionProyecto.esAdmin }}</td>
           <td>
-            {{ participacionProyecto.user?.id }}
+            {{ participacionProyecto.usuario?.id }}
           </td>
           <td>
             <div *ngIf="participacionProyecto.proyecto">
               <a [routerLink]="['/proyecto', participacionProyecto.proyecto.id, 'view']">{{ participacionProyecto.proyecto.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="participacionProyecto.rol">
-              <a [routerLink]="['/rol', participacionProyecto.rol.id, 'view']">{{ participacionProyecto.rol.id }}</a>
             </div>
           </td>
           <td class="text-end">
@@ -110,23 +104,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div *ngIf="participacionProyectos && participacionProyectos.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
-    </div>
   </div>
 </div>

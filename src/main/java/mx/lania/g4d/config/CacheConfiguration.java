@@ -52,9 +52,8 @@ public class CacheConfiguration {
             createCache(cm, mx.lania.g4d.domain.Iteracion.class.getName());
             createCache(cm, mx.lania.g4d.domain.Iteracion.class.getName() + ".funcionalidads");
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName());
-            createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".participacionProyectos");
+            createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".participantes");
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".configuracions");
-            createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".bitacoras");
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".iteracions");
             createCache(cm, mx.lania.g4d.domain.EstatusFuncionalidad.class.getName());
             createCache(cm, mx.lania.g4d.domain.EstatusFuncionalidad.class.getName() + ".funcionalidads");
@@ -64,16 +63,16 @@ public class CacheConfiguration {
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".etiquetas");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".atributoFuncionalidads");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".comentarios");
+            createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".bitacoras");
             createCache(cm, mx.lania.g4d.domain.Prioridad.class.getName());
             createCache(cm, mx.lania.g4d.domain.Prioridad.class.getName() + ".funcionalidads");
             createCache(cm, mx.lania.g4d.domain.Comentario.class.getName());
             createCache(cm, mx.lania.g4d.domain.Atributo.class.getName());
             createCache(cm, mx.lania.g4d.domain.Atributo.class.getName() + ".atributoFuncionalidads");
-            createCache(cm, mx.lania.g4d.domain.AtributoFuncionalidad.class.getName());
             createCache(cm, mx.lania.g4d.domain.Configuracion.class.getName());
-            createCache(cm, mx.lania.g4d.domain.Rol.class.getName());
-            createCache(cm, mx.lania.g4d.domain.Rol.class.getName() + ".participacionProyectos");
             createCache(cm, mx.lania.g4d.domain.ParticipacionProyecto.class.getName());
+            createCache(cm, mx.lania.g4d.domain.AtributoFuncionalidad.class.getName());
+            createCache(cm, mx.lania.g4d.domain.Captura.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

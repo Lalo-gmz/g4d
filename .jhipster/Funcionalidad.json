@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173636",
+  "changelogDate": "20230224170630",
   "dto": "no",
   "embedded": false,
   "entityTableName": "funcionalidad",
@@ -31,9 +31,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Funcionalidad",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {
@@ -77,6 +77,12 @@
       "otherEntityName": "comentario",
       "otherEntityRelationshipName": "funcionalidad",
       "relationshipName": "comentario",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "bitacora",
+      "otherEntityRelationshipName": "funcionalidad",
+      "relationshipName": "bitacora",
       "relationshipType": "one-to-many"
     }
   ],

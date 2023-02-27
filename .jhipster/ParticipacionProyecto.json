@@ -1,32 +1,29 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173643",
+  "changelogDate": "20230224170635",
   "dto": "no",
   "embedded": false,
   "entityTableName": "participacion_proyecto",
-  "fields": [],
+  "fields": [
+    {
+      "fieldName": "esAdmin",
+      "fieldType": "Boolean"
+    }
+  ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "ParticipacionProyecto",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {
       "otherEntityName": "user",
-      "otherEntityRelationshipName": "participacionProyecto",
-      "relationshipName": "user",
+      "relationshipName": "usuario",
       "relationshipType": "many-to-one"
     },
     {
       "otherEntityName": "proyecto",
-      "otherEntityRelationshipName": "participacionProyecto",
       "relationshipName": "proyecto",
-      "relationshipType": "many-to-one"
-    },
-    {
-      "otherEntityName": "rol",
-      "otherEntityRelationshipName": "participacionProyecto",
-      "relationshipName": "rol",
       "relationshipType": "many-to-one"
     }
   ],

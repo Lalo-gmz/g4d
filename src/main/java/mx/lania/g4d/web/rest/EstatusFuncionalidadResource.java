@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.EstatusFuncionalidad;
 import mx.lania.g4d.repository.EstatusFuncionalidadRepository;
-import mx.lania.g4d.service.EstatusFuncionalidadQueryService;
 import mx.lania.g4d.service.EstatusFuncionalidadService;
-import mx.lania.g4d.service.criteria.EstatusFuncionalidadCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,12 @@ public class EstatusFuncionalidadResource {
 
     private final EstatusFuncionalidadRepository estatusFuncionalidadRepository;
 
-    private final EstatusFuncionalidadQueryService estatusFuncionalidadQueryService;
-
     public EstatusFuncionalidadResource(
         EstatusFuncionalidadService estatusFuncionalidadService,
-        EstatusFuncionalidadRepository estatusFuncionalidadRepository,
-        EstatusFuncionalidadQueryService estatusFuncionalidadQueryService
+        EstatusFuncionalidadRepository estatusFuncionalidadRepository
     ) {
         this.estatusFuncionalidadService = estatusFuncionalidadService;
         this.estatusFuncionalidadRepository = estatusFuncionalidadRepository;
-        this.estatusFuncionalidadQueryService = estatusFuncionalidadQueryService;
     }
 
     /**
@@ -148,31 +137,12 @@ public class EstatusFuncionalidadResource {
     /**
      * {@code GET  /estatus-funcionalidads} : get all the estatusFuncionalidads.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of estatusFuncionalidads in body.
      */
     @GetMapping("/estatus-funcionalidads")
-    public ResponseEntity<List<EstatusFuncionalidad>> getAllEstatusFuncionalidads(
-        EstatusFuncionalidadCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get EstatusFuncionalidads by criteria: {}", criteria);
-        Page<EstatusFuncionalidad> page = estatusFuncionalidadQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /estatus-funcionalidads/count} : count all the estatusFuncionalidads.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/estatus-funcionalidads/count")
-    public ResponseEntity<Long> countEstatusFuncionalidads(EstatusFuncionalidadCriteria criteria) {
-        log.debug("REST request to count EstatusFuncionalidads by criteria: {}", criteria);
-        return ResponseEntity.ok().body(estatusFuncionalidadQueryService.countByCriteria(criteria));
+    public List<EstatusFuncionalidad> getAllEstatusFuncionalidads() {
+        log.debug("REST request to get all EstatusFuncionalidads");
+        return estatusFuncionalidadService.findAll();
     }
 
     /**

@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.repository.AtributoFuncionalidadRepository;
-import mx.lania.g4d.service.AtributoFuncionalidadQueryService;
 import mx.lania.g4d.service.AtributoFuncionalidadService;
-import mx.lania.g4d.service.criteria.AtributoFuncionalidadCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,12 @@ public class AtributoFuncionalidadResource {
 
     private final AtributoFuncionalidadRepository atributoFuncionalidadRepository;
 
-    private final AtributoFuncionalidadQueryService atributoFuncionalidadQueryService;
-
     public AtributoFuncionalidadResource(
         AtributoFuncionalidadService atributoFuncionalidadService,
-        AtributoFuncionalidadRepository atributoFuncionalidadRepository,
-        AtributoFuncionalidadQueryService atributoFuncionalidadQueryService
+        AtributoFuncionalidadRepository atributoFuncionalidadRepository
     ) {
         this.atributoFuncionalidadService = atributoFuncionalidadService;
         this.atributoFuncionalidadRepository = atributoFuncionalidadRepository;
-        this.atributoFuncionalidadQueryService = atributoFuncionalidadQueryService;
     }
 
     /**
@@ -148,31 +137,12 @@ public class AtributoFuncionalidadResource {
     /**
      * {@code GET  /atributo-funcionalidads} : get all the atributoFuncionalidads.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of atributoFuncionalidads in body.
      */
     @GetMapping("/atributo-funcionalidads")
-    public ResponseEntity<List<AtributoFuncionalidad>> getAllAtributoFuncionalidads(
-        AtributoFuncionalidadCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get AtributoFuncionalidads by criteria: {}", criteria);
-        Page<AtributoFuncionalidad> page = atributoFuncionalidadQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /atributo-funcionalidads/count} : count all the atributoFuncionalidads.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/atributo-funcionalidads/count")
-    public ResponseEntity<Long> countAtributoFuncionalidads(AtributoFuncionalidadCriteria criteria) {
-        log.debug("REST request to count AtributoFuncionalidads by criteria: {}", criteria);
-        return ResponseEntity.ok().body(atributoFuncionalidadQueryService.countByCriteria(criteria));
+    public List<AtributoFuncionalidad> getAllAtributoFuncionalidads() {
+        log.debug("REST request to get all AtributoFuncionalidads");
+        return atributoFuncionalidadService.findAll();
     }
 
     /**

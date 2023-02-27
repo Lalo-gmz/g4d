@@ -20,9 +20,9 @@ describe('ParticipacionProyecto Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            user: expect.any(Object),
+            esAdmin: expect.any(Object),
+            usuario: expect.any(Object),
             proyecto: expect.any(Object),
-            rol: expect.any(Object),
           })
         );
       });
@@ -33,9 +33,9 @@ describe('ParticipacionProyecto Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            user: expect.any(Object),
+            esAdmin: expect.any(Object),
+            usuario: expect.any(Object),
             proyecto: expect.any(Object),
-            rol: expect.any(Object),
           })
         );
       });

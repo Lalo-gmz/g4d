@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173639",
+  "changelogDate": "20230224170633",
   "dto": "no",
   "embedded": false,
   "entityTableName": "atributo",
@@ -11,9 +11,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Atributo",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

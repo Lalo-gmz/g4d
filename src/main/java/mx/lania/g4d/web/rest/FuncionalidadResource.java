@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.repository.FuncionalidadRepository;
-import mx.lania.g4d.service.FuncionalidadQueryService;
 import mx.lania.g4d.service.FuncionalidadService;
-import mx.lania.g4d.service.criteria.FuncionalidadCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,9 @@ public class FuncionalidadResource {
 
     private final FuncionalidadRepository funcionalidadRepository;
 
-    private final FuncionalidadQueryService funcionalidadQueryService;
-
-    public FuncionalidadResource(
-        FuncionalidadService funcionalidadService,
-        FuncionalidadRepository funcionalidadRepository,
-        FuncionalidadQueryService funcionalidadQueryService
-    ) {
+    public FuncionalidadResource(FuncionalidadService funcionalidadService, FuncionalidadRepository funcionalidadRepository) {
         this.funcionalidadService = funcionalidadService;
         this.funcionalidadRepository = funcionalidadRepository;
-        this.funcionalidadQueryService = funcionalidadQueryService;
     }
 
     /**
@@ -147,31 +133,13 @@ public class FuncionalidadResource {
     /**
      * {@code GET  /funcionalidads} : get all the funcionalidads.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of funcionalidads in body.
      */
     @GetMapping("/funcionalidads")
-    public ResponseEntity<List<Funcionalidad>> getAllFuncionalidads(
-        FuncionalidadCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Funcionalidads by criteria: {}", criteria);
-        Page<Funcionalidad> page = funcionalidadQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /funcionalidads/count} : count all the funcionalidads.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/funcionalidads/count")
-    public ResponseEntity<Long> countFuncionalidads(FuncionalidadCriteria criteria) {
-        log.debug("REST request to count Funcionalidads by criteria: {}", criteria);
-        return ResponseEntity.ok().body(funcionalidadQueryService.countByCriteria(criteria));
+    public List<Funcionalidad> getAllFuncionalidads(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all Funcionalidads");
+        return funcionalidadService.findAll();
     }
 
     /**

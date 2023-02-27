@@ -6,8 +6,10 @@
     <tbody>
       <tr *ngFor="let comentario of comentarios">
         <td>
-          <i class="bi bi-person-circle"></i> {{ comentario.user?.firstName }}:
-          <span class="text-white-50"> {{ comentario.mensaje }} - {{ comentario.creado | formatMediumDate }}</span>
+          <i class="bi bi-person-circle"></i> {{ comentario.user?.firstName }} · {{ comentario.creado | formatMediumDate }}
+          <p class="text-white-50 mt-1">
+            {{ comentario.mensaje }}
+          </p>
         </td>
       </tr>
     </tbody>

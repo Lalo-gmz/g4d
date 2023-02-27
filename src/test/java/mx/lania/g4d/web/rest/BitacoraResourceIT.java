@@ -13,10 +13,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
 import mx.lania.g4d.domain.Bitacora;
-import mx.lania.g4d.domain.Proyecto;
-import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.BitacoraRepository;
-import mx.lania.g4d.service.criteria.BitacoraCriteria;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class BitacoraResourceIT {
-
-    private static final String DEFAULT_TABLA = "AAAAAAAAAA";
-    private static final String UPDATED_TABLA = "BBBBBBBBBB";
 
     private static final String DEFAULT_ACCION = "AAAAAAAAAA";
     private static final String UPDATED_ACCION = "BBBBBBBBBB";
@@ -67,7 +61,7 @@ class BitacoraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Bitacora createEntity(EntityManager em) {
-        Bitacora bitacora = new Bitacora().tabla(DEFAULT_TABLA).accion(DEFAULT_ACCION).creado(DEFAULT_CREADO);
+        Bitacora bitacora = new Bitacora().accion(DEFAULT_ACCION).creado(DEFAULT_CREADO);
         return bitacora;
     }
 
@@ -78,7 +72,7 @@ class BitacoraResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Bitacora createUpdatedEntity(EntityManager em) {
-        Bitacora bitacora = new Bitacora().tabla(UPDATED_TABLA).accion(UPDATED_ACCION).creado(UPDATED_CREADO);
+        Bitacora bitacora = new Bitacora().accion(UPDATED_ACCION).creado(UPDATED_CREADO);
         return bitacora;
     }
 
@@ -100,7 +94,6 @@ class BitacoraResourceIT {
         List<Bitacora> bitacoraList = bitacoraRepository.findAll();
         assertThat(bitacoraList).hasSize(databaseSizeBeforeCreate + 1);
         Bitacora testBitacora = bitacoraList.get(bitacoraList.size() - 1);
-        assertThat(testBitacora.getTabla()).isEqualTo(DEFAULT_TABLA);
         assertThat(testBitacora.getAccion()).isEqualTo(DEFAULT_ACCION);
         assertThat(testBitacora.getCreado()).isEqualTo(DEFAULT_CREADO);
     }
@@ -121,23 +114,6 @@ class BitacoraResourceIT {
         // Validate the Bitacora in the database
         List<Bitacora> bitacoraList = bitacoraRepository.findAll();
         assertThat(bitacoraList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkTablaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = bitacoraRepository.findAll().size();
-        // set the field null
-        bitacora.setTabla(null);
-
-        // Create the Bitacora, which fails.
-
-        restBitacoraMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(bitacora)))
-            .andExpect(status().isBadRequest());
-
-        List<Bitacora> bitacoraList = bitacoraRepository.findAll();
-        assertThat(bitacoraList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -186,7 +162,6 @@ class BitacoraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bitacora.getId().intValue())))
-            .andExpect(jsonPath("$.[*].tabla").value(hasItem(DEFAULT_TABLA)))
             .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)))
             .andExpect(jsonPath("$.[*].creado").value(hasItem(DEFAULT_CREADO.toString())));
     }
@@ -203,282 +178,8 @@ class BitacoraResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(bitacora.getId().intValue()))
-            .andExpect(jsonPath("$.tabla").value(DEFAULT_TABLA))
             .andExpect(jsonPath("$.accion").value(DEFAULT_ACCION))
             .andExpect(jsonPath("$.creado").value(DEFAULT_CREADO.toString()));
-    }
-
-    @Test
-    @Transactional
-    void getBitacorasByIdFiltering() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        Long id = bitacora.getId();
-
-        defaultBitacoraShouldBeFound("id.equals=" + id);
-        defaultBitacoraShouldNotBeFound("id.notEquals=" + id);
-
-        defaultBitacoraShouldBeFound("id.greaterThanOrEqual=" + id);
-        defaultBitacoraShouldNotBeFound("id.greaterThan=" + id);
-
-        defaultBitacoraShouldBeFound("id.lessThanOrEqual=" + id);
-        defaultBitacoraShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByTablaIsEqualToSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where tabla equals to DEFAULT_TABLA
-        defaultBitacoraShouldBeFound("tabla.equals=" + DEFAULT_TABLA);
-
-        // Get all the bitacoraList where tabla equals to UPDATED_TABLA
-        defaultBitacoraShouldNotBeFound("tabla.equals=" + UPDATED_TABLA);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByTablaIsInShouldWork() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where tabla in DEFAULT_TABLA or UPDATED_TABLA
-        defaultBitacoraShouldBeFound("tabla.in=" + DEFAULT_TABLA + "," + UPDATED_TABLA);
-
-        // Get all the bitacoraList where tabla equals to UPDATED_TABLA
-        defaultBitacoraShouldNotBeFound("tabla.in=" + UPDATED_TABLA);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByTablaIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where tabla is not null
-        defaultBitacoraShouldBeFound("tabla.specified=true");
-
-        // Get all the bitacoraList where tabla is null
-        defaultBitacoraShouldNotBeFound("tabla.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByTablaContainsSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where tabla contains DEFAULT_TABLA
-        defaultBitacoraShouldBeFound("tabla.contains=" + DEFAULT_TABLA);
-
-        // Get all the bitacoraList where tabla contains UPDATED_TABLA
-        defaultBitacoraShouldNotBeFound("tabla.contains=" + UPDATED_TABLA);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByTablaNotContainsSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where tabla does not contain DEFAULT_TABLA
-        defaultBitacoraShouldNotBeFound("tabla.doesNotContain=" + DEFAULT_TABLA);
-
-        // Get all the bitacoraList where tabla does not contain UPDATED_TABLA
-        defaultBitacoraShouldBeFound("tabla.doesNotContain=" + UPDATED_TABLA);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByAccionIsEqualToSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where accion equals to DEFAULT_ACCION
-        defaultBitacoraShouldBeFound("accion.equals=" + DEFAULT_ACCION);
-
-        // Get all the bitacoraList where accion equals to UPDATED_ACCION
-        defaultBitacoraShouldNotBeFound("accion.equals=" + UPDATED_ACCION);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByAccionIsInShouldWork() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where accion in DEFAULT_ACCION or UPDATED_ACCION
-        defaultBitacoraShouldBeFound("accion.in=" + DEFAULT_ACCION + "," + UPDATED_ACCION);
-
-        // Get all the bitacoraList where accion equals to UPDATED_ACCION
-        defaultBitacoraShouldNotBeFound("accion.in=" + UPDATED_ACCION);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByAccionIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where accion is not null
-        defaultBitacoraShouldBeFound("accion.specified=true");
-
-        // Get all the bitacoraList where accion is null
-        defaultBitacoraShouldNotBeFound("accion.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByAccionContainsSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where accion contains DEFAULT_ACCION
-        defaultBitacoraShouldBeFound("accion.contains=" + DEFAULT_ACCION);
-
-        // Get all the bitacoraList where accion contains UPDATED_ACCION
-        defaultBitacoraShouldNotBeFound("accion.contains=" + UPDATED_ACCION);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByAccionNotContainsSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where accion does not contain DEFAULT_ACCION
-        defaultBitacoraShouldNotBeFound("accion.doesNotContain=" + DEFAULT_ACCION);
-
-        // Get all the bitacoraList where accion does not contain UPDATED_ACCION
-        defaultBitacoraShouldBeFound("accion.doesNotContain=" + UPDATED_ACCION);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByCreadoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where creado equals to DEFAULT_CREADO
-        defaultBitacoraShouldBeFound("creado.equals=" + DEFAULT_CREADO);
-
-        // Get all the bitacoraList where creado equals to UPDATED_CREADO
-        defaultBitacoraShouldNotBeFound("creado.equals=" + UPDATED_CREADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByCreadoIsInShouldWork() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where creado in DEFAULT_CREADO or UPDATED_CREADO
-        defaultBitacoraShouldBeFound("creado.in=" + DEFAULT_CREADO + "," + UPDATED_CREADO);
-
-        // Get all the bitacoraList where creado equals to UPDATED_CREADO
-        defaultBitacoraShouldNotBeFound("creado.in=" + UPDATED_CREADO);
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByCreadoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        bitacoraRepository.saveAndFlush(bitacora);
-
-        // Get all the bitacoraList where creado is not null
-        defaultBitacoraShouldBeFound("creado.specified=true");
-
-        // Get all the bitacoraList where creado is null
-        defaultBitacoraShouldNotBeFound("creado.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByUserIsEqualToSomething() throws Exception {
-        User user;
-        if (TestUtil.findAll(em, User.class).isEmpty()) {
-            bitacoraRepository.saveAndFlush(bitacora);
-            user = UserResourceIT.createEntity(em);
-        } else {
-            user = TestUtil.findAll(em, User.class).get(0);
-        }
-        em.persist(user);
-        em.flush();
-        bitacora.setUser(user);
-        bitacoraRepository.saveAndFlush(bitacora);
-        Long userId = user.getId();
-
-        // Get all the bitacoraList where user equals to userId
-        defaultBitacoraShouldBeFound("userId.equals=" + userId);
-
-        // Get all the bitacoraList where user equals to (userId + 1)
-        defaultBitacoraShouldNotBeFound("userId.equals=" + (userId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllBitacorasByProyectoIsEqualToSomething() throws Exception {
-        Proyecto proyecto;
-        if (TestUtil.findAll(em, Proyecto.class).isEmpty()) {
-            bitacoraRepository.saveAndFlush(bitacora);
-            proyecto = ProyectoResourceIT.createEntity(em);
-        } else {
-            proyecto = TestUtil.findAll(em, Proyecto.class).get(0);
-        }
-        em.persist(proyecto);
-        em.flush();
-        bitacora.setProyecto(proyecto);
-        bitacoraRepository.saveAndFlush(bitacora);
-        Long proyectoId = proyecto.getId();
-
-        // Get all the bitacoraList where proyecto equals to proyectoId
-        defaultBitacoraShouldBeFound("proyectoId.equals=" + proyectoId);
-
-        // Get all the bitacoraList where proyecto equals to (proyectoId + 1)
-        defaultBitacoraShouldNotBeFound("proyectoId.equals=" + (proyectoId + 1));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is returned.
-     */
-    private void defaultBitacoraShouldBeFound(String filter) throws Exception {
-        restBitacoraMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(bitacora.getId().intValue())))
-            .andExpect(jsonPath("$.[*].tabla").value(hasItem(DEFAULT_TABLA)))
-            .andExpect(jsonPath("$.[*].accion").value(hasItem(DEFAULT_ACCION)))
-            .andExpect(jsonPath("$.[*].creado").value(hasItem(DEFAULT_CREADO.toString())));
-
-        // Check, that the count call also returns 1
-        restBitacoraMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("1"));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is not returned.
-     */
-    private void defaultBitacoraShouldNotBeFound(String filter) throws Exception {
-        restBitacoraMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").isEmpty());
-
-        // Check, that the count call also returns 0
-        restBitacoraMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("0"));
     }
 
     @Test
@@ -500,7 +201,7 @@ class BitacoraResourceIT {
         Bitacora updatedBitacora = bitacoraRepository.findById(bitacora.getId()).get();
         // Disconnect from session so that the updates on updatedBitacora are not directly saved in db
         em.detach(updatedBitacora);
-        updatedBitacora.tabla(UPDATED_TABLA).accion(UPDATED_ACCION).creado(UPDATED_CREADO);
+        updatedBitacora.accion(UPDATED_ACCION).creado(UPDATED_CREADO);
 
         restBitacoraMockMvc
             .perform(
@@ -514,7 +215,6 @@ class BitacoraResourceIT {
         List<Bitacora> bitacoraList = bitacoraRepository.findAll();
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
         Bitacora testBitacora = bitacoraList.get(bitacoraList.size() - 1);
-        assertThat(testBitacora.getTabla()).isEqualTo(UPDATED_TABLA);
         assertThat(testBitacora.getAccion()).isEqualTo(UPDATED_ACCION);
         assertThat(testBitacora.getCreado()).isEqualTo(UPDATED_CREADO);
     }
@@ -599,7 +299,6 @@ class BitacoraResourceIT {
         List<Bitacora> bitacoraList = bitacoraRepository.findAll();
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
         Bitacora testBitacora = bitacoraList.get(bitacoraList.size() - 1);
-        assertThat(testBitacora.getTabla()).isEqualTo(DEFAULT_TABLA);
         assertThat(testBitacora.getAccion()).isEqualTo(DEFAULT_ACCION);
         assertThat(testBitacora.getCreado()).isEqualTo(DEFAULT_CREADO);
     }
@@ -616,7 +315,7 @@ class BitacoraResourceIT {
         Bitacora partialUpdatedBitacora = new Bitacora();
         partialUpdatedBitacora.setId(bitacora.getId());
 
-        partialUpdatedBitacora.tabla(UPDATED_TABLA).accion(UPDATED_ACCION).creado(UPDATED_CREADO);
+        partialUpdatedBitacora.accion(UPDATED_ACCION).creado(UPDATED_CREADO);
 
         restBitacoraMockMvc
             .perform(
@@ -630,7 +329,6 @@ class BitacoraResourceIT {
         List<Bitacora> bitacoraList = bitacoraRepository.findAll();
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
         Bitacora testBitacora = bitacoraList.get(bitacoraList.size() - 1);
-        assertThat(testBitacora.getTabla()).isEqualTo(UPDATED_TABLA);
         assertThat(testBitacora.getAccion()).isEqualTo(UPDATED_ACCION);
         assertThat(testBitacora.getCreado()).isEqualTo(UPDATED_CREADO);
     }

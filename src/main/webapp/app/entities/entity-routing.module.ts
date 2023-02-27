@@ -50,24 +50,24 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./atributo/atributo.module').then(m => m.AtributoModule),
       },
       {
-        path: 'atributo-funcionalidad',
-        data: { pageTitle: 'AtributoFuncionalidads' },
-        loadChildren: () => import('./atributo-funcionalidad/atributo-funcionalidad.module').then(m => m.AtributoFuncionalidadModule),
-      },
-      {
         path: 'configuracion',
         data: { pageTitle: 'Configuracions' },
         loadChildren: () => import('./configuracion/configuracion.module').then(m => m.ConfiguracionModule),
       },
       {
-        path: 'rol',
-        data: { pageTitle: 'Rols' },
-        loadChildren: () => import('./rol/rol.module').then(m => m.RolModule),
-      },
-      {
         path: 'participacion-proyecto',
         data: { pageTitle: 'ParticipacionProyectos' },
         loadChildren: () => import('./participacion-proyecto/participacion-proyecto.module').then(m => m.ParticipacionProyectoModule),
+      },
+      {
+        path: 'atributo-funcionalidad',
+        data: { pageTitle: 'AtributoFuncionalidads' },
+        loadChildren: () => import('./atributo-funcionalidad/atributo-funcionalidad.module').then(m => m.AtributoFuncionalidadModule),
+      },
+      {
+        path: 'captura',
+        data: { pageTitle: 'Capturas' },
+        loadChildren: () => import('./captura/captura.module').then(m => m.CapturaModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

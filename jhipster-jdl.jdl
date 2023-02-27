@@ -10,17 +10,10 @@ enum EtiquetaVisual {
 }
 
 entity Bitacora {
-	tabla String required
     accion String required
     creado Instant required
 }
 
-
-//entity Usuario {
-//	nombre String required
-//    idGitLab String unique required
-//	tokenIdentificacion String
-//}
 
 
 entity Iteracion {
@@ -30,17 +23,12 @@ entity Iteracion {
 
 }
 
-//entity Permiso {
-//	nombre String
-//}
-
-//entity Rol {
-//	nombre String
-//}
 
 entity Proyecto{
 	nombre String
     idProyectoGitLab String unique required
+    creado Instant
+    modificado Instant
 }
 
 
@@ -85,11 +73,10 @@ entity Configuracion {
     valor String
 }
 
-entity Rol {
-  nombre String required
-}
 
-entity ParticipacionProyecto
+entity ParticipacionProyecto {
+	esAdmin Boolean
+}
 
 
 entity AtributoFuncionalidad {
@@ -98,25 +85,34 @@ entity AtributoFuncionalidad {
 }
 
 
+entity Captura {
+	funcionalidades String
+    estatus String
+    fecha Instant
+    
+}
+
 // Relaciones
 
 relationship ManyToMany {
   Funcionalidad to User
+  Proyecto{participantes}  to User
 }
 
+
 relationship OneToMany {
-	//Proyecto to Rol
     EstatusFuncionalidad to Funcionalidad
 	Iteracion to Funcionalidad
 	Prioridad to Funcionalidad
-
+	
 }
 
 relationship ManyToOne {
 
-  ParticipacionProyecto to User
-  ParticipacionProyecto to Proyecto
-  ParticipacionProyecto to Rol
+	Captura{iteracion} to Iteracion
+    
+    ParticipacionProyecto{usuario} to User
+    ParticipacionProyecto{proyecto} to Proyecto
 
 	Etiqueta to Funcionalidad
 
@@ -126,24 +122,14 @@ relationship ManyToOne {
     Comentario to Funcionalidad
 	Configuracion to Proyecto
 	Bitacora to User
-	Bitacora to Proyecto
-	//Usuario to Rol
+	Bitacora to Funcionalidad
 	Comentario to User
-	//Permiso to Rol
 	Iteracion to Proyecto
 }
 
 
 
-
-
-
-
-
 service * with serviceClass
-paginate * with pagination
-filter all
-//dto * with mapstruct
 
 
 

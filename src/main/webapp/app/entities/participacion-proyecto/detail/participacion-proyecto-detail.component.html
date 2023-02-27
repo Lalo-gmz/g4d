@@ -14,20 +14,18 @@
         <dd>
           <span>{{ participacionProyecto.id }}</span>
         </dd>
-        <dt><span>User</span></dt>
+        <dt><span>Es Admin</span></dt>
         <dd>
-          <span>{{ participacionProyecto.user?.id }}</span>
+          <span>{{ participacionProyecto.esAdmin }}</span>
+        </dd>
+        <dt><span>Usuario</span></dt>
+        <dd>
+          <span>{{ participacionProyecto.usuario?.id }}</span>
         </dd>
         <dt><span>Proyecto</span></dt>
         <dd>
           <div *ngIf="participacionProyecto.proyecto">
             <a [routerLink]="['/proyecto', participacionProyecto.proyecto.id, 'view']">{{ participacionProyecto.proyecto.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Rol</span></dt>
-        <dd>
-          <div *ngIf="participacionProyecto.rol">
-            <a [routerLink]="['/rol', participacionProyecto.rol.id, 'view']">{{ participacionProyecto.rol.id }}</a>
           </div>
         </dd>
       </dl>

@@ -23,16 +23,15 @@ public class ParticipacionProyecto implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    private User user;
+    @Column(name = "es_admin")
+    private Boolean esAdmin;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "participacionProyectos", "configuracions", "bitacoras", "iteracions" }, allowSetters = true)
+    private User usuario;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "participantes", "configuracions", "iteracions" }, allowSetters = true)
     private Proyecto proyecto;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "participacionProyectos" }, allowSetters = true)
-    private Rol rol;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -49,16 +48,29 @@ public class ParticipacionProyecto implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return this.user;
+    public Boolean getEsAdmin() {
+        return this.esAdmin;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public ParticipacionProyecto esAdmin(Boolean esAdmin) {
+        this.setEsAdmin(esAdmin);
+        return this;
     }
 
-    public ParticipacionProyecto user(User user) {
-        this.setUser(user);
+    public void setEsAdmin(Boolean esAdmin) {
+        this.esAdmin = esAdmin;
+    }
+
+    public User getUsuario() {
+        return this.usuario;
+    }
+
+    public void setUsuario(User user) {
+        this.usuario = user;
+    }
+
+    public ParticipacionProyecto usuario(User user) {
+        this.setUsuario(user);
         return this;
     }
 
@@ -72,19 +84,6 @@ public class ParticipacionProyecto implements Serializable {
 
     public ParticipacionProyecto proyecto(Proyecto proyecto) {
         this.setProyecto(proyecto);
-        return this;
-    }
-
-    public Rol getRol() {
-        return this.rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
-    public ParticipacionProyecto rol(Rol rol) {
-        this.setRol(rol);
         return this;
     }
 
@@ -112,6 +111,7 @@ public class ParticipacionProyecto implements Serializable {
     public String toString() {
         return "ParticipacionProyecto{" +
             "id=" + getId() +
+            ", esAdmin='" + getEsAdmin() + "'" +
             "}";
     }
 }

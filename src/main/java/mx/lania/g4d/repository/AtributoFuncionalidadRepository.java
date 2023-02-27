@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface AtributoFuncionalidadRepository
-    extends JpaRepository<AtributoFuncionalidad, Long>, JpaSpecificationExecutor<AtributoFuncionalidad> {
+public interface AtributoFuncionalidadRepository extends JpaRepository<AtributoFuncionalidad, Long> {
     Optional<List<AtributoFuncionalidad>> findAtributoFuncionalidadByFuncionalidadId(Long id);
 }

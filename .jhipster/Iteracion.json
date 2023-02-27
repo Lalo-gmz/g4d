@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173632",
+  "changelogDate": "20230224170626",
   "dto": "no",
   "embedded": false,
   "entityTableName": "iteracion",
@@ -20,9 +20,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Iteracion",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

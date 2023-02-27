@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.Prioridad;
 import mx.lania.g4d.repository.PrioridadRepository;
-import mx.lania.g4d.service.PrioridadQueryService;
 import mx.lania.g4d.service.PrioridadService;
-import mx.lania.g4d.service.criteria.PrioridadCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,9 @@ public class PrioridadResource {
 
     private final PrioridadRepository prioridadRepository;
 
-    private final PrioridadQueryService prioridadQueryService;
-
-    public PrioridadResource(
-        PrioridadService prioridadService,
-        PrioridadRepository prioridadRepository,
-        PrioridadQueryService prioridadQueryService
-    ) {
+    public PrioridadResource(PrioridadService prioridadService, PrioridadRepository prioridadRepository) {
         this.prioridadService = prioridadService;
         this.prioridadRepository = prioridadRepository;
-        this.prioridadQueryService = prioridadQueryService;
     }
 
     /**
@@ -147,31 +133,12 @@ public class PrioridadResource {
     /**
      * {@code GET  /prioridads} : get all the prioridads.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of prioridads in body.
      */
     @GetMapping("/prioridads")
-    public ResponseEntity<List<Prioridad>> getAllPrioridads(
-        PrioridadCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Prioridads by criteria: {}", criteria);
-        Page<Prioridad> page = prioridadQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /prioridads/count} : count all the prioridads.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/prioridads/count")
-    public ResponseEntity<Long> countPrioridads(PrioridadCriteria criteria) {
-        log.debug("REST request to count Prioridads by criteria: {}", criteria);
-        return ResponseEntity.ok().body(prioridadQueryService.countByCriteria(criteria));
+    public List<Prioridad> getAllPrioridads() {
+        log.debug("REST request to get all Prioridads");
+        return prioridadService.findAll();
     }
 
     /**

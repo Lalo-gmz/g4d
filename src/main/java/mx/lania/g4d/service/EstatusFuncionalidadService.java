@@ -1,12 +1,11 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.EstatusFuncionalidad;
 import mx.lania.g4d.repository.EstatusFuncionalidadRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -71,13 +70,12 @@ public class EstatusFuncionalidadService {
     /**
      * Get all the estatusFuncionalidads.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<EstatusFuncionalidad> findAll(Pageable pageable) {
+    public List<EstatusFuncionalidad> findAll() {
         log.debug("Request to get all EstatusFuncionalidads");
-        return estatusFuncionalidadRepository.findAll(pageable);
+        return estatusFuncionalidadRepository.findAll();
     }
 
     /**

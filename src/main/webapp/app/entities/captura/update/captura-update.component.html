@@ -1,0 +1,79 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-captura-heading" data-cy="CapturaCreateUpdateHeading">Crear o editar Captura</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_funcionalidades">Funcionalidades</label>
+          <input
+            type="text"
+            class="form-control"
+            name="funcionalidades"
+            id="field_funcionalidades"
+            data-cy="funcionalidades"
+            formControlName="funcionalidades"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_estatus">Estatus</label>
+          <input type="text" class="form-control" name="estatus" id="field_estatus" data-cy="estatus" formControlName="estatus" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_fecha">Fecha</label>
+          <div class="d-flex">
+            <input
+              id="field_fecha"
+              data-cy="fecha"
+              type="datetime-local"
+              class="form-control"
+              name="fecha"
+              formControlName="fecha"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_iteracion">Iteracion</label>
+          <select
+            class="form-control"
+            id="field_iteracion"
+            data-cy="iteracion"
+            name="iteracion"
+            formControlName="iteracion"
+            [compareWith]="compareIteracion"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="iteracionOption" *ngFor="let iteracionOption of iteracionsSharedCollection">{{ iteracionOption.id }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

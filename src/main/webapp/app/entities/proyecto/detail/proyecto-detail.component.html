@@ -22,6 +22,18 @@
         <dd>
           <span>{{ proyecto.idProyectoGitLab }}</span>
         </dd>
+        <dt><span>Creado</span></dt>
+        <dd>
+          <span>{{ proyecto.creado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Modificado</span></dt>
+        <dd>
+          <span>{{ proyecto.modificado | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Participantes</span></dt>
+        <dd>
+          <span *ngFor="let participantes of proyecto.participantes; let last = last"> {{ participantes.id }}{{ last ? '' : ', ' }} </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

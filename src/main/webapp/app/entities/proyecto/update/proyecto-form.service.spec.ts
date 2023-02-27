@@ -22,6 +22,9 @@ describe('Proyecto Form Service', () => {
             id: expect.any(Object),
             nombre: expect.any(Object),
             idProyectoGitLab: expect.any(Object),
+            creado: expect.any(Object),
+            modificado: expect.any(Object),
+            participantes: expect.any(Object),
           })
         );
       });
@@ -34,6 +37,9 @@ describe('Proyecto Form Service', () => {
             id: expect.any(Object),
             nombre: expect.any(Object),
             idProyectoGitLab: expect.any(Object),
+            creado: expect.any(Object),
+            modificado: expect.any(Object),
+            participantes: expect.any(Object),
           })
         );
       });

@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173633",
+  "changelogDate": "20230224170627",
   "dto": "no",
   "embedded": false,
   "entityTableName": "proyecto",
@@ -13,30 +13,32 @@
       "fieldName": "idProyectoGitLab",
       "fieldType": "String",
       "fieldValidateRules": ["unique", "required"]
+    },
+    {
+      "fieldName": "creado",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "modificado",
+      "fieldType": "Instant"
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Proyecto",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "participacionProyecto",
-      "otherEntityRelationshipName": "proyecto",
-      "relationshipName": "participacionProyecto",
-      "relationshipType": "one-to-many"
+      "otherEntityName": "user",
+      "ownerSide": true,
+      "relationshipName": "participantes",
+      "relationshipType": "many-to-many"
     },
     {
       "otherEntityName": "configuracion",
       "otherEntityRelationshipName": "proyecto",
       "relationshipName": "configuracion",
-      "relationshipType": "one-to-many"
-    },
-    {
-      "otherEntityName": "bitacora",
-      "otherEntityRelationshipName": "proyecto",
-      "relationshipName": "bitacora",
       "relationshipType": "one-to-many"
     },
     {

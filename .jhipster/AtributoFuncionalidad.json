@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173640",
+  "changelogDate": "20230224170636",
   "dto": "no",
   "embedded": false,
   "entityTableName": "atributo_funcionalidad",
@@ -15,9 +15,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "AtributoFuncionalidad",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

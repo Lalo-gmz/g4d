@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
@@ -65,6 +66,12 @@ public class ProyectoService {
                 if (proyecto.getIdProyectoGitLab() != null) {
                     existingProyecto.setIdProyectoGitLab(proyecto.getIdProyectoGitLab());
                 }
+                if (proyecto.getCreado() != null) {
+                    existingProyecto.setCreado(proyecto.getCreado());
+                }
+                if (proyecto.getModificado() != null) {
+                    existingProyecto.setModificado(proyecto.getModificado());
+                }
 
                 return existingProyecto;
             })
@@ -74,13 +81,21 @@ public class ProyectoService {
     /**
      * Get all the proyectos.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Proyecto> findAll(Pageable pageable) {
+    public List<Proyecto> findAll() {
         log.debug("Request to get all Proyectos");
-        return proyectoRepository.findAll(pageable);
+        return proyectoRepository.findAll();
+    }
+
+    /**
+     * Get all the proyectos with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<Proyecto> findAllWithEagerRelationships(Pageable pageable) {
+        return proyectoRepository.findAllWithEagerRelationships(pageable);
     }
 
     /**
@@ -92,7 +107,7 @@ public class ProyectoService {
     @Transactional(readOnly = true)
     public Optional<Proyecto> findOne(Long id) {
         log.debug("Request to get Proyecto : {}", id);
-        return proyectoRepository.findById(id);
+        return proyectoRepository.findOneWithEagerRelationships(id);
     }
 
     /**

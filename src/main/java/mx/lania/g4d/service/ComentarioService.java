@@ -6,8 +6,6 @@ import mx.lania.g4d.domain.Comentario;
 import mx.lania.g4d.repository.ComentarioRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,19 +76,12 @@ public class ComentarioService {
     /**
      * Get all the comentarios.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Comentario> findAll(Pageable pageable) {
+    public List<Comentario> findAll() {
         log.debug("Request to get all Comentarios");
-        return comentarioRepository.findAll(pageable);
-    }
-
-    @Transactional(readOnly = true)
-    public Optional<List<Comentario>> findAllByFuncId(Long id) {
-        log.debug("Request to get all Comentarios");
-        return comentarioRepository.findAllByFuncionalidadId(id);
+        return comentarioRepository.findAll();
     }
 
     /**
@@ -103,6 +94,12 @@ public class ComentarioService {
     public Optional<Comentario> findOne(Long id) {
         log.debug("Request to get Comentario : {}", id);
         return comentarioRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<List<Comentario>> findAllByFuncId(Long id) {
+        log.debug("Request to get All Comentario bu funcionalidad id: {}", id);
+        return comentarioRepository.findAllByFuncionalidadId(id);
     }
 
     /**

@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173637",
+  "changelogDate": "20230224170631",
   "dto": "no",
   "embedded": false,
   "entityTableName": "prioridad",
@@ -15,9 +15,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Prioridad",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

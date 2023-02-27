@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173638",
+  "changelogDate": "20230224170632",
   "dto": "no",
   "embedded": false,
   "entityTableName": "comentario",
@@ -20,9 +20,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Comentario",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

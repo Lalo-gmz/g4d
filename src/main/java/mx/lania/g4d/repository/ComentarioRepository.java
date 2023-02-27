@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ComentarioRepository extends JpaRepository<Comentario, Long>, JpaSpecificationExecutor<Comentario> {
+public interface ComentarioRepository extends JpaRepository<Comentario, Long> {
     @Query("select comentario from Comentario comentario where comentario.user.login = ?#{principal.username}")
     List<Comentario> findByUserIsCurrentUser();
 

@@ -32,7 +32,7 @@ public class Configuracion implements Serializable {
     private String valor;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "participacionProyectos", "configuracions", "bitacoras", "iteracions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "participantes", "configuracions", "iteracions" }, allowSetters = true)
     private Proyecto proyecto;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

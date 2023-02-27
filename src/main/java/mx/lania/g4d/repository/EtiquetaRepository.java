@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long>, JpaSpecificationExecutor<Etiqueta> {
+public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
     Optional<List<Etiqueta>> findAllByFuncionalidadId(Long id);
 }

@@ -10,10 +10,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ParticipacionProyectoRepository
-    extends JpaRepository<ParticipacionProyecto, Long>, JpaSpecificationExecutor<ParticipacionProyecto> {
+public interface ParticipacionProyectoRepository extends JpaRepository<ParticipacionProyecto, Long> {
     @Query(
-        "select participacionProyecto from ParticipacionProyecto participacionProyecto where participacionProyecto.user.login = ?#{principal.username}"
+        "select participacionProyecto from ParticipacionProyecto participacionProyecto where participacionProyecto.usuario.login = ?#{principal.username}"
     )
-    List<ParticipacionProyecto> findByUserIsCurrentUser();
+    List<ParticipacionProyecto> findByUsuarioIsCurrentUser();
 }

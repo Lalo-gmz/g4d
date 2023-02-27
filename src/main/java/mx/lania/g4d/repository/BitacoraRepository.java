@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BitacoraRepository extends JpaRepository<Bitacora, Long>, JpaSpecificationExecutor<Bitacora> {
+public interface BitacoraRepository extends JpaRepository<Bitacora, Long> {
     @Query("select bitacora from Bitacora bitacora where bitacora.user.login = ?#{principal.username}")
     List<Bitacora> findByUserIsCurrentUser();
 }

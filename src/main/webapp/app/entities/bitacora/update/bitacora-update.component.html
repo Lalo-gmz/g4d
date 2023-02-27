@@ -12,14 +12,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_tabla">Tabla</label>
-          <input type="text" class="form-control" name="tabla" id="field_tabla" data-cy="tabla" formControlName="tabla" />
-          <div *ngIf="editForm.get('tabla')!.invalid && (editForm.get('tabla')!.dirty || editForm.get('tabla')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('tabla')?.errors?.required"> Este campo es obligatorio. </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" for="field_accion">Accion</label>
           <input type="text" class="form-control" name="accion" id="field_accion" data-cy="accion" formControlName="accion" />
           <div *ngIf="editForm.get('accion')!.invalid && (editForm.get('accion')!.dirty || editForm.get('accion')!.touched)">
@@ -57,17 +49,19 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_proyecto">Proyecto</label>
+          <label class="form-label" for="field_funcionalidad">Funcionalidad</label>
           <select
             class="form-control"
-            id="field_proyecto"
-            data-cy="proyecto"
-            name="proyecto"
-            formControlName="proyecto"
-            [compareWith]="compareProyecto"
+            id="field_funcionalidad"
+            data-cy="funcionalidad"
+            name="funcionalidad"
+            formControlName="funcionalidad"
+            [compareWith]="compareFuncionalidad"
           >
             <option [ngValue]="null"></option>
-            <option [ngValue]="proyectoOption" *ngFor="let proyectoOption of proyectosSharedCollection">{{ proyectoOption.id }}</option>
+            <option [ngValue]="funcionalidadOption" *ngFor="let funcionalidadOption of funcionalidadsSharedCollection">
+              {{ funcionalidadOption.id }}
+            </option>
           </select>
         </div>
       </div>

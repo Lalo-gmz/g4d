@@ -11,8 +11,6 @@ import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
 import { IProyecto } from 'app/entities/proyecto/proyecto.model';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
-import { IRol } from 'app/entities/rol/rol.model';
-import { RolService } from 'app/entities/rol/service/rol.service';
 
 @Component({
   selector: 'jhi-participacion-proyecto-update',
@@ -24,7 +22,6 @@ export class ParticipacionProyectoUpdateComponent implements OnInit {
 
   usersSharedCollection: IUser[] = [];
   proyectosSharedCollection: IProyecto[] = [];
-  rolsSharedCollection: IRol[] = [];
 
   editForm: ParticipacionProyectoFormGroup = this.participacionProyectoFormService.createParticipacionProyectoFormGroup();
 
@@ -33,15 +30,12 @@ export class ParticipacionProyectoUpdateComponent implements OnInit {
     protected participacionProyectoFormService: ParticipacionProyectoFormService,
     protected userService: UserService,
     protected proyectoService: ProyectoService,
-    protected rolService: RolService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   compareProyecto = (o1: IProyecto | null, o2: IProyecto | null): boolean => this.proyectoService.compareProyecto(o1, o2);
-
-  compareRol = (o1: IRol | null, o2: IRol | null): boolean => this.rolService.compareRol(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ participacionProyecto }) => {
@@ -93,20 +87,19 @@ export class ParticipacionProyectoUpdateComponent implements OnInit {
 
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(
       this.usersSharedCollection,
-      participacionProyecto.user
+      participacionProyecto.usuario
     );
     this.proyectosSharedCollection = this.proyectoService.addProyectoToCollectionIfMissing<IProyecto>(
       this.proyectosSharedCollection,
       participacionProyecto.proyecto
     );
-    this.rolsSharedCollection = this.rolService.addRolToCollectionIfMissing<IRol>(this.rolsSharedCollection, participacionProyecto.rol);
   }
 
   protected loadRelationshipsOptions(): void {
     this.userService
       .query()
       .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
-      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.participacionProyecto?.user)))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.participacionProyecto?.usuario)))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
     this.proyectoService
@@ -118,11 +111,5 @@ export class ParticipacionProyectoUpdateComponent implements OnInit {
         )
       )
       .subscribe((proyectos: IProyecto[]) => (this.proyectosSharedCollection = proyectos));
-
-    this.rolService
-      .query()
-      .pipe(map((res: HttpResponse<IRol[]>) => res.body ?? []))
-      .pipe(map((rols: IRol[]) => this.rolService.addRolToCollectionIfMissing<IRol>(rols, this.participacionProyecto?.rol)))
-      .subscribe((rols: IRol[]) => (this.rolsSharedCollection = rols));
   }
 }

@@ -6,8 +6,6 @@ import mx.lania.g4d.domain.Etiqueta;
 import mx.lania.g4d.repository.EtiquetaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,13 +73,12 @@ public class EtiquetaService {
     /**
      * Get all the etiquetas.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Etiqueta> findAll(Pageable pageable) {
+    public List<Etiqueta> findAll() {
         log.debug("Request to get all Etiquetas");
-        return etiquetaRepository.findAll(pageable);
+        return etiquetaRepository.findAll();
     }
 
     @Transactional(readOnly = true)

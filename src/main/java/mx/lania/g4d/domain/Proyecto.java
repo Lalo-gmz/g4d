@@ -2,6 +2,7 @@ package mx.lania.g4d.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -33,20 +34,25 @@ public class Proyecto implements Serializable {
     @Column(name = "id_proyecto_git_lab", nullable = false, unique = true)
     private String idProyectoGitLab;
 
-    @OneToMany(mappedBy = "proyecto")
+    @Column(name = "creado")
+    private Instant creado;
+
+    @Column(name = "modificado")
+    private Instant modificado;
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_proyecto__participantes",
+        joinColumns = @JoinColumn(name = "proyecto_id"),
+        inverseJoinColumns = @JoinColumn(name = "participantes_id")
+    )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "user", "proyecto", "rol" }, allowSetters = true)
-    private Set<ParticipacionProyecto> participacionProyectos = new HashSet<>();
+    private Set<User> participantes = new HashSet<>();
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "proyecto" }, allowSetters = true)
     private Set<Configuracion> configuracions = new HashSet<>();
-
-    @OneToMany(mappedBy = "proyecto")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "user", "proyecto" }, allowSetters = true)
-    private Set<Bitacora> bitacoras = new HashSet<>();
 
     @OneToMany(mappedBy = "proyecto")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -94,34 +100,52 @@ public class Proyecto implements Serializable {
         this.idProyectoGitLab = idProyectoGitLab;
     }
 
-    public Set<ParticipacionProyecto> getParticipacionProyectos() {
-        return this.participacionProyectos;
+    public Instant getCreado() {
+        return this.creado;
     }
 
-    public void setParticipacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
-        if (this.participacionProyectos != null) {
-            this.participacionProyectos.forEach(i -> i.setProyecto(null));
-        }
-        if (participacionProyectos != null) {
-            participacionProyectos.forEach(i -> i.setProyecto(this));
-        }
-        this.participacionProyectos = participacionProyectos;
-    }
-
-    public Proyecto participacionProyectos(Set<ParticipacionProyecto> participacionProyectos) {
-        this.setParticipacionProyectos(participacionProyectos);
+    public Proyecto creado(Instant creado) {
+        this.setCreado(creado);
         return this;
     }
 
-    public Proyecto addParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
-        this.participacionProyectos.add(participacionProyecto);
-        participacionProyecto.setProyecto(this);
+    public void setCreado(Instant creado) {
+        this.creado = creado;
+    }
+
+    public Instant getModificado() {
+        return this.modificado;
+    }
+
+    public Proyecto modificado(Instant modificado) {
+        this.setModificado(modificado);
         return this;
     }
 
-    public Proyecto removeParticipacionProyecto(ParticipacionProyecto participacionProyecto) {
-        this.participacionProyectos.remove(participacionProyecto);
-        participacionProyecto.setProyecto(null);
+    public void setModificado(Instant modificado) {
+        this.modificado = modificado;
+    }
+
+    public Set<User> getParticipantes() {
+        return this.participantes;
+    }
+
+    public void setParticipantes(Set<User> users) {
+        this.participantes = users;
+    }
+
+    public Proyecto participantes(Set<User> users) {
+        this.setParticipantes(users);
+        return this;
+    }
+
+    public Proyecto addParticipantes(User user) {
+        this.participantes.add(user);
+        return this;
+    }
+
+    public Proyecto removeParticipantes(User user) {
+        this.participantes.remove(user);
         return this;
     }
 
@@ -153,37 +177,6 @@ public class Proyecto implements Serializable {
     public Proyecto removeConfiguracion(Configuracion configuracion) {
         this.configuracions.remove(configuracion);
         configuracion.setProyecto(null);
-        return this;
-    }
-
-    public Set<Bitacora> getBitacoras() {
-        return this.bitacoras;
-    }
-
-    public void setBitacoras(Set<Bitacora> bitacoras) {
-        if (this.bitacoras != null) {
-            this.bitacoras.forEach(i -> i.setProyecto(null));
-        }
-        if (bitacoras != null) {
-            bitacoras.forEach(i -> i.setProyecto(this));
-        }
-        this.bitacoras = bitacoras;
-    }
-
-    public Proyecto bitacoras(Set<Bitacora> bitacoras) {
-        this.setBitacoras(bitacoras);
-        return this;
-    }
-
-    public Proyecto addBitacora(Bitacora bitacora) {
-        this.bitacoras.add(bitacora);
-        bitacora.setProyecto(this);
-        return this;
-    }
-
-    public Proyecto removeBitacora(Bitacora bitacora) {
-        this.bitacoras.remove(bitacora);
-        bitacora.setProyecto(null);
         return this;
     }
 
@@ -244,6 +237,8 @@ public class Proyecto implements Serializable {
             "id=" + getId() +
             ", nombre='" + getNombre() + "'" +
             ", idProyectoGitLab='" + getIdProyectoGitLab() + "'" +
+            ", creado='" + getCreado() + "'" +
+            ", modificado='" + getModificado() + "'" +
             "}";
     }
 }

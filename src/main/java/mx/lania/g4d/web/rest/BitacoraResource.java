@@ -9,21 +9,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
-import mx.lania.g4d.service.BitacoraQueryService;
 import mx.lania.g4d.service.BitacoraService;
-import mx.lania.g4d.service.criteria.BitacoraCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -44,16 +37,9 @@ public class BitacoraResource {
 
     private final BitacoraRepository bitacoraRepository;
 
-    private final BitacoraQueryService bitacoraQueryService;
-
-    public BitacoraResource(
-        BitacoraService bitacoraService,
-        BitacoraRepository bitacoraRepository,
-        BitacoraQueryService bitacoraQueryService
-    ) {
+    public BitacoraResource(BitacoraService bitacoraService, BitacoraRepository bitacoraRepository) {
         this.bitacoraService = bitacoraService;
         this.bitacoraRepository = bitacoraRepository;
-        this.bitacoraQueryService = bitacoraQueryService;
     }
 
     /**
@@ -149,31 +135,12 @@ public class BitacoraResource {
     /**
      * {@code GET  /bitacoras} : get all the bitacoras.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bitacoras in body.
      */
     @GetMapping("/bitacoras")
-    public ResponseEntity<List<Bitacora>> getAllBitacoras(
-        BitacoraCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Bitacoras by criteria: {}", criteria);
-        Page<Bitacora> page = bitacoraQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /bitacoras/count} : count all the bitacoras.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/bitacoras/count")
-    public ResponseEntity<Long> countBitacoras(BitacoraCriteria criteria) {
-        log.debug("REST request to count Bitacoras by criteria: {}", criteria);
-        return ResponseEntity.ok().body(bitacoraQueryService.countByCriteria(criteria));
+    public List<Bitacora> getAllBitacoras() {
+        log.debug("REST request to get all Bitacoras");
+        return bitacoraService.findAll();
     }
 
     /**

@@ -2,25 +2,31 @@ package mx.lania.g4d.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import mx.lania.g4d.IntegrationTest;
-import mx.lania.g4d.domain.Bitacora;
-import mx.lania.g4d.domain.Configuracion;
-import mx.lania.g4d.domain.Iteracion;
-import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
-import mx.lania.g4d.service.criteria.ProyectoCriteria;
+import mx.lania.g4d.service.ProyectoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link ProyectoResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class ProyectoResourceIT {
@@ -40,6 +47,12 @@ class ProyectoResourceIT {
     private static final String DEFAULT_ID_PROYECTO_GIT_LAB = "AAAAAAAAAA";
     private static final String UPDATED_ID_PROYECTO_GIT_LAB = "BBBBBBBBBB";
 
+    private static final Instant DEFAULT_CREADO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_CREADO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_MODIFICADO = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_MODIFICADO = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final String ENTITY_API_URL = "/api/proyectos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -48,6 +61,12 @@ class ProyectoResourceIT {
 
     @Autowired
     private ProyectoRepository proyectoRepository;
+
+    @Mock
+    private ProyectoRepository proyectoRepositoryMock;
+
+    @Mock
+    private ProyectoService proyectoServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -64,7 +83,11 @@ class ProyectoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Proyecto createEntity(EntityManager em) {
-        Proyecto proyecto = new Proyecto().nombre(DEFAULT_NOMBRE).idProyectoGitLab(DEFAULT_ID_PROYECTO_GIT_LAB);
+        Proyecto proyecto = new Proyecto()
+            .nombre(DEFAULT_NOMBRE)
+            .idProyectoGitLab(DEFAULT_ID_PROYECTO_GIT_LAB)
+            .creado(DEFAULT_CREADO)
+            .modificado(DEFAULT_MODIFICADO);
         return proyecto;
     }
 
@@ -75,7 +98,11 @@ class ProyectoResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Proyecto createUpdatedEntity(EntityManager em) {
-        Proyecto proyecto = new Proyecto().nombre(UPDATED_NOMBRE).idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB);
+        Proyecto proyecto = new Proyecto()
+            .nombre(UPDATED_NOMBRE)
+            .idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB)
+            .creado(UPDATED_CREADO)
+            .modificado(UPDATED_MODIFICADO);
         return proyecto;
     }
 
@@ -99,6 +126,8 @@ class ProyectoResourceIT {
         Proyecto testProyecto = proyectoList.get(proyectoList.size() - 1);
         assertThat(testProyecto.getNombre()).isEqualTo(DEFAULT_NOMBRE);
         assertThat(testProyecto.getIdProyectoGitLab()).isEqualTo(DEFAULT_ID_PROYECTO_GIT_LAB);
+        assertThat(testProyecto.getCreado()).isEqualTo(DEFAULT_CREADO);
+        assertThat(testProyecto.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
     @Test
@@ -149,7 +178,26 @@ class ProyectoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(proyecto.getId().intValue())))
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].idProyectoGitLab").value(hasItem(DEFAULT_ID_PROYECTO_GIT_LAB)));
+            .andExpect(jsonPath("$.[*].idProyectoGitLab").value(hasItem(DEFAULT_ID_PROYECTO_GIT_LAB)))
+            .andExpect(jsonPath("$.[*].creado").value(hasItem(DEFAULT_CREADO.toString())))
+            .andExpect(jsonPath("$.[*].modificado").value(hasItem(DEFAULT_MODIFICADO.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProyectosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(proyectoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProyectoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(proyectoServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllProyectosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(proyectoServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restProyectoMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(proyectoRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -165,286 +213,9 @@ class ProyectoResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(proyecto.getId().intValue()))
             .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE))
-            .andExpect(jsonPath("$.idProyectoGitLab").value(DEFAULT_ID_PROYECTO_GIT_LAB));
-    }
-
-    @Test
-    @Transactional
-    void getProyectosByIdFiltering() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        Long id = proyecto.getId();
-
-        defaultProyectoShouldBeFound("id.equals=" + id);
-        defaultProyectoShouldNotBeFound("id.notEquals=" + id);
-
-        defaultProyectoShouldBeFound("id.greaterThanOrEqual=" + id);
-        defaultProyectoShouldNotBeFound("id.greaterThan=" + id);
-
-        defaultProyectoShouldBeFound("id.lessThanOrEqual=" + id);
-        defaultProyectoShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByNombreIsEqualToSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where nombre equals to DEFAULT_NOMBRE
-        defaultProyectoShouldBeFound("nombre.equals=" + DEFAULT_NOMBRE);
-
-        // Get all the proyectoList where nombre equals to UPDATED_NOMBRE
-        defaultProyectoShouldNotBeFound("nombre.equals=" + UPDATED_NOMBRE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByNombreIsInShouldWork() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where nombre in DEFAULT_NOMBRE or UPDATED_NOMBRE
-        defaultProyectoShouldBeFound("nombre.in=" + DEFAULT_NOMBRE + "," + UPDATED_NOMBRE);
-
-        // Get all the proyectoList where nombre equals to UPDATED_NOMBRE
-        defaultProyectoShouldNotBeFound("nombre.in=" + UPDATED_NOMBRE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByNombreIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where nombre is not null
-        defaultProyectoShouldBeFound("nombre.specified=true");
-
-        // Get all the proyectoList where nombre is null
-        defaultProyectoShouldNotBeFound("nombre.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByNombreContainsSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where nombre contains DEFAULT_NOMBRE
-        defaultProyectoShouldBeFound("nombre.contains=" + DEFAULT_NOMBRE);
-
-        // Get all the proyectoList where nombre contains UPDATED_NOMBRE
-        defaultProyectoShouldNotBeFound("nombre.contains=" + UPDATED_NOMBRE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByNombreNotContainsSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where nombre does not contain DEFAULT_NOMBRE
-        defaultProyectoShouldNotBeFound("nombre.doesNotContain=" + DEFAULT_NOMBRE);
-
-        // Get all the proyectoList where nombre does not contain UPDATED_NOMBRE
-        defaultProyectoShouldBeFound("nombre.doesNotContain=" + UPDATED_NOMBRE);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIdProyectoGitLabIsEqualToSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where idProyectoGitLab equals to DEFAULT_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldBeFound("idProyectoGitLab.equals=" + DEFAULT_ID_PROYECTO_GIT_LAB);
-
-        // Get all the proyectoList where idProyectoGitLab equals to UPDATED_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldNotBeFound("idProyectoGitLab.equals=" + UPDATED_ID_PROYECTO_GIT_LAB);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIdProyectoGitLabIsInShouldWork() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where idProyectoGitLab in DEFAULT_ID_PROYECTO_GIT_LAB or UPDATED_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldBeFound("idProyectoGitLab.in=" + DEFAULT_ID_PROYECTO_GIT_LAB + "," + UPDATED_ID_PROYECTO_GIT_LAB);
-
-        // Get all the proyectoList where idProyectoGitLab equals to UPDATED_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldNotBeFound("idProyectoGitLab.in=" + UPDATED_ID_PROYECTO_GIT_LAB);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIdProyectoGitLabIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where idProyectoGitLab is not null
-        defaultProyectoShouldBeFound("idProyectoGitLab.specified=true");
-
-        // Get all the proyectoList where idProyectoGitLab is null
-        defaultProyectoShouldNotBeFound("idProyectoGitLab.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIdProyectoGitLabContainsSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where idProyectoGitLab contains DEFAULT_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldBeFound("idProyectoGitLab.contains=" + DEFAULT_ID_PROYECTO_GIT_LAB);
-
-        // Get all the proyectoList where idProyectoGitLab contains UPDATED_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldNotBeFound("idProyectoGitLab.contains=" + UPDATED_ID_PROYECTO_GIT_LAB);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIdProyectoGitLabNotContainsSomething() throws Exception {
-        // Initialize the database
-        proyectoRepository.saveAndFlush(proyecto);
-
-        // Get all the proyectoList where idProyectoGitLab does not contain DEFAULT_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldNotBeFound("idProyectoGitLab.doesNotContain=" + DEFAULT_ID_PROYECTO_GIT_LAB);
-
-        // Get all the proyectoList where idProyectoGitLab does not contain UPDATED_ID_PROYECTO_GIT_LAB
-        defaultProyectoShouldBeFound("idProyectoGitLab.doesNotContain=" + UPDATED_ID_PROYECTO_GIT_LAB);
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByParticipacionProyectoIsEqualToSomething() throws Exception {
-        ParticipacionProyecto participacionProyecto;
-        if (TestUtil.findAll(em, ParticipacionProyecto.class).isEmpty()) {
-            proyectoRepository.saveAndFlush(proyecto);
-            participacionProyecto = ParticipacionProyectoResourceIT.createEntity(em);
-        } else {
-            participacionProyecto = TestUtil.findAll(em, ParticipacionProyecto.class).get(0);
-        }
-        em.persist(participacionProyecto);
-        em.flush();
-        proyecto.addParticipacionProyecto(participacionProyecto);
-        proyectoRepository.saveAndFlush(proyecto);
-        Long participacionProyectoId = participacionProyecto.getId();
-
-        // Get all the proyectoList where participacionProyecto equals to participacionProyectoId
-        defaultProyectoShouldBeFound("participacionProyectoId.equals=" + participacionProyectoId);
-
-        // Get all the proyectoList where participacionProyecto equals to (participacionProyectoId + 1)
-        defaultProyectoShouldNotBeFound("participacionProyectoId.equals=" + (participacionProyectoId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByConfiguracionIsEqualToSomething() throws Exception {
-        Configuracion configuracion;
-        if (TestUtil.findAll(em, Configuracion.class).isEmpty()) {
-            proyectoRepository.saveAndFlush(proyecto);
-            configuracion = ConfiguracionResourceIT.createEntity(em);
-        } else {
-            configuracion = TestUtil.findAll(em, Configuracion.class).get(0);
-        }
-        em.persist(configuracion);
-        em.flush();
-        proyecto.addConfiguracion(configuracion);
-        proyectoRepository.saveAndFlush(proyecto);
-        Long configuracionId = configuracion.getId();
-
-        // Get all the proyectoList where configuracion equals to configuracionId
-        defaultProyectoShouldBeFound("configuracionId.equals=" + configuracionId);
-
-        // Get all the proyectoList where configuracion equals to (configuracionId + 1)
-        defaultProyectoShouldNotBeFound("configuracionId.equals=" + (configuracionId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByBitacoraIsEqualToSomething() throws Exception {
-        Bitacora bitacora;
-        if (TestUtil.findAll(em, Bitacora.class).isEmpty()) {
-            proyectoRepository.saveAndFlush(proyecto);
-            bitacora = BitacoraResourceIT.createEntity(em);
-        } else {
-            bitacora = TestUtil.findAll(em, Bitacora.class).get(0);
-        }
-        em.persist(bitacora);
-        em.flush();
-        proyecto.addBitacora(bitacora);
-        proyectoRepository.saveAndFlush(proyecto);
-        Long bitacoraId = bitacora.getId();
-
-        // Get all the proyectoList where bitacora equals to bitacoraId
-        defaultProyectoShouldBeFound("bitacoraId.equals=" + bitacoraId);
-
-        // Get all the proyectoList where bitacora equals to (bitacoraId + 1)
-        defaultProyectoShouldNotBeFound("bitacoraId.equals=" + (bitacoraId + 1));
-    }
-
-    @Test
-    @Transactional
-    void getAllProyectosByIteracionIsEqualToSomething() throws Exception {
-        Iteracion iteracion;
-        if (TestUtil.findAll(em, Iteracion.class).isEmpty()) {
-            proyectoRepository.saveAndFlush(proyecto);
-            iteracion = IteracionResourceIT.createEntity(em);
-        } else {
-            iteracion = TestUtil.findAll(em, Iteracion.class).get(0);
-        }
-        em.persist(iteracion);
-        em.flush();
-        proyecto.addIteracion(iteracion);
-        proyectoRepository.saveAndFlush(proyecto);
-        Long iteracionId = iteracion.getId();
-
-        // Get all the proyectoList where iteracion equals to iteracionId
-        defaultProyectoShouldBeFound("iteracionId.equals=" + iteracionId);
-
-        // Get all the proyectoList where iteracion equals to (iteracionId + 1)
-        defaultProyectoShouldNotBeFound("iteracionId.equals=" + (iteracionId + 1));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is returned.
-     */
-    private void defaultProyectoShouldBeFound(String filter) throws Exception {
-        restProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(proyecto.getId().intValue())))
-            .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)))
-            .andExpect(jsonPath("$.[*].idProyectoGitLab").value(hasItem(DEFAULT_ID_PROYECTO_GIT_LAB)));
-
-        // Check, that the count call also returns 1
-        restProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("1"));
-    }
-
-    /**
-     * Executes the search, and checks that the default entity is not returned.
-     */
-    private void defaultProyectoShouldNotBeFound(String filter) throws Exception {
-        restProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$").isArray())
-            .andExpect(jsonPath("$").isEmpty());
-
-        // Check, that the count call also returns 0
-        restProyectoMockMvc
-            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(content().string("0"));
+            .andExpect(jsonPath("$.idProyectoGitLab").value(DEFAULT_ID_PROYECTO_GIT_LAB))
+            .andExpect(jsonPath("$.creado").value(DEFAULT_CREADO.toString()))
+            .andExpect(jsonPath("$.modificado").value(DEFAULT_MODIFICADO.toString()));
     }
 
     @Test
@@ -466,7 +237,11 @@ class ProyectoResourceIT {
         Proyecto updatedProyecto = proyectoRepository.findById(proyecto.getId()).get();
         // Disconnect from session so that the updates on updatedProyecto are not directly saved in db
         em.detach(updatedProyecto);
-        updatedProyecto.nombre(UPDATED_NOMBRE).idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB);
+        updatedProyecto
+            .nombre(UPDATED_NOMBRE)
+            .idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB)
+            .creado(UPDATED_CREADO)
+            .modificado(UPDATED_MODIFICADO);
 
         restProyectoMockMvc
             .perform(
@@ -482,6 +257,8 @@ class ProyectoResourceIT {
         Proyecto testProyecto = proyectoList.get(proyectoList.size() - 1);
         assertThat(testProyecto.getNombre()).isEqualTo(UPDATED_NOMBRE);
         assertThat(testProyecto.getIdProyectoGitLab()).isEqualTo(UPDATED_ID_PROYECTO_GIT_LAB);
+        assertThat(testProyecto.getCreado()).isEqualTo(UPDATED_CREADO);
+        assertThat(testProyecto.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
     @Test
@@ -568,6 +345,8 @@ class ProyectoResourceIT {
         Proyecto testProyecto = proyectoList.get(proyectoList.size() - 1);
         assertThat(testProyecto.getNombre()).isEqualTo(DEFAULT_NOMBRE);
         assertThat(testProyecto.getIdProyectoGitLab()).isEqualTo(UPDATED_ID_PROYECTO_GIT_LAB);
+        assertThat(testProyecto.getCreado()).isEqualTo(DEFAULT_CREADO);
+        assertThat(testProyecto.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
     @Test
@@ -582,7 +361,11 @@ class ProyectoResourceIT {
         Proyecto partialUpdatedProyecto = new Proyecto();
         partialUpdatedProyecto.setId(proyecto.getId());
 
-        partialUpdatedProyecto.nombre(UPDATED_NOMBRE).idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB);
+        partialUpdatedProyecto
+            .nombre(UPDATED_NOMBRE)
+            .idProyectoGitLab(UPDATED_ID_PROYECTO_GIT_LAB)
+            .creado(UPDATED_CREADO)
+            .modificado(UPDATED_MODIFICADO);
 
         restProyectoMockMvc
             .perform(
@@ -598,6 +381,8 @@ class ProyectoResourceIT {
         Proyecto testProyecto = proyectoList.get(proyectoList.size() - 1);
         assertThat(testProyecto.getNombre()).isEqualTo(UPDATED_NOMBRE);
         assertThat(testProyecto.getIdProyectoGitLab()).isEqualTo(UPDATED_ID_PROYECTO_GIT_LAB);
+        assertThat(testProyecto.getCreado()).isEqualTo(UPDATED_CREADO);
+        assertThat(testProyecto.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
     @Test

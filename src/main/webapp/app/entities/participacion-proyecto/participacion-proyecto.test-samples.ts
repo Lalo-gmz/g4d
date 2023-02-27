@@ -5,11 +5,12 @@ export const sampleWithRequiredData: IParticipacionProyecto = {
 };
 
 export const sampleWithPartialData: IParticipacionProyecto = {
-  id: 29913,
+  id: 79016,
 };
 
 export const sampleWithFullData: IParticipacionProyecto = {
-  id: 79016,
+  id: 4558,
+  esAdmin: true,
 };
 
 export const sampleWithNewData: NewParticipacionProyecto = {

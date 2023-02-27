@@ -12,8 +12,8 @@ import { IBitacora } from '../bitacora.model';
 
 import { IUser } from 'app/entities/user/user.model';
 import { UserService } from 'app/entities/user/user.service';
-import { IProyecto } from 'app/entities/proyecto/proyecto.model';
-import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
+import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
+import { FuncionalidadService } from 'app/entities/funcionalidad/service/funcionalidad.service';
 
 import { BitacoraUpdateComponent } from './bitacora-update.component';
 
@@ -24,7 +24,7 @@ describe('Bitacora Management Update Component', () => {
   let bitacoraFormService: BitacoraFormService;
   let bitacoraService: BitacoraService;
   let userService: UserService;
-  let proyectoService: ProyectoService;
+  let funcionalidadService: FuncionalidadService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +48,7 @@ describe('Bitacora Management Update Component', () => {
     bitacoraFormService = TestBed.inject(BitacoraFormService);
     bitacoraService = TestBed.inject(BitacoraService);
     userService = TestBed.inject(UserService);
-    proyectoService = TestBed.inject(ProyectoService);
+    funcionalidadService = TestBed.inject(FuncionalidadService);
 
     comp = fixture.componentInstance;
   });
@@ -76,40 +76,40 @@ describe('Bitacora Management Update Component', () => {
       expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
-    it('Should call Proyecto query and add missing value', () => {
+    it('Should call Funcionalidad query and add missing value', () => {
       const bitacora: IBitacora = { id: 456 };
-      const proyecto: IProyecto = { id: 30077 };
-      bitacora.proyecto = proyecto;
+      const funcionalidad: IFuncionalidad = { id: 32970 };
+      bitacora.funcionalidad = funcionalidad;
 
-      const proyectoCollection: IProyecto[] = [{ id: 23657 }];
-      jest.spyOn(proyectoService, 'query').mockReturnValue(of(new HttpResponse({ body: proyectoCollection })));
-      const additionalProyectos = [proyecto];
-      const expectedCollection: IProyecto[] = [...additionalProyectos, ...proyectoCollection];
-      jest.spyOn(proyectoService, 'addProyectoToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const funcionalidadCollection: IFuncionalidad[] = [{ id: 19974 }];
+      jest.spyOn(funcionalidadService, 'query').mockReturnValue(of(new HttpResponse({ body: funcionalidadCollection })));
+      const additionalFuncionalidads = [funcionalidad];
+      const expectedCollection: IFuncionalidad[] = [...additionalFuncionalidads, ...funcionalidadCollection];
+      jest.spyOn(funcionalidadService, 'addFuncionalidadToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ bitacora });
       comp.ngOnInit();
 
-      expect(proyectoService.query).toHaveBeenCalled();
-      expect(proyectoService.addProyectoToCollectionIfMissing).toHaveBeenCalledWith(
-        proyectoCollection,
-        ...additionalProyectos.map(expect.objectContaining)
+      expect(funcionalidadService.query).toHaveBeenCalled();
+      expect(funcionalidadService.addFuncionalidadToCollectionIfMissing).toHaveBeenCalledWith(
+        funcionalidadCollection,
+        ...additionalFuncionalidads.map(expect.objectContaining)
       );
-      expect(comp.proyectosSharedCollection).toEqual(expectedCollection);
+      expect(comp.funcionalidadsSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const bitacora: IBitacora = { id: 456 };
       const user: IUser = { id: 28738 };
       bitacora.user = user;
-      const proyecto: IProyecto = { id: 73132 };
-      bitacora.proyecto = proyecto;
+      const funcionalidad: IFuncionalidad = { id: 98459 };
+      bitacora.funcionalidad = funcionalidad;
 
       activatedRoute.data = of({ bitacora });
       comp.ngOnInit();
 
       expect(comp.usersSharedCollection).toContain(user);
-      expect(comp.proyectosSharedCollection).toContain(proyecto);
+      expect(comp.funcionalidadsSharedCollection).toContain(funcionalidad);
       expect(comp.bitacora).toEqual(bitacora);
     });
   });
@@ -193,13 +193,13 @@ describe('Bitacora Management Update Component', () => {
       });
     });
 
-    describe('compareProyecto', () => {
-      it('Should forward to proyectoService', () => {
+    describe('compareFuncionalidad', () => {
+      it('Should forward to funcionalidadService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(proyectoService, 'compareProyecto');
-        comp.compareProyecto(entity, entity2);
-        expect(proyectoService.compareProyecto).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(funcionalidadService, 'compareFuncionalidad');
+        comp.compareFuncionalidad(entity, entity2);
+        expect(funcionalidadService.compareFuncionalidad).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

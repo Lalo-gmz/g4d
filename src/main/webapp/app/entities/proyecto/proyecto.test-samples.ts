@@ -1,3 +1,5 @@
+import dayjs from 'dayjs/esm';
+
 import { IProyecto, NewProyecto } from './proyecto.model';
 
 export const sampleWithRequiredData: IProyecto = {
@@ -6,18 +8,21 @@ export const sampleWithRequiredData: IProyecto = {
 };
 
 export const sampleWithPartialData: IProyecto = {
-  id: 23768,
-  idProyectoGitLab: 'Ronda Gerente Paseo',
+  id: 44689,
+  idProyectoGitLab: 'circuit Lugar Increible',
+  modificado: dayjs('2023-02-24T16:18'),
 };
 
 export const sampleWithFullData: IProyecto = {
-  id: 30950,
-  nombre: 'Islas Cliente Unit',
-  idProyectoGitLab: 'Avon',
+  id: 89357,
+  nombre: 'Buckinghamshire auxiliary',
+  idProyectoGitLab: 'invoice',
+  creado: dayjs('2023-02-24T11:21'),
+  modificado: dayjs('2023-02-23T17:40'),
 };
 
 export const sampleWithNewData: NewProyecto = {
-  idProyectoGitLab: 'Chipre Marroquinería Bedfordshire',
+  idProyectoGitLab: 'éxito',
   id: null,
 };
 

@@ -33,7 +33,9 @@ public class Etiqueta implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(
-        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
+        value = {
+            "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios", "bitacoras",
+        },
         allowSetters = true
     )
     private Funcionalidad funcionalidad;

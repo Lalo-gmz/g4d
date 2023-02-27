@@ -32,7 +32,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/g4dv5
+    url: jdbc:postgresql://localhost:5432/g4d_db
     username: postgres
     password: admin
     hikari:
@@ -82,7 +82,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: YTgxMmNmNTNkOWI2NTcwMmMwZmMzMTk5NGJiYWM4YTQwN2QyOGJmN2YxYmIxZGRjYzA1ZmVmMjE5ZDZjNmQ1M2Q5MTdlYWU2YWY5N2M1Y2MzYzMzOWFjNDQxZmVjZTZlNzk2OWM3ZDcwZTIzNzFlNTU3OTUwZDMwMjI0NDU5MTE=
+        base64-secret: ZjQ3NmFhNGY4YWFlYWNjODc0MmY0ZDI3ZDdkMWJkNzFkNDc4ZTY3MTg3YmM5Zjg5NzQ0ZTkxODIxNTgzYzIyMTAwMjA3OWY0OGZlNDIzZDQ4MDNmY2Q3YTRhZDc4ZmM4ZTgwYjFlZjBlZjUwNzI5NzI3N2M1MWY3NGVlZDBhNzc=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

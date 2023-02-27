@@ -34,7 +34,9 @@ public class Prioridad implements Serializable {
     @OneToMany(mappedBy = "prioridad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
+        value = {
+            "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios", "bitacoras",
+        },
         allowSetters = true
     )
     private Set<Funcionalidad> funcionalidads = new HashSet<>();

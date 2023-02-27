@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="captura">
+      <h2 data-cy="capturaDetailsHeading"><span>Captura</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ captura.id }}</span>
+        </dd>
+        <dt><span>Funcionalidades</span></dt>
+        <dd>
+          <span>{{ captura.funcionalidades }}</span>
+        </dd>
+        <dt><span>Estatus</span></dt>
+        <dd>
+          <span>{{ captura.estatus }}</span>
+        </dd>
+        <dt><span>Fecha</span></dt>
+        <dd>
+          <span>{{ captura.fecha | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Iteracion</span></dt>
+        <dd>
+          <div *ngIf="captura.iteracion">
+            <a [routerLink]="['/iteracion', captura.iteracion.id, 'view']">{{ captura.iteracion.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/captura', captura.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

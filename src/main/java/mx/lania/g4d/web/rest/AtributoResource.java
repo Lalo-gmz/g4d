@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.Atributo;
 import mx.lania.g4d.repository.AtributoRepository;
-import mx.lania.g4d.service.AtributoQueryService;
 import mx.lania.g4d.service.AtributoService;
-import mx.lania.g4d.service.criteria.AtributoCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,9 @@ public class AtributoResource {
 
     private final AtributoRepository atributoRepository;
 
-    private final AtributoQueryService atributoQueryService;
-
-    public AtributoResource(
-        AtributoService atributoService,
-        AtributoRepository atributoRepository,
-        AtributoQueryService atributoQueryService
-    ) {
+    public AtributoResource(AtributoService atributoService, AtributoRepository atributoRepository) {
         this.atributoService = atributoService;
         this.atributoRepository = atributoRepository;
-        this.atributoQueryService = atributoQueryService;
     }
 
     /**
@@ -147,31 +133,12 @@ public class AtributoResource {
     /**
      * {@code GET  /atributos} : get all the atributos.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of atributos in body.
      */
     @GetMapping("/atributos")
-    public ResponseEntity<List<Atributo>> getAllAtributos(
-        AtributoCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Atributos by criteria: {}", criteria);
-        Page<Atributo> page = atributoQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /atributos/count} : count all the atributos.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/atributos/count")
-    public ResponseEntity<Long> countAtributos(AtributoCriteria criteria) {
-        log.debug("REST request to count Atributos by criteria: {}", criteria);
-        return ResponseEntity.ok().body(atributoQueryService.countByCriteria(criteria));
+    public List<Atributo> getAllAtributos() {
+        log.debug("REST request to get all Atributos");
+        return atributoService.findAll();
     }
 
     /**

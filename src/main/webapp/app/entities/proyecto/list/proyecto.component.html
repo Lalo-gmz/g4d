@@ -24,8 +24,6 @@
 
   <jhi-alert></jhi-alert>
 
-  <jhi-filter [filters]="filters"></jhi-filter>
-
   <div class="alert alert-warning" id="no-result" *ngIf="proyectos?.length === 0">
     <span>Ningún Proyectos encontrado</span>
   </div>
@@ -52,6 +50,24 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="creado">
+            <div class="d-flex">
+              <span>Creado</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="modificado">
+            <div class="d-flex">
+              <span>Modificado</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="participantes.id">
+            <div class="d-flex">
+              <span>Participantes</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -62,48 +78,15 @@
           </td>
           <td>{{ proyecto.nombre }}</td>
           <td>{{ proyecto.idProyectoGitLab }}</td>
+          <td>{{ proyecto.creado | formatMediumDatetime }}</td>
+          <td>{{ proyecto.modificado | formatMediumDatetime }}</td>
+          <td>
+            <span *ngFor="let participantes of proyecto.participantes; let last = last">
+              {{ participantes.id }}{{ last ? '' : ', ' }}
+            </span>
+          </td>
           <td class="text-end">
             <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/participacion-proyecto']"
-                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Participacion Proyecto</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/configuracion']"
-                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Configuracion</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/bitacora']"
-                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Bitacora</span>
-              </button>
-              <button
-                type="submit"
-                [routerLink]="['/iteracion']"
-                [queryParams]="{ 'filter[proyectoId.in]': proyecto.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Iteracion</span>
-              </button>
               <button
                 type="submit"
                 [routerLink]="['/proyecto', proyecto.id, 'view']"
@@ -133,23 +116,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div *ngIf="proyectos && proyectos.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
-    </div>
   </div>
 </div>

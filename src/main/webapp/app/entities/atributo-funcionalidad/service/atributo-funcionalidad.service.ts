@@ -47,16 +47,16 @@ export class AtributoFuncionalidadService {
     return this.http.get<IAtributoFuncionalidad[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  findByFuncionalidadId(id: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IAtributoFuncionalidad[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   getAtributoFuncionalidadIdentifier(atributoFuncionalidad: Pick<IAtributoFuncionalidad, 'id'>): number {
     return atributoFuncionalidad.id;
-  }
-
-  findByFuncionalidadId(id: number): Observable<EntityArrayResponseType> {
-    return this.http.get<IAtributoFuncionalidad[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' });
   }
 
   compareAtributoFuncionalidad(o1: Pick<IAtributoFuncionalidad, 'id'> | null, o2: Pick<IAtributoFuncionalidad, 'id'> | null): boolean {

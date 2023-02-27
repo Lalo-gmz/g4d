@@ -14,10 +14,6 @@
         <dd>
           <span>{{ bitacora.id }}</span>
         </dd>
-        <dt><span>Tabla</span></dt>
-        <dd>
-          <span>{{ bitacora.tabla }}</span>
-        </dd>
         <dt><span>Accion</span></dt>
         <dd>
           <span>{{ bitacora.accion }}</span>
@@ -30,10 +26,10 @@
         <dd>
           <span>{{ bitacora.user?.id }}</span>
         </dd>
-        <dt><span>Proyecto</span></dt>
+        <dt><span>Funcionalidad</span></dt>
         <dd>
-          <div *ngIf="bitacora.proyecto">
-            <a [routerLink]="['/proyecto', bitacora.proyecto.id, 'view']">{{ bitacora.proyecto.id }}</a>
+          <div *ngIf="bitacora.funcionalidad">
+            <a [routerLink]="['/funcionalidad', bitacora.funcionalidad.id, 'view']">{{ bitacora.funcionalidad.id }}</a>
           </div>
         </dd>
       </dl>

@@ -24,8 +24,6 @@
 
   <jhi-alert></jhi-alert>
 
-  <jhi-filter [filters]="filters"></jhi-filter>
-
   <div class="alert alert-warning" id="no-result" *ngIf="prioridads?.length === 0">
     <span>Ningún Prioridads encontrado</span>
   </div>
@@ -66,16 +64,6 @@
             <div class="btn-group">
               <button
                 type="submit"
-                [routerLink]="['/funcionalidad']"
-                [queryParams]="{ 'filter[prioridadId.in]': prioridad.id }"
-                class="btn btn-info btn-sm"
-                data-cy="filterOtherEntityButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Show Funcionalidad</span>
-              </button>
-              <button
-                type="submit"
                 [routerLink]="['/prioridad', prioridad.id, 'view']"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
@@ -103,23 +91,5 @@
         </tr>
       </tbody>
     </table>
-  </div>
-
-  <div *ngIf="prioridads && prioridads.length > 0">
-    <div class="d-flex justify-content-center">
-      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-    </div>
-
-    <div class="d-flex justify-content-center">
-      <ngb-pagination
-        [collectionSize]="totalItems"
-        [page]="page"
-        [pageSize]="itemsPerPage"
-        [maxSize]="5"
-        [rotate]="true"
-        [boundaryLinks]="true"
-        (pageChange)="navigateToPage($event)"
-      ></ngb-pagination>
-    </div>
   </div>
 </div>

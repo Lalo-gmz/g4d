@@ -31,11 +31,10 @@ type BitacoraFormDefaults = Pick<NewBitacora, 'id' | 'creado'>;
 
 type BitacoraFormGroupContent = {
   id: FormControl<BitacoraFormRawValue['id'] | NewBitacora['id']>;
-  tabla: FormControl<BitacoraFormRawValue['tabla']>;
   accion: FormControl<BitacoraFormRawValue['accion']>;
   creado: FormControl<BitacoraFormRawValue['creado']>;
   user: FormControl<BitacoraFormRawValue['user']>;
-  proyecto: FormControl<BitacoraFormRawValue['proyecto']>;
+  funcionalidad: FormControl<BitacoraFormRawValue['funcionalidad']>;
 };
 
 export type BitacoraFormGroup = FormGroup<BitacoraFormGroupContent>;
@@ -55,9 +54,6 @@ export class BitacoraFormService {
           validators: [Validators.required],
         }
       ),
-      tabla: new FormControl(bitacoraRawValue.tabla, {
-        validators: [Validators.required],
-      }),
       accion: new FormControl(bitacoraRawValue.accion, {
         validators: [Validators.required],
       }),
@@ -65,7 +61,7 @@ export class BitacoraFormService {
         validators: [Validators.required],
       }),
       user: new FormControl(bitacoraRawValue.user),
-      proyecto: new FormControl(bitacoraRawValue.proyecto),
+      funcionalidad: new FormControl(bitacoraRawValue.funcionalidad),
     });
   }
 

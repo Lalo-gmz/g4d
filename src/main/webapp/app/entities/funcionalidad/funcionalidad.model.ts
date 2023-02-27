@@ -13,7 +13,6 @@ export interface IFuncionalidad {
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
   users?: IUser[] | null;
-  // estatusFuncionalidad?: Pick<IEstatusFuncionalidad, 'id'> | null;
   estatusFuncionalidad?: IEstatusFuncionalidad | null;
   iteracion?: IIteracion | null;
   prioridad?: IPrioridad | null;

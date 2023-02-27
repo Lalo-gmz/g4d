@@ -9,21 +9,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
-import mx.lania.g4d.service.ProyectoQueryService;
 import mx.lania.g4d.service.ProyectoService;
-import mx.lania.g4d.service.criteria.ProyectoCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -44,16 +37,9 @@ public class ProyectoResource {
 
     private final ProyectoRepository proyectoRepository;
 
-    private final ProyectoQueryService proyectoQueryService;
-
-    public ProyectoResource(
-        ProyectoService proyectoService,
-        ProyectoRepository proyectoRepository,
-        ProyectoQueryService proyectoQueryService
-    ) {
+    public ProyectoResource(ProyectoService proyectoService, ProyectoRepository proyectoRepository) {
         this.proyectoService = proyectoService;
         this.proyectoRepository = proyectoRepository;
-        this.proyectoQueryService = proyectoQueryService;
     }
 
     /**
@@ -149,31 +135,13 @@ public class ProyectoResource {
     /**
      * {@code GET  /proyectos} : get all the proyectos.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many).
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of proyectos in body.
      */
     @GetMapping("/proyectos")
-    public ResponseEntity<List<Proyecto>> getAllProyectos(
-        ProyectoCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get Proyectos by criteria: {}", criteria);
-        Page<Proyecto> page = proyectoQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /proyectos/count} : count all the proyectos.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/proyectos/count")
-    public ResponseEntity<Long> countProyectos(ProyectoCriteria criteria) {
-        log.debug("REST request to count Proyectos by criteria: {}", criteria);
-        return ResponseEntity.ok().body(proyectoQueryService.countByCriteria(criteria));
+    public List<Proyecto> getAllProyectos(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all Proyectos");
+        return proyectoService.findAll();
     }
 
     /**

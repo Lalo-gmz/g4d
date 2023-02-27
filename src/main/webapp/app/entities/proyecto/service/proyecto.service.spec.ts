@@ -4,10 +4,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { IProyecto } from '../proyecto.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../proyecto.test-samples';
 
-import { ProyectoService } from './proyecto.service';
+import { ProyectoService, RestProyecto } from './proyecto.service';
 
-const requireRestSample: IProyecto = {
+const requireRestSample: RestProyecto = {
   ...sampleWithRequiredData,
+  creado: sampleWithRequiredData.creado?.toJSON(),
+  modificado: sampleWithRequiredData.modificado?.toJSON(),
 };
 
 describe('Proyecto Service', () => {

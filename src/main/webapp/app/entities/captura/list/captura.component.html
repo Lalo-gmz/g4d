@@ -1,0 +1,113 @@
+<div>
+  <h2 id="page-heading" data-cy="CapturaHeading">
+    <span>Capturas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-captura"
+        [routerLink]="['/captura/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Captura </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="capturas?.length === 0">
+    <span>Ningún Capturas encontrado</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="capturas && capturas.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="funcionalidades">
+            <div class="d-flex">
+              <span>Funcionalidades</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="estatus">
+            <div class="d-flex">
+              <span>Estatus</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="fecha">
+            <div class="d-flex">
+              <span>Fecha</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="iteracion.id">
+            <div class="d-flex">
+              <span>Iteracion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let captura of capturas; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/captura', captura.id, 'view']">{{ captura.id }}</a>
+          </td>
+          <td>{{ captura.funcionalidades }}</td>
+          <td>{{ captura.estatus }}</td>
+          <td>{{ captura.fecha | formatMediumDatetime }}</td>
+          <td>
+            <div *ngIf="captura.iteracion">
+              <a [routerLink]="['/iteracion', captura.iteracion.id, 'view']">{{ captura.iteracion.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/captura', captura.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/captura', captura.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(captura)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

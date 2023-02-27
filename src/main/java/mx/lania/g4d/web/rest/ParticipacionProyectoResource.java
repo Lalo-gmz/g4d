@@ -7,21 +7,14 @@ import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.repository.ParticipacionProyectoRepository;
-import mx.lania.g4d.service.ParticipacionProyectoQueryService;
 import mx.lania.g4d.service.ParticipacionProyectoService;
-import mx.lania.g4d.service.criteria.ParticipacionProyectoCriteria;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -42,16 +35,12 @@ public class ParticipacionProyectoResource {
 
     private final ParticipacionProyectoRepository participacionProyectoRepository;
 
-    private final ParticipacionProyectoQueryService participacionProyectoQueryService;
-
     public ParticipacionProyectoResource(
         ParticipacionProyectoService participacionProyectoService,
-        ParticipacionProyectoRepository participacionProyectoRepository,
-        ParticipacionProyectoQueryService participacionProyectoQueryService
+        ParticipacionProyectoRepository participacionProyectoRepository
     ) {
         this.participacionProyectoService = participacionProyectoService;
         this.participacionProyectoRepository = participacionProyectoRepository;
-        this.participacionProyectoQueryService = participacionProyectoQueryService;
     }
 
     /**
@@ -148,31 +137,12 @@ public class ParticipacionProyectoResource {
     /**
      * {@code GET  /participacion-proyectos} : get all the participacionProyectos.
      *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of participacionProyectos in body.
      */
     @GetMapping("/participacion-proyectos")
-    public ResponseEntity<List<ParticipacionProyecto>> getAllParticipacionProyectos(
-        ParticipacionProyectoCriteria criteria,
-        @org.springdoc.api.annotations.ParameterObject Pageable pageable
-    ) {
-        log.debug("REST request to get ParticipacionProyectos by criteria: {}", criteria);
-        Page<ParticipacionProyecto> page = participacionProyectoQueryService.findByCriteria(criteria, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /participacion-proyectos/count} : count all the participacionProyectos.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/participacion-proyectos/count")
-    public ResponseEntity<Long> countParticipacionProyectos(ParticipacionProyectoCriteria criteria) {
-        log.debug("REST request to count ParticipacionProyectos by criteria: {}", criteria);
-        return ResponseEntity.ok().body(participacionProyectoQueryService.countByCriteria(criteria));
+    public List<ParticipacionProyecto> getAllParticipacionProyectos() {
+        log.debug("REST request to get all ParticipacionProyectos");
+        return participacionProyectoService.findAll();
     }
 
     /**

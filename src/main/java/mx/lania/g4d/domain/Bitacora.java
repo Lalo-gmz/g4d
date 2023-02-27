@@ -26,10 +26,6 @@ public class Bitacora implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "tabla", nullable = false)
-    private String tabla;
-
-    @NotNull
     @Column(name = "accion", nullable = false)
     private String accion;
 
@@ -41,8 +37,13 @@ public class Bitacora implements Serializable {
     private User user;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "participacionProyectos", "configuracions", "bitacoras", "iteracions" }, allowSetters = true)
-    private Proyecto proyecto;
+    @JsonIgnoreProperties(
+        value = {
+            "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios", "bitacoras",
+        },
+        allowSetters = true
+    )
+    private Funcionalidad funcionalidad;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -57,19 +58,6 @@ public class Bitacora implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getTabla() {
-        return this.tabla;
-    }
-
-    public Bitacora tabla(String tabla) {
-        this.setTabla(tabla);
-        return this;
-    }
-
-    public void setTabla(String tabla) {
-        this.tabla = tabla;
     }
 
     public String getAccion() {
@@ -111,16 +99,16 @@ public class Bitacora implements Serializable {
         return this;
     }
 
-    public Proyecto getProyecto() {
-        return this.proyecto;
+    public Funcionalidad getFuncionalidad() {
+        return this.funcionalidad;
     }
 
-    public void setProyecto(Proyecto proyecto) {
-        this.proyecto = proyecto;
+    public void setFuncionalidad(Funcionalidad funcionalidad) {
+        this.funcionalidad = funcionalidad;
     }
 
-    public Bitacora proyecto(Proyecto proyecto) {
-        this.setProyecto(proyecto);
+    public Bitacora funcionalidad(Funcionalidad funcionalidad) {
+        this.setFuncionalidad(funcionalidad);
         return this;
     }
 
@@ -148,7 +136,6 @@ public class Bitacora implements Serializable {
     public String toString() {
         return "Bitacora{" +
             "id=" + getId() +
-            ", tabla='" + getTabla() + "'" +
             ", accion='" + getAccion() + "'" +
             ", creado='" + getCreado() + "'" +
             "}";

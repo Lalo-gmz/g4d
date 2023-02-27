@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface PrioridadRepository extends JpaRepository<Prioridad, Long>, JpaSpecificationExecutor<Prioridad> {}
+public interface PrioridadRepository extends JpaRepository<Prioridad, Long> {}

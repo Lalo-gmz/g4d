@@ -1,14 +1,13 @@
 import dayjs from 'dayjs/esm';
 import { IUser } from 'app/entities/user/user.model';
-import { IProyecto } from 'app/entities/proyecto/proyecto.model';
+import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
 
 export interface IBitacora {
   id: number;
-  tabla?: string | null;
   accion?: string | null;
   creado?: dayjs.Dayjs | null;
   user?: Pick<IUser, 'id'> | null;
-  proyecto?: Pick<IProyecto, 'id'> | null;
+  funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
 }
 
 export type NewBitacora = Omit<IBitacora, 'id'> & { id: null };

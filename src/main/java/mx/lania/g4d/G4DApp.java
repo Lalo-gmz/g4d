@@ -32,7 +32,7 @@ public class G4DApp {
     }
 
     /**
-     * Initializes G4D.
+     * Initializes g4d.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>

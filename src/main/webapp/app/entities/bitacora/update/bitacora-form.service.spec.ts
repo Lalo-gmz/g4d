@@ -20,11 +20,10 @@ describe('Bitacora Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            tabla: expect.any(Object),
             accion: expect.any(Object),
             creado: expect.any(Object),
             user: expect.any(Object),
-            proyecto: expect.any(Object),
+            funcionalidad: expect.any(Object),
           })
         );
       });
@@ -35,11 +34,10 @@ describe('Bitacora Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            tabla: expect.any(Object),
             accion: expect.any(Object),
             creado: expect.any(Object),
             user: expect.any(Object),
-            proyecto: expect.any(Object),
+            funcionalidad: expect.any(Object),
           })
         );
       });

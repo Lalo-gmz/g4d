@@ -14,8 +14,20 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_user">User</label>
-          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+          <label class="form-label" for="field_esAdmin">Es Admin</label>
+          <input type="checkbox" class="form-check" name="esAdmin" id="field_esAdmin" data-cy="esAdmin" formControlName="esAdmin" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_usuario">Usuario</label>
+          <select
+            class="form-control"
+            id="field_usuario"
+            data-cy="usuario"
+            name="usuario"
+            formControlName="usuario"
+            [compareWith]="compareUser"
+          >
             <option [ngValue]="null"></option>
             <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
           </select>
@@ -33,14 +45,6 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="proyectoOption" *ngFor="let proyectoOption of proyectosSharedCollection">{{ proyectoOption.id }}</option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_rol">Rol</label>
-          <select class="form-control" id="field_rol" data-cy="rol" name="rol" formControlName="rol" [compareWith]="compareRol">
-            <option [ngValue]="null"></option>
-            <option [ngValue]="rolOption" *ngFor="let rolOption of rolsSharedCollection">{{ rolOption.id }}</option>
           </select>
         </div>
       </div>

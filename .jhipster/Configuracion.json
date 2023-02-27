@@ -1,6 +1,6 @@
 {
   "applications": "*",
-  "changelogDate": "20230215173641",
+  "changelogDate": "20230224170634",
   "dto": "no",
   "embedded": false,
   "entityTableName": "configuracion",
@@ -16,9 +16,9 @@
     }
   ],
   "fluentMethods": true,
-  "jpaMetamodelFiltering": true,
+  "jpaMetamodelFiltering": false,
   "name": "Configuracion",
-  "pagination": "pagination",
+  "pagination": "no",
   "readOnly": false,
   "relationships": [
     {

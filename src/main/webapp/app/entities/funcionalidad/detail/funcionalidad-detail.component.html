@@ -70,61 +70,6 @@
         <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
       </div>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span>ID</span></dt>
-        <dd>
-          <span>{{ funcionalidad.id }}</span>
-        </dd>
-        <dt><span>Nombre</span></dt>
-        <dd>
-          <span>{{ funcionalidad.nombre }}</span>
-        </dd>
-        <dt><span>Descripcion</span></dt>
-        <dd>
-          <span>{{ funcionalidad.descripcion }}</span>
-        </dd>
-        <dt><span>Url Git Lab</span></dt>
-        <dd>
-          <span>{{ funcionalidad.urlGitLab }}</span>
-        </dd>
-        <dt><span>Fecha Entrega</span></dt>
-        <dd>
-          <span>{{ funcionalidad.fechaEntrega | formatMediumDate }}</span>
-        </dd>
-        <dt><span>Creado</span></dt>
-        <dd>
-          <span>{{ funcionalidad.creado | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Modificado</span></dt>
-        <dd>
-          <span>{{ funcionalidad.modificado | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>User</span></dt>
-        <dd>
-          <span *ngFor="let user of funcionalidad.users; let last = last"> {{ user.id }}{{ last ? '' : ', ' }} </span>
-        </dd>
-        <dt><span>Estatus Funcionalidad</span></dt>
-        <dd>
-          <div *ngIf="funcionalidad.estatusFuncionalidad">
-            <a [routerLink]="['/estatus-funcionalidad', funcionalidad.estatusFuncionalidad.id, 'view']">{{
-              funcionalidad.estatusFuncionalidad.id
-            }}</a>
-          </div>
-        </dd>
-        <dt><span>Iteracion</span></dt>
-        <dd>
-          <div *ngIf="funcionalidad.iteracion">
-            <a [routerLink]="['/iteracion', funcionalidad.iteracion.id, 'view']">{{ funcionalidad.iteracion.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Prioridad</span></dt>
-        <dd>
-          <div *ngIf="funcionalidad.prioridad">
-            <a [routerLink]="['/prioridad', funcionalidad.prioridad.id, 'view']">{{ funcionalidad.prioridad.id }}</a>
-          </div>
-        </dd>
-      </dl>
-
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
       </button>

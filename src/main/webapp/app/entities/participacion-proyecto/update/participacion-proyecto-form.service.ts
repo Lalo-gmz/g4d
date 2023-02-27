@@ -14,13 +14,13 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ParticipacionProyectoFormGroupInput = IParticipacionProyecto | PartialWithRequiredKeyOf<NewParticipacionProyecto>;
 
-type ParticipacionProyectoFormDefaults = Pick<NewParticipacionProyecto, 'id'>;
+type ParticipacionProyectoFormDefaults = Pick<NewParticipacionProyecto, 'id' | 'esAdmin'>;
 
 type ParticipacionProyectoFormGroupContent = {
   id: FormControl<IParticipacionProyecto['id'] | NewParticipacionProyecto['id']>;
-  user: FormControl<IParticipacionProyecto['user']>;
+  esAdmin: FormControl<IParticipacionProyecto['esAdmin']>;
+  usuario: FormControl<IParticipacionProyecto['usuario']>;
   proyecto: FormControl<IParticipacionProyecto['proyecto']>;
-  rol: FormControl<IParticipacionProyecto['rol']>;
 };
 
 export type ParticipacionProyectoFormGroup = FormGroup<ParticipacionProyectoFormGroupContent>;
@@ -42,9 +42,9 @@ export class ParticipacionProyectoFormService {
           validators: [Validators.required],
         }
       ),
-      user: new FormControl(participacionProyectoRawValue.user),
+      esAdmin: new FormControl(participacionProyectoRawValue.esAdmin),
+      usuario: new FormControl(participacionProyectoRawValue.usuario),
       proyecto: new FormControl(participacionProyectoRawValue.proyecto),
-      rol: new FormControl(participacionProyectoRawValue.rol),
     });
   }
 
@@ -65,6 +65,7 @@ export class ParticipacionProyectoFormService {
   private getFormDefaults(): ParticipacionProyectoFormDefaults {
     return {
       id: null,
+      esAdmin: false,
     };
   }
 }

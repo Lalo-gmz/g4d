@@ -1,12 +1,11 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Prioridad;
 import mx.lania.g4d.repository.PrioridadRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,13 +73,12 @@ public class PrioridadService {
     /**
      * Get all the prioridads.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Prioridad> findAll(Pageable pageable) {
+    public List<Prioridad> findAll() {
         log.debug("Request to get all Prioridads");
-        return prioridadRepository.findAll(pageable);
+        return prioridadRepository.findAll();
     }
 
     /**

@@ -12,6 +12,7 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
   @Input() destacados: boolean | false | undefined;
 
   atributosFuncionalidads?: IAtributoFuncionalidad[];
+
   constructor(protected atributoFuncionalidadService: AtributoFuncionalidadService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -26,22 +27,15 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
             next: (res: any) => {
               this.onSuccess(res.body);
             },
-            error: () => {
-              this.onError();
-            },
           });
       }
     });
   }
 
   protected onSuccess(data: any): void {
-    this.atributosFuncionalidads = data ?? [];
+    this.atributosFuncionalidads = data?.filter((e: { marcado: boolean }) => e.marcado === this.destacados) ?? [];
+    // this.atributosFuncionalidads = data ?? [];
     // eslint-disable-next-line no-console
     console.log(this.atributosFuncionalidads);
-  }
-
-  protected onError(): void {
-    // eslint-disable-next-line no-console
-    console.log('Error');
   }
 }

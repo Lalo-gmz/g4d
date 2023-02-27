@@ -66,7 +66,7 @@ public class Funcionalidad implements Serializable {
     @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
     private Prioridad prioridad;
 
-    @OneToMany(mappedBy = "funcionalidad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad" }, allowSetters = true)
     private Set<Etiqueta> etiquetas = new HashSet<>();
@@ -80,6 +80,11 @@ public class Funcionalidad implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "user" }, allowSetters = true)
     private Set<Comentario> comentarios = new HashSet<>();
+
+    @OneToMany(mappedBy = "funcionalidad")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "user", "funcionalidad" }, allowSetters = true)
+    private Set<Bitacora> bitacoras = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -326,6 +331,37 @@ public class Funcionalidad implements Serializable {
     public Funcionalidad removeComentario(Comentario comentario) {
         this.comentarios.remove(comentario);
         comentario.setFuncionalidad(null);
+        return this;
+    }
+
+    public Set<Bitacora> getBitacoras() {
+        return this.bitacoras;
+    }
+
+    public void setBitacoras(Set<Bitacora> bitacoras) {
+        if (this.bitacoras != null) {
+            this.bitacoras.forEach(i -> i.setFuncionalidad(null));
+        }
+        if (bitacoras != null) {
+            bitacoras.forEach(i -> i.setFuncionalidad(this));
+        }
+        this.bitacoras = bitacoras;
+    }
+
+    public Funcionalidad bitacoras(Set<Bitacora> bitacoras) {
+        this.setBitacoras(bitacoras);
+        return this;
+    }
+
+    public Funcionalidad addBitacora(Bitacora bitacora) {
+        this.bitacoras.add(bitacora);
+        bitacora.setFuncionalidad(this);
+        return this;
+    }
+
+    public Funcionalidad removeBitacora(Bitacora bitacora) {
+        this.bitacoras.remove(bitacora);
+        bitacora.setFuncionalidad(null);
         return this;
     }
 

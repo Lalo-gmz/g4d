@@ -37,6 +37,51 @@
             </small>
           </div>
         </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_creado">Creado</label>
+          <div class="d-flex">
+            <input
+              id="field_creado"
+              data-cy="creado"
+              type="datetime-local"
+              class="form-control"
+              name="creado"
+              formControlName="creado"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_modificado">Modificado</label>
+          <div class="d-flex">
+            <input
+              id="field_modificado"
+              data-cy="modificado"
+              type="datetime-local"
+              class="form-control"
+              name="modificado"
+              formControlName="modificado"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label for="field_participantes">Participantes</label>
+          <select
+            class="form-control"
+            id="field_participantes"
+            data-cy="participantes"
+            multiple
+            name="participantes"
+            formControlName="participantes"
+            [compareWith]="compareUser"
+          >
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.id }}</option>
+          </select>
+        </div>
       </div>
 
       <div>

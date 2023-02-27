@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.repository.FuncionalidadRepository;
@@ -86,13 +87,12 @@ public class FuncionalidadService {
     /**
      * Get all the funcionalidads.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Funcionalidad> findAll(Pageable pageable) {
+    public List<Funcionalidad> findAll() {
         log.debug("Request to get all Funcionalidads");
-        return funcionalidadRepository.findAll(pageable);
+        return funcionalidadRepository.findAll();
     }
 
     /**

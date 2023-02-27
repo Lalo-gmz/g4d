@@ -1,12 +1,11 @@
 package mx.lania.g4d.service;
 
+import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,9 +58,6 @@ public class BitacoraService {
         return bitacoraRepository
             .findById(bitacora.getId())
             .map(existingBitacora -> {
-                if (bitacora.getTabla() != null) {
-                    existingBitacora.setTabla(bitacora.getTabla());
-                }
                 if (bitacora.getAccion() != null) {
                     existingBitacora.setAccion(bitacora.getAccion());
                 }
@@ -77,13 +73,12 @@ public class BitacoraService {
     /**
      * Get all the bitacoras.
      *
-     * @param pageable the pagination information.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<Bitacora> findAll(Pageable pageable) {
+    public List<Bitacora> findAll() {
         log.debug("Request to get all Bitacoras");
-        return bitacoraRepository.findAll(pageable);
+        return bitacoraRepository.findAll();
     }
 
     /**

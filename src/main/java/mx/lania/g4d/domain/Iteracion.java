@@ -40,13 +40,15 @@ public class Iteracion implements Serializable {
     @OneToMany(mappedBy = "iteracion")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
-        value = { "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios" },
+        value = {
+            "users", "estatusFuncionalidad", "iteracion", "prioridad", "etiquetas", "atributoFuncionalidads", "comentarios", "bitacoras",
+        },
         allowSetters = true
     )
     private Set<Funcionalidad> funcionalidads = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "participacionProyectos", "configuracions", "bitacoras", "iteracions" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "participantes", "configuracions", "iteracions" }, allowSetters = true)
     private Proyecto proyecto;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
