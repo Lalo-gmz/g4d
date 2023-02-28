@@ -7,6 +7,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A Comentario.
@@ -29,9 +31,11 @@ public class Comentario implements Serializable {
     @Column(name = "mensaje", nullable = false)
     private String mensaje;
 
+    @CreationTimestamp
     @Column(name = "creado")
     private Instant creado;
 
+    @UpdateTimestamp
     @Column(name = "modificado")
     private Instant modificado;
 

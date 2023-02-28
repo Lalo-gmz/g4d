@@ -7,7 +7,7 @@ export interface IComentario {
   mensaje?: string | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
-  funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
+  funcionalidad?: IFuncionalidad | null;
   user?: IUser | null;
 }
 

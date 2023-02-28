@@ -6,7 +6,7 @@
     <tbody>
       <tr *ngFor="let comentario of comentarios">
         <td>
-          <i class="bi bi-person-circle"></i> {{ comentario.user?.firstName }} · {{ comentario.creado | formatMediumDate }}
+          <i class="bi bi-person-circle"></i> {{ comentario.user?.firstName }} · {{ comentario.creado | formatMediumDatetime }}
           <p class="text-white-50 mt-1">
             {{ comentario.mensaje }}
           </p>
@@ -16,5 +16,21 @@
   </table>
   <div class="d-grid">
     <button class="btn btn-secondary">Nuevo comentario</button>
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="myForm">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Mensaje</label>
+        <input formControlName="mensaje" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+      </div>
+
+      <button
+        type="submit"
+        id="save-entity"
+        data-cy="entityCreateSaveButton"
+        [disabled]="myForm.invalid || isSaving"
+        class="btn btn-primary"
+      >
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+      </button>
+    </form>
   </div>
 </div>

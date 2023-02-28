@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Comentario;
 import mx.lania.g4d.repository.ComentarioRepository;
+import mx.lania.g4d.security.SecurityUtils;
 import mx.lania.g4d.service.ComentarioService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
@@ -60,6 +61,18 @@ public class ComentarioResource {
             .created(new URI("/api/comentarios/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/comentarios-funcionalidad")
+    public ResponseEntity<Comentario> createComentarioByFuncionalidad(@Valid @RequestBody Comentario comentario) {
+        log.debug("REST request to save Comentario : {}", comentario);
+
+        log.debug("GET session");
+        Optional<String> login = SecurityUtils.getCurrentUserLogin();
+        if (login.isEmpty()) {
+            return ResponseEntity.badRequest().header("ERROR", "No user found").build();
+        }
+        return ResponseEntity.ok(comentarioService.saveByFuncionalidad(login.get(), comentario));
     }
 
     /**

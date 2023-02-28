@@ -8,12 +8,14 @@ import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IComentario, NewComentario } from '../comentario.model';
+import { User } from 'app/admin/user-management/user-management.model';
 
 export type PartialUpdateComentario = Partial<IComentario> & Pick<IComentario, 'id'>;
 
 type RestOf<T extends IComentario | NewComentario> = Omit<T, 'creado' | 'modificado'> & {
   creado?: string | null;
   modificado?: string | null;
+  user?: User | null;
 };
 
 export type RestComentario = RestOf<IComentario>;
@@ -35,6 +37,13 @@ export class ComentarioService {
     const copy = this.convertDateFromClient(comentario);
     return this.http
       .post<RestComentario>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  createByFuncidAndUserId(comentario: NewComentario): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(comentario);
+    return this.http
+      .post<RestComentario>(`${this.resourceUrl}-funcionalidad`, copy, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
