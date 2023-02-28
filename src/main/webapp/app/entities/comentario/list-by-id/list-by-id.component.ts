@@ -20,6 +20,7 @@ export class ComentarioListByIdComponent implements OnInit {
   funcionalodadId: number | undefined;
   myForm: FormGroup;
   funcionalidad?: IFuncionalidad;
+  puedeComentar = false;
 
   constructor(
     protected funcionalidadService: FuncionalidadService,
@@ -80,6 +81,7 @@ export class ComentarioListByIdComponent implements OnInit {
       next: res => {
         if (res.body) this.comentarios?.push(res.body);
         this.myForm.reset();
+        this.puedeComentar = false;
       },
     });
   }

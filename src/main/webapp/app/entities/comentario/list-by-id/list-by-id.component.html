@@ -15,11 +15,15 @@
     </tbody>
   </table>
   <div class="d-grid">
-    <button class="btn btn-secondary">Nuevo comentario</button>
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="myForm">
+    <button (click)="puedeComentar = !puedeComentar" class="btn btn-secondary">
+      <ng-container *ngIf="!puedeComentar"> <i class="bi bi-chevron-down"></i> Nuevo comentario </ng-container>
+      <ng-container *ngIf="puedeComentar"> <i class="bi bi-chevron-up"></i> Cancelar comentario </ng-container>
+    </button>
+
+    <form *ngIf="puedeComentar" class="d-grid p-4" name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="myForm">
       <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Mensaje</label>
-        <input formControlName="mensaje" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" />
+        <textarea class="form-control" formControlName="mensaje" cols="30" rows="10" placeholder="tu comentario..."></textarea>
       </div>
 
       <button
@@ -27,7 +31,7 @@
         id="save-entity"
         data-cy="entityCreateSaveButton"
         [disabled]="myForm.invalid || isSaving"
-        class="btn btn-primary"
+        class="btn btn-primary btn-block"
       >
         <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
       </button>

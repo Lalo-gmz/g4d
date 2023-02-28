@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A Funcionalidad.
@@ -39,9 +41,11 @@ public class Funcionalidad implements Serializable {
     @Column(name = "fecha_entrega")
     private LocalDate fechaEntrega;
 
+    @CreationTimestamp
     @Column(name = "creado")
     private Instant creado;
 
+    @UpdateTimestamp
     @Column(name = "modificado")
     private Instant modificado;
 
