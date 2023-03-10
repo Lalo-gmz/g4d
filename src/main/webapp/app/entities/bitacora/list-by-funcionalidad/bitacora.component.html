@@ -1,0 +1,8 @@
+<div>
+  <div class="d-block pb-3">
+    <div *ngFor="let registro of bitacoras">
+      <i class="bi bi-person-circle"></i> {{ registro.user?.firstName }} :<span class="text-white-50"> Realizó </span>
+      {{ registro.accion }} · <span class="text-white-50"> {{ registro.creado | formatMediumDatetime }} </span>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  * A Bitacora.
@@ -29,6 +30,7 @@ public class Bitacora implements Serializable {
     @Column(name = "accion", nullable = false)
     private String accion;
 
+    @CreationTimestamp
     @NotNull
     @Column(name = "creado", nullable = false)
     private Instant creado;

@@ -7,6 +7,16 @@ import dayjs from 'dayjs/esm';
 })
 export class FormatMediumDatePipe implements PipeTransform {
   transform(day: dayjs.Dayjs | null | undefined): string {
-    return day ? day.format('D MMM YYYY') : '';
+    let res = '';
+    if (day) {
+      if (typeof day === 'object' && day instanceof dayjs) {
+        res = day.format('D MMM YYYY');
+      } else {
+        const fecha = dayjs(day);
+        res = fecha.format('D MMM YYYY');
+      }
+    }
+
+    return res;
   }
 }

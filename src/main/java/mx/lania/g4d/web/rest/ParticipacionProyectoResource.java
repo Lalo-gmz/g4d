@@ -145,6 +145,12 @@ public class ParticipacionProyectoResource {
         return participacionProyectoService.findAll();
     }
 
+    @GetMapping("/participacion-proyectosByUser")
+    public List<ParticipacionProyecto> getAllParticipacionProyectosByUser() {
+        log.debug("REST request to get all ParticipacionProyectos");
+        return participacionProyectoService.findAllByUser();
+    }
+
     /**
      * {@code GET  /participacion-proyectos/:id} : get the "id" participacionProyecto.
      *

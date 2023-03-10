@@ -8,6 +8,7 @@ import { FuncionalidadRoutingModule } from './route/funcionalidad-routing.module
 import { ComentarioListByIdComponent } from '../comentario/list-by-id/list-by-id.component';
 import { EtiquetaListByFuncionalIdComponent } from '../etiqueta/etiqueta-list-by-funcional-id/etiqueta-list-by-funcional-id.component';
 import { AtributoFuncionalidadListByFuncionIdComponent } from '../atributo-funcionalidad/atributo-funcionalidad-list-by-funcion-id/atributo-funcionalidad-list-by-funcion-id.component';
+import { BitacoraByFuncionalidadComponent } from '../bitacora/list-by-funcionalidad/bitacora.component';
 
 @NgModule({
   imports: [SharedModule, FuncionalidadRoutingModule],
@@ -19,6 +20,7 @@ import { AtributoFuncionalidadListByFuncionIdComponent } from '../atributo-funci
     ComentarioListByIdComponent,
     EtiquetaListByFuncionalIdComponent,
     AtributoFuncionalidadListByFuncionIdComponent,
+    BitacoraByFuncionalidadComponent,
   ],
 })
 export class FuncionalidadModule {}

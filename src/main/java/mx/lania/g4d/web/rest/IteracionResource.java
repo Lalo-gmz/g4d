@@ -143,6 +143,12 @@ public class IteracionResource {
         return iteracionService.findAll();
     }
 
+    @GetMapping("/iteracions/proyecto/{id}")
+    public List<Iteracion> getAllIteracionsByProyectoId(@PathVariable Long id) {
+        log.debug("REST request to get all Iteracions By Proyecto id");
+        return iteracionService.findAllByProyectoId(id);
+    }
+
     /**
      * {@code GET  /iteracions/:id} : get the "id" iteracion.
      *

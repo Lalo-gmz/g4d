@@ -143,6 +143,12 @@ public class BitacoraResource {
         return bitacoraService.findAll();
     }
 
+    @GetMapping("/bitacoras/funcionalidad/{id}")
+    public List<Bitacora> getAllBitacorasByFuncionalidad(@PathVariable long id) {
+        log.debug("REST request to get all Bitacoras by funcionalidad");
+        return bitacoraService.findAllByFuncionalidad(id);
+    }
+
     /**
      * {@code GET  /bitacoras/:id} : get the "id" bitacora.
      *

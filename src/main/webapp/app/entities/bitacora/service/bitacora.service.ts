@@ -57,6 +57,12 @@ export class BitacoraService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
+  findAllByFuncionalidad(id: number): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<RestBitacora[]>(`${this.resourceUrl}/funcionalidad/${id}`, { observe: 'response' })
+      .pipe(map(res => this.convertResponseArrayFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http

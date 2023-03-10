@@ -5,9 +5,16 @@ import { ProyectoDetailComponent } from './detail/proyecto-detail.component';
 import { ProyectoUpdateComponent } from './update/proyecto-update.component';
 import { ProyectoDeleteDialogComponent } from './delete/proyecto-delete-dialog.component';
 import { ProyectoRoutingModule } from './route/proyecto-routing.module';
+import { ProyectoListByUserComponent } from './list-by-user/proyecto-list-by-user.component';
 
 @NgModule({
   imports: [SharedModule, ProyectoRoutingModule],
-  declarations: [ProyectoComponent, ProyectoDetailComponent, ProyectoUpdateComponent, ProyectoDeleteDialogComponent],
+  declarations: [
+    ProyectoComponent,
+    ProyectoDetailComponent,
+    ProyectoUpdateComponent,
+    ProyectoDeleteDialogComponent,
+    ProyectoListByUserComponent,
+  ],
 })
 export class ProyectoModule {}

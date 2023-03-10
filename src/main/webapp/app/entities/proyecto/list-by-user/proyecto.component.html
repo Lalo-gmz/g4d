@@ -1,0 +1,39 @@
+<div>
+  <h2 id="page-heading" data-cy="ProyectoHeading">
+    <span>Mis Proyectos</span>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <!-- <div class="alert alert-warning" id="no-result" *ngIf="proyectos?.length === 0">
+    <span>Ningún Proyectos encontrado</span>
+  </div> -->
+
+  <div *ngIf="proyectos" class="mt-3">
+    <div *ngFor="let proyecto of proyectos">
+      <hr />
+      <div class="d-flex my-3">
+        <div class="d-inline-block mx-2">
+          <a style="text-decoration: none" [routerLink]="'/iteracion/proyecto/' + proyecto.id">
+            <div class="rounded border bg-primary d-flex" style="height: 5em; width: 5em">
+              <div class="mx-auto my-auto fs-3">{{ proyecto.nombre | slice: 0:1 | uppercase }}</div>
+            </div>
+          </a>
+        </div>
+        <div class="d-inline-block">
+          <div>
+            <span class="text-white text-opacity-50 fs-5"> # {{ proyecto.id }} </span>
+            <span class="fs-5"> {{ proyecto.nombre }} </span>
+          </div>
+          <span class="text-white text-opacity-50"> Creado: </span> <span> {{ proyecto.creado | formatMediumDate }} </span> ·
+          <span class="text-white text-opacity-50"> Última modificación: </span> <span> {{ proyecto.modificado | formatMediumDate }} </span>
+          <div>
+            <span class="text-white text-opacity-50"> <a [href]="proyecto.idProyectoGitLab"> Ver en GitLab </a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

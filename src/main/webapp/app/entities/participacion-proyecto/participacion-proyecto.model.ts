@@ -5,7 +5,7 @@ export interface IParticipacionProyecto {
   id: number;
   esAdmin?: boolean | null;
   usuario?: Pick<IUser, 'id'> | null;
-  proyecto?: Pick<IProyecto, 'id'> | null;
+  proyecto?: IProyecto | null;
 }
 
 export type NewParticipacionProyecto = Omit<IParticipacionProyecto, 'id'> & { id: null };

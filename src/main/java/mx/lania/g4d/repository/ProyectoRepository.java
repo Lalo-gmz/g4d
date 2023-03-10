@@ -2,6 +2,7 @@ package mx.lania.g4d.repository;
 
 import java.util.List;
 import java.util.Optional;
+import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.domain.Proyecto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

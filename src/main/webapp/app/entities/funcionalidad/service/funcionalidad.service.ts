@@ -60,8 +60,14 @@ export class FuncionalidadService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(iteracionId?: number, req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
+
+    if (iteracionId) {
+      return this.http
+        .get<RestFuncionalidad[]>(`${this.resourceUrl}/iteracion/${iteracionId}`, { params: options, observe: 'response' })
+        .pipe(map(res => this.convertResponseArrayFromServer(res)));
+    }
     return this.http
       .get<RestFuncionalidad[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map(res => this.convertResponseArrayFromServer(res)));

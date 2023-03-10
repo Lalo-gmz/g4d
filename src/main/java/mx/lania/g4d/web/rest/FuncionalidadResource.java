@@ -142,6 +142,15 @@ public class FuncionalidadResource {
         return funcionalidadService.findAll();
     }
 
+    @GetMapping("/funcionalidads/iteracion/{iteracionId}")
+    public List<Funcionalidad> getAllFuncionalidadsByIteracionId(
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload,
+        @PathVariable Long iteracionId
+    ) {
+        log.debug("REST request to get all Funcionalidads");
+        return funcionalidadService.findAllByIteracionId(iteracionId);
+    }
+
     /**
      * {@code GET  /funcionalidads/:id} : get the "id" funcionalidad.
      *

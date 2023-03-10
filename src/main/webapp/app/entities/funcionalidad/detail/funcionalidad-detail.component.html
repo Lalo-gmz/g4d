@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-between">
         <div>
           <span class="text-white-50">
-            <a [routerLink]="['/funcionalidad']">Funcionalidad </a> <i class="bi bi-chevron-right"></i>&nbsp;
+            <a (click)="previousState()"> <i class="bi bi-arrow-left"></i> Atrás </a> <i class="bi bi-chevron-right"></i>&nbsp;
           </span>
           <span>{{ funcionalidad.id }}</span>
         </div>
@@ -21,11 +21,7 @@
           <span class="text-white-50">Creado en </span> <span>{{ funcionalidad.creado | formatMediumDate }} </span>
         </div>
         <div>
-          <span class="text-white-50"> Asignado a </span>
-          <ng-container *ngIf="funcionalidad.users">
-            <span *ngFor="let user of funcionalidad.users"> [{{ user.firstName }}] </span>
-          </ng-container>
-          <span class="text-white-50">&nbsp; - Límite &nbsp;</span>
+          <span class="text-white-50">&nbsp; Límite </span>
           <span>
             {{ funcionalidad.fechaEntrega | formatMediumDate }} |
             <span *ngIf="funcionalidad.prioridad" class="badge text-bg-success">{{ funcionalidad.prioridad.nombre }}</span>
@@ -43,7 +39,12 @@
           funcionalidad.estatusFuncionalidad.nombre
         }}</span>
       </h4>
-
+      <div class="mb-2">
+        <span class="text-white-50"> Asignado a </span>
+        <ng-container *ngIf="funcionalidad.users">
+          <span *ngFor="let user of funcionalidad.users"> [ <i class="bi bi-person-circle"></i> {{ user.firstName }}] </span>
+        </ng-container>
+      </div>
       <p>{{ funcionalidad.descripcion }}</p>
 
       <!-- Atributos destacados -->
@@ -61,14 +62,12 @@
       <!-- Actividad -->
 
       <h4>Actividad</h4>
+
       <div>
         Última Actualización: <span class="text-white-50"> {{ funcionalidad.modificado | formatMediumDatetime }} </span>
       </div>
-      <div class="d-block pb-3">
-        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
-        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
-        <div><i class="bi bi-person-circle"></i> Usuario :<span class="text-white-50"> Realizó </span> Actividad</div>
-      </div>
+
+      <jhi-bitacora-by-funcionalidad [funcionalidadId]="funcionalidad.id"></jhi-bitacora-by-funcionalidad>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>

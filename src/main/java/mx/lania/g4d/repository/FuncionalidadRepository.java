@@ -28,4 +28,10 @@ public interface FuncionalidadRepository extends FuncionalidadRepositoryWithBagR
     default Page<Funcionalidad> findAllWithEagerRelationships(Pageable pageable) {
         return this.fetchBagRelationships(this.findAll(pageable));
     }
+
+    default List<Funcionalidad> findAllWithEagerRelationshipsByIteracionId(Long id) {
+        return this.fetchBagRelationships(this.findAllByIteracionId(id));
+    }
+
+    List<Funcionalidad> findAllByIteracionId(Long id);
 }

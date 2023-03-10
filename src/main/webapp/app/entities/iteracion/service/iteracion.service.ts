@@ -59,8 +59,13 @@ export class IteracionService {
       .pipe(map(res => this.convertResponseFromServer(res)));
   }
 
-  query(req?: any): Observable<EntityArrayResponseType> {
+  query(id?: number, req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
+    if (id) {
+      return this.http
+        .get<RestIteracion[]>(`${this.resourceUrl}/proyecto/${id}`, { params: options, observe: 'response' })
+        .pipe(map(res => this.convertResponseArrayFromServer(res)));
+    }
     return this.http
       .get<RestIteracion[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map(res => this.convertResponseArrayFromServer(res)));

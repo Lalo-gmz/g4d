@@ -7,11 +7,15 @@ import { IteracionDetailComponent } from '../detail/iteracion-detail.component';
 import { IteracionUpdateComponent } from '../update/iteracion-update.component';
 import { IteracionRoutingResolveService } from './iteracion-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
+import { ProyectoRoutingResolveService } from 'app/entities/proyecto/route/proyecto-routing-resolve.service';
 
 const iteracionRoute: Routes = [
   {
-    path: '',
+    path: 'proyecto/:id',
     component: IteracionComponent,
+    resolve: {
+      iteracion: ProyectoRoutingResolveService,
+    },
     data: {
       defaultSort: 'id,' + ASC,
     },

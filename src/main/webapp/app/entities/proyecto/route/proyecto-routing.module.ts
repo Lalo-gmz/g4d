@@ -7,11 +7,20 @@ import { ProyectoDetailComponent } from '../detail/proyecto-detail.component';
 import { ProyectoUpdateComponent } from '../update/proyecto-update.component';
 import { ProyectoRoutingResolveService } from './proyecto-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
+import { ProyectoListByUserComponent } from '../list-by-user/proyecto-list-by-user.component';
 
 const proyectoRoute: Routes = [
   {
     path: '',
     component: ProyectoComponent,
+    data: {
+      defaultSort: 'id,' + ASC,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'mis-proyectos',
+    component: ProyectoListByUserComponent,
     data: {
       defaultSort: 'id,' + ASC,
     },

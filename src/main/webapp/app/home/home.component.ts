@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'jhi-home',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private oauthService: OAuthService, private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {
     this.accountService

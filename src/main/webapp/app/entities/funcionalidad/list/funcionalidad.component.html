@@ -9,6 +9,7 @@
       </button>
 
       <button
+        *jhiHasAnyAuthority="['ROLE_ADMIN']"
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-funcionalidad"
@@ -44,15 +45,15 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="descripcion">
+          <!-- <th scope="col" jhiSortBy="descripcion">
             <div class="d-flex">
               <span>Descripcion</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
-          </th>
+          </th> -->
           <th scope="col" jhiSortBy="urlGitLab">
             <div class="d-flex">
-              <span>Url Git Lab</span>
+              <span>GitLab</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -82,16 +83,11 @@
           </th>
           <th scope="col" jhiSortBy="estatusFuncionalidad.id">
             <div class="d-flex">
-              <span>Estatus Funcionalidad</span>
+              <span>Estatus</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="iteracion.id">
-            <div class="d-flex">
-              <span>Iteracion</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+
           <th scope="col" jhiSortBy="prioridad.id">
             <div class="d-flex">
               <span>Prioridad</span>
@@ -107,29 +103,25 @@
             <a [routerLink]="['/funcionalidad', funcionalidad.id, 'view']">{{ funcionalidad.id }}</a>
           </td>
           <td>{{ funcionalidad.nombre }}</td>
-          <td>{{ funcionalidad.descripcion }}</td>
-          <td>{{ funcionalidad.urlGitLab }}</td>
+          <!-- <td>{{ funcionalidad.descripcion }}</td> -->
+          <td><a [href]="funcionalidad.urlGitLab"> Ir a GitLab </a></td>
           <td>{{ funcionalidad.fechaEntrega | formatMediumDate }}</td>
           <td>{{ funcionalidad.creado | formatMediumDatetime }}</td>
           <td>{{ funcionalidad.modificado | formatMediumDatetime }}</td>
           <td>
-            <span *ngFor="let user of funcionalidad.users; let last = last"> {{ user.id }}{{ last ? '' : ', ' }} </span>
+            <div *ngFor="let user of funcionalidad.users; let last = last">
+              <div><i class="bi bi-person-circle"></i> {{ user.firstName }}</div>
+            </div>
           </td>
           <td>
             <div *ngIf="funcionalidad.estatusFuncionalidad">
-              <a [routerLink]="['/estatus-funcionalidad', funcionalidad.estatusFuncionalidad.id, 'view']">{{
-                funcionalidad.estatusFuncionalidad.id
-              }}</a>
+              {{ funcionalidad.estatusFuncionalidad.nombre }}
             </div>
           </td>
-          <td>
-            <div *ngIf="funcionalidad.iteracion">
-              <a [routerLink]="['/iteracion', funcionalidad.iteracion.id, 'view']">{{ funcionalidad.iteracion.id }}</a>
-            </div>
-          </td>
+
           <td>
             <div *ngIf="funcionalidad.prioridad">
-              <a [routerLink]="['/prioridad', funcionalidad.prioridad.id, 'view']">{{ funcionalidad.prioridad.id }}</a>
+              {{ funcionalidad.prioridad.nombre }}
             </div>
           </td>
           <td class="text-end">
@@ -145,6 +137,7 @@
               </button>
 
               <button
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 type="submit"
                 [routerLink]="['/funcionalidad', funcionalidad.id, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -154,7 +147,13 @@
                 <span class="d-none d-md-inline">Editar</span>
               </button>
 
-              <button type="submit" (click)="delete(funcionalidad)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                type="submit"
+                (click)="delete(funcionalidad)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Eliminar</span>
               </button>

@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A Proyecto.
@@ -34,9 +36,11 @@ public class Proyecto implements Serializable {
     @Column(name = "id_proyecto_git_lab", nullable = false, unique = true)
     private String idProyectoGitLab;
 
+    @CreationTimestamp
     @Column(name = "creado")
     private Instant creado;
 
+    @UpdateTimestamp
     @Column(name = "modificado")
     private Instant modificado;
 

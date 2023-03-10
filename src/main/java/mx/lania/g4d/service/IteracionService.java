@@ -84,6 +84,12 @@ public class IteracionService {
         return iteracionRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Iteracion> findAllByProyectoId(Long id) {
+        log.debug("Request to get all Iteracions");
+        return iteracionRepository.findAllByProyectoId(id);
+    }
+
     /**
      * Get one iteracion by id.
      *

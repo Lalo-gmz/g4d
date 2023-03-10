@@ -95,6 +95,12 @@ public class FuncionalidadService {
         return funcionalidadRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Funcionalidad> findAllByIteracionId(Long iteracionId) {
+        log.debug("Request to get all Funcionalidads");
+        return funcionalidadRepository.findAllWithEagerRelationshipsByIteracionId(iteracionId);
+    }
+
     /**
      * Get all the funcionalidads with eager load of many-to-many relationships.
      *

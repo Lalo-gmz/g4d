@@ -32,6 +32,12 @@ export class AuthServerProvider {
       .pipe(map(response => this.authenticateSuccess(response, credentials.rememberMe)));
   }
 
+  // loginWithToken(token: Login): Observable<void> {
+  //   return this.http
+  //     .post<JwtToken>(this.applicationConfigService.getEndpointFor('api/authenticate'), token)
+  //     .pipe(map(response => this.authenticateSuccess(response, token.rememberMe)));
+  // }
+
   logout(): Observable<void> {
     return new Observable(observer => {
       this.localStorageService.clear('authenticationToken');

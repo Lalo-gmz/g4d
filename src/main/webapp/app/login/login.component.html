@@ -50,6 +50,15 @@
         <span>¿Aún no tienes una cuenta?</span>
         <a class="alert-link" routerLink="/account/register">Crea una cuenta</a>
       </div>
+
+      <button (click)="loginWithGitLab()">GitLab</button>
+      <button (click)="logOut()">Salir</button>
+      <h3 *ngIf="token">{{ token }}</h3>
+      <ng-container *ngIf="token">
+        <h3>{{ token.name }}</h3>
+        <img [src]="token.picture" alt="" srcset="" />
+        <button (click)="obtenerInfo()">Mail</button>
+      </ng-container>
     </div>
   </div>
 </div>

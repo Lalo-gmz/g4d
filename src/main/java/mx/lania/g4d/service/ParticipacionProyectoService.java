@@ -78,6 +78,12 @@ public class ParticipacionProyectoService {
         return participacionProyectoRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<ParticipacionProyecto> findAllByUser() {
+        log.debug("Request to get all ParticipacionProyectos");
+        return participacionProyectoRepository.findByUsuarioIsCurrentUser();
+    }
+
     /**
      * Get one participacionProyecto by id.
      *

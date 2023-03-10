@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="IteracionHeading">
-    <span>Iteracions</span>
+    <span>Iteraciones de Proyecto # {{ proyectoId }} </span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -9,6 +9,7 @@
       </button>
 
       <button
+        *jhiHasAnyAuthority="['ROLE_ADMIN']"
         id="jh-create-entity"
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-iteracion"
@@ -56,31 +57,28 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="proyecto.id">
-            <div class="d-flex">
-              <span>Proyecto</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let iteracion of iteracions; trackBy: trackId" data-cy="entityTable">
           <td>
-            <a [routerLink]="['/iteracion', iteracion.id, 'view']">{{ iteracion.id }}</a>
+            {{ iteracion.id }}
           </td>
-          <td>{{ iteracion.nombre }}</td>
+
+          <td>
+            <a [routerLink]="['/funcionalidad/iteracion/' + iteracion.id]">
+              <span class="badge fs-5" style="background-color: #0d532a">{{ iteracion.nombre }}</span>
+            </a>
+          </td>
+
           <td>{{ iteracion.inicio | formatMediumDate }}</td>
           <td>{{ iteracion.fin | formatMediumDate }}</td>
-          <td>
-            <div *ngIf="iteracion.proyecto">
-              <a [routerLink]="['/proyecto', iteracion.proyecto.id, 'view']">{{ iteracion.proyecto.id }}</a>
-            </div>
-          </td>
           <td class="text-end">
             <div class="btn-group">
               <button
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 type="submit"
                 [routerLink]="['/iteracion', iteracion.id, 'view']"
                 class="btn btn-info btn-sm"
@@ -91,6 +89,7 @@
               </button>
 
               <button
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 type="submit"
                 [routerLink]="['/iteracion', iteracion.id, 'edit']"
                 class="btn btn-primary btn-sm"
@@ -100,7 +99,13 @@
                 <span class="d-none d-md-inline">Editar</span>
               </button>
 
-              <button type="submit" (click)="delete(iteracion)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+              <button
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                type="submit"
+                (click)="delete(iteracion)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline">Eliminar</span>
               </button>

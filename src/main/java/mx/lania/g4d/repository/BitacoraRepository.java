@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface BitacoraRepository extends JpaRepository<Bitacora, Long> {
     @Query("select bitacora from Bitacora bitacora where bitacora.user.login = ?#{principal.username}")
     List<Bitacora> findByUserIsCurrentUser();
+
+    List<Bitacora> findAllByFuncionalidadId(Long id);
 }

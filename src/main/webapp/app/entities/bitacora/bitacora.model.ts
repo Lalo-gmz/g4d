@@ -6,7 +6,7 @@ export interface IBitacora {
   id: number;
   accion?: string | null;
   creado?: dayjs.Dayjs | null;
-  user?: Pick<IUser, 'id'> | null;
+  user?: IUser | null;
   funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
 }
 

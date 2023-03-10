@@ -81,6 +81,12 @@ public class BitacoraService {
         return bitacoraRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<Bitacora> findAllByFuncionalidad(long id) {
+        log.debug("Request to get all Bitacoras");
+        return bitacoraRepository.findAllByFuncionalidadId(id);
+    }
+
     /**
      * Get one bitacora by id.
      *

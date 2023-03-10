@@ -10,13 +10,14 @@ import { ASC } from 'app/config/navigation.constants';
 
 const funcionalidadRoute: Routes = [
   {
-    path: '',
+    path: 'iteracion/:id',
     component: FuncionalidadComponent,
     data: {
       defaultSort: 'id,' + ASC,
     },
     canActivate: [UserRouteAccessService],
   },
+
   {
     path: ':id/view',
     component: FuncionalidadDetailComponent,

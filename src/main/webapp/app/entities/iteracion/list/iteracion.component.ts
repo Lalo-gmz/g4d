@@ -16,7 +16,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 export class IteracionComponent implements OnInit {
   iteracions?: IIteracion[];
   isLoading = false;
-
+  proyectoId?: number;
   predicate = 'id';
   ascending = true;
 
@@ -26,7 +26,9 @@ export class IteracionComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.proyectoId = this.activatedRoute.snapshot.params['id'];
+  }
 
   trackId = (_index: number, item: IIteracion): number => this.iteracionService.getIteracionIdentifier(item);
 
@@ -93,7 +95,8 @@ export class IteracionComponent implements OnInit {
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.iteracionService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    console.log(this.proyectoId);
+    return this.iteracionService.query(this.proyectoId, queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

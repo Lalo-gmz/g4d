@@ -16,7 +16,7 @@ import { SortService } from 'app/shared/sort/sort.service';
 export class FuncionalidadComponent implements OnInit {
   funcionalidads?: IFuncionalidad[];
   isLoading = false;
-
+  iteracionId?: number;
   predicate = 'id';
   ascending = true;
 
@@ -26,7 +26,9 @@ export class FuncionalidadComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal
-  ) {}
+  ) {
+    this.iteracionId = this.activatedRoute.snapshot.params['id'];
+  }
 
   trackId = (_index: number, item: IFuncionalidad): number => this.funcionalidadService.getFuncionalidadIdentifier(item);
 
@@ -85,6 +87,7 @@ export class FuncionalidadComponent implements OnInit {
   }
 
   protected fillComponentAttributesFromResponseBody(data: IFuncionalidad[] | null): IFuncionalidad[] {
+    console.log(data);
     return data ?? [];
   }
 
@@ -94,7 +97,7 @@ export class FuncionalidadComponent implements OnInit {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    return this.funcionalidadService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.funcionalidadService.query(this.iteracionId, queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {
