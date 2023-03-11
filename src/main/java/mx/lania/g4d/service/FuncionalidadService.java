@@ -2,12 +2,19 @@ package mx.lania.g4d.service;
 
 import java.util.List;
 import java.util.Optional;
+import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
+import mx.lania.g4d.domain.User;
+import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
+import mx.lania.g4d.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +28,17 @@ public class FuncionalidadService {
     private final Logger log = LoggerFactory.getLogger(FuncionalidadService.class);
 
     private final FuncionalidadRepository funcionalidadRepository;
+    private final BitacoraRepository bitacoraRepository;
+    private final UserRepository userRepository;
 
-    public FuncionalidadService(FuncionalidadRepository funcionalidadRepository) {
+    public FuncionalidadService(
+        FuncionalidadRepository funcionalidadRepository,
+        BitacoraRepository bitacoraRepository,
+        UserRepository userRepository
+    ) {
         this.funcionalidadRepository = funcionalidadRepository;
+        this.bitacoraRepository = bitacoraRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -34,6 +49,8 @@ public class FuncionalidadService {
      */
     public Funcionalidad save(Funcionalidad funcionalidad) {
         log.debug("Request to save Funcionalidad : {}", funcionalidad);
+        // guardar accion en bitacora
+
         return funcionalidadRepository.save(funcionalidad);
     }
 

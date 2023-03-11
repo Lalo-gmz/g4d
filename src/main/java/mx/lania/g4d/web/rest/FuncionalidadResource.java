@@ -2,17 +2,26 @@ package mx.lania.g4d.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
+import mx.lania.g4d.domain.User;
+import mx.lania.g4d.domain.enumeration.AccionBitacora;
+import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
+import mx.lania.g4d.repository.UserRepository;
+import mx.lania.g4d.service.BitacoraService;
 import mx.lania.g4d.service.FuncionalidadService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -35,9 +44,22 @@ public class FuncionalidadResource {
 
     private final FuncionalidadRepository funcionalidadRepository;
 
-    public FuncionalidadResource(FuncionalidadService funcionalidadService, FuncionalidadRepository funcionalidadRepository) {
+    private final UserRepository userRepository;
+
+    private final BitacoraService bitacoraService;
+
+    private AccionBitacora accionBitacora;
+
+    public FuncionalidadResource(
+        FuncionalidadService funcionalidadService,
+        FuncionalidadRepository funcionalidadRepository,
+        UserRepository userRepository,
+        BitacoraService bitacoraService
+    ) {
         this.funcionalidadService = funcionalidadService;
         this.funcionalidadRepository = funcionalidadRepository;
+        this.userRepository = userRepository;
+        this.bitacoraService = bitacoraService;
     }
 
     /**
@@ -54,6 +76,24 @@ public class FuncionalidadResource {
             throw new BadRequestAlertException("A new funcionalidad cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Funcionalidad result = funcionalidadService.save(funcionalidad);
+
+        // guardar bitacora
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        User user = null;
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            Bitacora bitacora = new Bitacora();
+            bitacora.setFuncionalidad(result);
+            bitacora.setAccion(String.valueOf(AccionBitacora.ALTA));
+            bitacora.setUser(user);
+            bitacora.setCreado(Instant.now());
+            bitacoraService.save(bitacora);
+        }
+
         return ResponseEntity
             .created(new URI("/api/funcionalidads/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -87,7 +127,45 @@ public class FuncionalidadResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        Funcionalidad prev = funcionalidadService.findOne(funcionalidad.getId()).get();
+
         Funcionalidad result = funcionalidadService.update(funcionalidad);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        User user = null;
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+
+            if (!result.getEstatusFuncionalidad().equals(prev.getEstatusFuncionalidad())) {
+                Bitacora bitacora = new Bitacora();
+                bitacora.setFuncionalidad(result);
+                bitacora.setUser(user);
+                bitacora.setCreado(Instant.now());
+                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ESTATUS) + " a " + result.getEstatusFuncionalidad().getNombre());
+                bitacoraService.save(bitacora);
+            }
+            if (!result.getIteracion().equals(prev.getIteracion())) {
+                Bitacora bitacora = new Bitacora();
+                bitacora.setFuncionalidad(result);
+                bitacora.setUser(user);
+                bitacora.setCreado(Instant.now());
+                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ITERACION) + " a " + result.getIteracion().getNombre());
+                bitacoraService.save(bitacora);
+            }
+            if (!result.getPrioridad().equals(prev.getPrioridad())) {
+                Bitacora bitacora = new Bitacora();
+                bitacora.setFuncionalidad(result);
+                bitacora.setUser(user);
+                bitacora.setCreado(Instant.now());
+                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_PRIORIDAD) + " a " + result.getPrioridad().getNombre());
+                bitacoraService.save(bitacora);
+            }
+        }
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, funcionalidad.getId().toString()))

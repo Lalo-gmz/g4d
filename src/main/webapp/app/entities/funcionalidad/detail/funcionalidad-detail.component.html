@@ -12,7 +12,16 @@
           </span>
           <span>{{ funcionalidad.id }}</span>
         </div>
-        <span> <a target="”_blank”" class="btn btn-primary" [attr.href]="funcionalidad.urlGitLab"> Ir a GitLab </a> </span>
+        <span>
+          <button
+            *jhiHasAnyAuthority="['ROLE_ADMIN']"
+            [routerLink]="'/funcionalidad/' + funcionalidad.id + '/edit'"
+            class="btn btn-secondary"
+          >
+            Editar
+          </button>
+          <a target="”_blank”" class="btn btn-primary" [attr.href]="funcionalidad.urlGitLab"> Ir a GitLab </a>
+        </span>
       </div>
 
       <hr />
