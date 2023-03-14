@@ -1,5 +1,6 @@
 package mx.lania.g4d.repository;
 
+import java.util.Optional;
 import mx.lania.g4d.domain.EstatusFuncionalidad;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface EstatusFuncionalidadRepository extends JpaRepository<EstatusFuncionalidad, Long> {}
+public interface EstatusFuncionalidadRepository extends JpaRepository<EstatusFuncionalidad, Long> {
+    Optional<EstatusFuncionalidad> findByNombre(String nombre);
+}

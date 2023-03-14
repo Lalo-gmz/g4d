@@ -90,6 +90,12 @@ public class EstatusFuncionalidadService {
         return estatusFuncionalidadRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<EstatusFuncionalidad> findOneByNombre(String nombre) {
+        log.debug("Request to get EstatusFuncionalidad : {}", nombre);
+        return estatusFuncionalidadRepository.findByNombre(nombre);
+    }
+
     /**
      * Delete the estatusFuncionalidad by id.
      *

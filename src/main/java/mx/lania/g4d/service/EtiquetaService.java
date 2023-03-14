@@ -99,6 +99,12 @@ public class EtiquetaService {
         return etiquetaRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Etiqueta> findOneByNombre(String nombre) {
+        log.debug("Request to get Etiqueta : {}", nombre);
+        return etiquetaRepository.findByNombre(nombre);
+    }
+
     /**
      * Delete the etiqueta by id.
      *

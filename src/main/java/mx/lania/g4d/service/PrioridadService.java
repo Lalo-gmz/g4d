@@ -93,6 +93,12 @@ public class PrioridadService {
         return prioridadRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Prioridad> findOneByNombre(String nombre) {
+        log.debug("Request to get Prioridad : {}", nombre);
+        return prioridadRepository.findByNombre(nombre);
+    }
+
     /**
      * Delete the prioridad by id.
      *

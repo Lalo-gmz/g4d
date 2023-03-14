@@ -1,10 +1,12 @@
 package mx.lania.g4d.service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.User;
+import mx.lania.g4d.domain.enumeration.AccionBitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
@@ -30,15 +32,18 @@ public class FuncionalidadService {
     private final FuncionalidadRepository funcionalidadRepository;
     private final BitacoraRepository bitacoraRepository;
     private final UserRepository userRepository;
+    private final BitacoraService bitacoraService;
 
     public FuncionalidadService(
         FuncionalidadRepository funcionalidadRepository,
         BitacoraRepository bitacoraRepository,
-        UserRepository userRepository
+        UserRepository userRepository,
+        BitacoraService bitacoraService
     ) {
         this.funcionalidadRepository = funcionalidadRepository;
         this.bitacoraRepository = bitacoraRepository;
         this.userRepository = userRepository;
+        this.bitacoraService = bitacoraService;
     }
 
     /**
@@ -50,8 +55,30 @@ public class FuncionalidadService {
     public Funcionalidad save(Funcionalidad funcionalidad) {
         log.debug("Request to save Funcionalidad : {}", funcionalidad);
         // guardar accion en bitacora
+        // guardar bitacora
 
-        return funcionalidadRepository.save(funcionalidad);
+        Funcionalidad result = funcionalidadRepository.save(funcionalidad);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        User user = null;
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        if (optionalUser.isPresent()) {
+            user = optionalUser.get();
+            Bitacora bitacora = new Bitacora();
+            bitacora.setFuncionalidad(result);
+            bitacora.setAccion(String.valueOf(AccionBitacora.ALTA));
+            bitacora.setUser(user);
+            bitacora.setCreado(Instant.now());
+            bitacoraService.save(bitacora);
+        }
+
+        return result;
+    }
+
+    public List<Funcionalidad> saveAll(List<Funcionalidad> funcionalidades) {
+        return funcionalidadRepository.saveAll(funcionalidades);
     }
 
     /**

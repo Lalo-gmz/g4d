@@ -1,6 +1,7 @@
 package mx.lania.g4d.repository;
 
 import java.util.List;
+import java.util.Optional;
 import mx.lania.g4d.domain.Iteracion;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IteracionRepository extends JpaRepository<Iteracion, Long> {
     List<Iteracion> findAllByProyectoId(Long id);
+
+    Optional<Iteracion> findByNombreAndProyectoId(String nombre, Long id);
 }

@@ -1,5 +1,6 @@
 package mx.lania.g4d.web.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -15,6 +16,7 @@ import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.service.BitacoraService;
 import mx.lania.g4d.service.FuncionalidadService;
+import mx.lania.g4d.service.Utils.ExcelUploadService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
@@ -50,16 +53,20 @@ public class FuncionalidadResource {
 
     private AccionBitacora accionBitacora;
 
+    private ExcelUploadService excelUploadService;
+
     public FuncionalidadResource(
         FuncionalidadService funcionalidadService,
         FuncionalidadRepository funcionalidadRepository,
         UserRepository userRepository,
-        BitacoraService bitacoraService
+        BitacoraService bitacoraService,
+        ExcelUploadService excelUploadService
     ) {
         this.funcionalidadService = funcionalidadService;
         this.funcionalidadRepository = funcionalidadRepository;
         this.userRepository = userRepository;
         this.bitacoraService = bitacoraService;
+        this.excelUploadService = excelUploadService;
     }
 
     /**
@@ -77,27 +84,22 @@ public class FuncionalidadResource {
         }
         Funcionalidad result = funcionalidadService.save(funcionalidad);
 
-        // guardar bitacora
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
-
-        User user = null;
-        Optional<User> optionalUser = userRepository.findOneByLogin(login);
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
-            Bitacora bitacora = new Bitacora();
-            bitacora.setFuncionalidad(result);
-            bitacora.setAccion(String.valueOf(AccionBitacora.ALTA));
-            bitacora.setUser(user);
-            bitacora.setCreado(Instant.now());
-            bitacoraService.save(bitacora);
-        }
-
         return ResponseEntity
             .created(new URI("/api/funcionalidads/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("funcionalidades/excel/proyecto/{id}")
+    public ResponseEntity<?> createFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
+        throws IOException {
+        if (excelUploadService.isValidExcelFile(file)) {
+            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
+
+            return ResponseEntity.ok(funcionalidadService.saveAll(funcionalidads));
+        }
+
+        return ResponseEntity.ok("ok");
     }
 
     /**

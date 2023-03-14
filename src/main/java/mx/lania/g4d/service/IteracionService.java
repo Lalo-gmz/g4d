@@ -102,6 +102,11 @@ public class IteracionService {
         return iteracionRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Iteracion> findOneByNombreAndProyectoId(String s, Long id) {
+        return iteracionRepository.findByNombreAndProyectoId(s, id);
+    }
+
     /**
      * Delete the iteracion by id.
      *

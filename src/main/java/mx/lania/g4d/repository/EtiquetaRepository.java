@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
     Optional<List<Etiqueta>> findAllByFuncionalidadId(Long id);
+
+    Optional<Etiqueta> findByNombre(String nombre);
 }
