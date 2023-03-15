@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
@@ -57,6 +57,18 @@ export class IteracionService {
     return this.http
       .get<RestIteracion>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map(res => this.convertResponseFromServer(res)));
+  }
+
+  import(file: any, proyectoId: number): Observable<EntityArrayResponseType> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      }),
+    };
+
+    console.log('file:', file);
+
+    return this.http.post<any>(`/api/funcionalidades/excel/proyecto/${proyectoId}`, file);
   }
 
   query(id?: number, req?: any): Observable<EntityArrayResponseType> {

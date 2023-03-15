@@ -3,6 +3,9 @@
     <span>Iteraciones de Proyecto # {{ proyectoId }} </span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/importar/proyecto/' + proyectoId">
+        <span>Importar Excel</span>
+      </button>
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refrescar lista</span>

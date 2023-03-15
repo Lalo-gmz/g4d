@@ -1,0 +1,33 @@
+<div>
+  <h3>Importar Funcionalidades en proyecto (# {{ proyectId }})</h3>
+  <div class="d-flex mt-4" style="height: 10em">
+    <div class="m-auto mt-4 text-center">
+      <div *ngIf="enviadoCorrecto" class="alert alert-success" role="alert">
+        Se han guardado correctamente {{ registros }} funcionalidades.
+      </div>
+      <div *ngIf="faltaArchivo" class="alert alert-danger" role="alert">Aun no se ha seleccionado una plantilla válida.</div>
+
+      <h4 class="mb-4">Las funcionalidades representan un requisito funcional dentro del sistema</h4>
+      <form name="importForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="importForm" enctype="multipart/form-data">
+        <input
+          (change)="onFileSelected($event)"
+          [required]="true"
+          type="file"
+          class="form-control"
+          name="file"
+          id="file"
+          data-cy="file"
+          formControlName="file"
+        />
+        <input [disabled]="enviado" class="btn btn-primary mt-3" type="submit" value="Importar" />
+      </form>
+
+      <hr />
+
+      <h6>
+        Si aun no cuentas con la plantilla en formato MS Excel puedes descargarla
+        <a [href]="'../../content/files/plantilla.xlsx'" download>aquí.</a>
+      </h6>
+    </div>
+  </div>
+</div>

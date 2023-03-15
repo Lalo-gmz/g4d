@@ -90,15 +90,16 @@ public class ExcelUploadService {
                             funcionalidad.setFechaEntrega(LocalDate.from(cell.getLocalDateTimeCellValue()));
                             break;
                         case 5:
-                            String login = cell.getStringCellValue();
-                            System.out.println(login);
-                            Optional<User> optionalUser = userService.findByLogin(login);
+                            String usuariosRaw = cell.getStringCellValue();
+                            String[] subcadenas = usuariosRaw.split(",");
                             Set<User> userSet = new HashSet<>();
-                            if (optionalUser.isPresent()) {
-                                System.out.println(optionalUser.get());
-                                userSet.add(optionalUser.get());
-                                funcionalidad.setUsers(userSet);
+                            for (String sub : subcadenas) {
+                                Optional<User> userOptional = userService.findByLogin(sub.trim());
+                                if (userOptional.isPresent()) {
+                                    userSet.add(userOptional.get());
+                                }
                             }
+                            funcionalidad.setUsers(userSet);
                             break;
                         case 6:
                             Optional<EstatusFuncionalidad> estatusFuncionalidad = estatusFuncionalidadService.findOneByNombre(
@@ -126,10 +127,9 @@ public class ExcelUploadService {
                         case 9:
                             String etiquetasRaw = cell.getStringCellValue();
 
-                            String[] subcadenas = etiquetasRaw.split(",");
-                            System.out.println(subcadenas);
+                            String[] subEtoquetas = etiquetasRaw.split(",");
                             Set<Etiqueta> etiquetaSet = new HashSet<>();
-                            for (String sub : subcadenas) {
+                            for (String sub : subEtoquetas) {
                                 Optional<Etiqueta> etiquetaOptional = etiquetaService.findOneByNombre(sub.trim());
                                 if (etiquetaOptional.isPresent()) {
                                     etiquetaSet.add(etiquetaOptional.get());
