@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { AlertService } from 'app/core/util/alert.service';
-import { FuncionalidadService } from 'app/entities/funcionalidad/service/funcionalidad.service';
 import { IteracionService } from '../../service/iteracion.service';
 
 @Component({
@@ -25,24 +23,20 @@ export class ImportarComponentComponent implements OnInit {
   faltaArchivo = false;
   enviadoCorrecto = false;
 
-  constructor(protected activeRoute: ActivatedRoute, protected iteracionService: IteracionService, protected alertService: AlertService) {}
+  constructor(protected activeRoute: ActivatedRoute, protected iteracionService: IteracionService) {}
 
   ngOnInit(): void {
     this.proyectId = this.activeRoute.snapshot.params['id'];
   }
 
   save() {
-    console.log('formGroup', this.importForm.value);
     if (this.importForm.valid && this.proyectId) {
       this.enviado = true;
       let formulario = new FormData();
       formulario.append('file', this.excel);
 
-      console.log(formulario);
-
       this.iteracionService.import(formulario, this.proyectId).subscribe({
         next: (res: any) => {
-          console.log(res);
           this.importForm.get('file')?.setValue('');
           this.enviadoCorrecto = true;
           this.faltaArchivo = false;

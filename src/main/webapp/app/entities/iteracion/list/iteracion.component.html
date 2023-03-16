@@ -3,7 +3,12 @@
     <span>Iteraciones de Proyecto # {{ proyectoId }} </span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-secondary me-2" [routerLink]="'/proyecto/' + proyectoId + '/participacion'">
+        <i class="bi bi-person-add"></i>
+        <span>Usuarios del proyecto</span>
+      </button>
       <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/importar/proyecto/' + proyectoId">
+        <i class="bi bi-file-earmark-excel-fill"></i>
         <span>Importar Excel</span>
       </button>
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">

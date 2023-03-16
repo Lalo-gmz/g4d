@@ -1,0 +1,50 @@
+<div>
+  <h3>Usuarios en proyecto #1</h3>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h5>Todos los usuarios</h5>
+      <button class="btn btn-primary">Incluir al proyecto <i class="bi bi-arrow-bar-right"></i></button>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Check</td>
+            <td>#</td>
+            <td>Login</td>
+            <td>Nombre</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><input type="checkbox" name="" id="" /></td>
+            <td>1</td>
+            <td>Admin</td>
+            <td>Juan Perez</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6">
+      <h5>Usuarios en el Proyecto</h5>
+      <button (click)="quitarUsuarios()" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i> Quitar del proyecto</button>
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Check</td>
+            <td>#</td>
+            <td>Login</td>
+            <td>Nombre</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let usuario of usuariosEnProyecto">
+            <td><input [checked]="usuario.check" (click)="checked(usuario.id ?? 0)" type="checkbox" name="" id="" /></td>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.login }}</td>
+            <td>{{ usuario.firstName + ' ' + usuario.lastName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

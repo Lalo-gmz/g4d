@@ -4,7 +4,7 @@ import { IProyecto } from 'app/entities/proyecto/proyecto.model';
 export interface IParticipacionProyecto {
   id: number;
   esAdmin?: boolean | null;
-  usuario?: Pick<IUser, 'id'> | null;
+  usuario?: IUser | null;
   proyecto?: IProyecto | null;
 }
 

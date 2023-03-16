@@ -164,6 +164,12 @@ public class ParticipacionProyectoResource {
         return ResponseUtil.wrapOrNotFound(participacionProyecto);
     }
 
+    @GetMapping("/participacion-proyectos/proyecto/{id}")
+    public ResponseEntity<List<ParticipacionProyecto>> getParticipacionByProyectoId(@PathVariable Long id) {
+        Optional<List<ParticipacionProyecto>> participacionProyecto = participacionProyectoService.findAllByProyecto(id);
+        return ResponseUtil.wrapOrNotFound(participacionProyecto);
+    }
+
     /**
      * {@code DELETE  /participacion-proyectos/:id} : delete the "id" participacionProyecto.
      *

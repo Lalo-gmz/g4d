@@ -8,6 +8,7 @@ import { ProyectoUpdateComponent } from '../update/proyecto-update.component';
 import { ProyectoRoutingResolveService } from './proyecto-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
 import { ProyectoListByUserComponent } from '../list-by-user/proyecto-list-by-user.component';
+import { ParticipacionComponent } from '../participacion/participacion.component';
 
 const proyectoRoute: Routes = [
   {
@@ -45,6 +46,14 @@ const proyectoRoute: Routes = [
   {
     path: ':id/edit',
     component: ProyectoUpdateComponent,
+    resolve: {
+      proyecto: ProyectoRoutingResolveService,
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/participacion',
+    component: ParticipacionComponent,
     resolve: {
       proyecto: ProyectoRoutingResolveService,
     },

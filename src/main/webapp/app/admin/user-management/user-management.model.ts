@@ -11,6 +11,7 @@ export interface IUser {
   createdDate?: Date;
   lastModifiedBy?: string;
   lastModifiedDate?: Date;
+  check?: boolean;
 }
 
 export class User implements IUser {

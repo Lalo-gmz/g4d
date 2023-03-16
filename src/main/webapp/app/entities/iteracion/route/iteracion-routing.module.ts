@@ -52,7 +52,7 @@ const iteracionRoute: Routes = [
     resolve: {
       iteracion: IteracionRoutingResolveService,
     },
-    canDeactivate: [UserRouteAccessService],
+    canActivate: [UserRouteAccessService],
   },
 ];
 

@@ -6,6 +6,7 @@ import { ProyectoUpdateComponent } from './update/proyecto-update.component';
 import { ProyectoDeleteDialogComponent } from './delete/proyecto-delete-dialog.component';
 import { ProyectoRoutingModule } from './route/proyecto-routing.module';
 import { ProyectoListByUserComponent } from './list-by-user/proyecto-list-by-user.component';
+import { ParticipacionComponent } from './participacion/participacion.component';
 
 @NgModule({
   imports: [SharedModule, ProyectoRoutingModule],
@@ -15,6 +16,7 @@ import { ProyectoListByUserComponent } from './list-by-user/proyecto-list-by-use
     ProyectoUpdateComponent,
     ProyectoDeleteDialogComponent,
     ProyectoListByUserComponent,
+    ParticipacionComponent,
   ],
 })
 export class ProyectoModule {}
