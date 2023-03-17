@@ -22,6 +22,10 @@ export class ParticipacionProyectoService {
     return this.http.post<IParticipacionProyecto>(this.resourceUrl, participacionProyecto, { observe: 'response' });
   }
 
+  createAll(participacionProyecto: NewParticipacionProyecto[]): Observable<EntityArrayResponseType> {
+    return this.http.post<IParticipacionProyecto[]>(`${this.resourceUrl}/all`, participacionProyecto, { observe: 'response' });
+  }
+
   update(participacionProyecto: IParticipacionProyecto): Observable<EntityResponseType> {
     return this.http.put<IParticipacionProyecto>(
       `${this.resourceUrl}/${this.getParticipacionProyectoIdentifier(participacionProyecto)}`,
@@ -53,6 +57,12 @@ export class ParticipacionProyectoService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  deleteAll(registrosAEliminar: IParticipacionProyecto[]): Observable<HttpResponse<{}>> {
+    const ids = registrosAEliminar.map(registro => registro.id);
+
+    return this.http.delete(`${this.resourceUrl}?ids=${ids.join(',')}`, { observe: 'response' });
   }
 
   getParticipacionProyectoIdentifier(participacionProyecto: Pick<IParticipacionProyecto, 'id'>): number {

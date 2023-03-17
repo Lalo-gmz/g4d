@@ -3,6 +3,7 @@ export interface IUser {
   login?: string;
   firstName?: string;
   lastName?: string;
+  check?: boolean;
 }
 
 export class User implements IUser {

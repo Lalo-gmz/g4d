@@ -6,6 +6,7 @@ export interface IParticipacionProyecto {
   esAdmin?: boolean | null;
   usuario?: IUser | null;
   proyecto?: IProyecto | null;
+  check?: boolean;
 }
 
 export type NewParticipacionProyecto = Omit<IParticipacionProyecto, 'id'> & { id: null };

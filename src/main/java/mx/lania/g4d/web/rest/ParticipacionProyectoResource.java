@@ -2,6 +2,7 @@ package mx.lania.g4d.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,6 +63,20 @@ public class ParticipacionProyectoResource {
             .created(new URI("/api/participacion-proyectos/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
+    }
+
+    @PostMapping("/participacion-proyectos/all")
+    public ResponseEntity<List<ParticipacionProyecto>> createParticipacionProyectoAll(
+        @RequestBody List<ParticipacionProyecto> participacionProyectos
+    ) throws URISyntaxException {
+        log.debug("REST request to save ParticipacionProyecto : {}", participacionProyectos);
+        for (ParticipacionProyecto p : participacionProyectos) {
+            if (p.getId() != null) {
+                throw new BadRequestAlertException("A new participacionProyecto cannot already have an ID", ENTITY_NAME, "idexists");
+            }
+        }
+        List<ParticipacionProyecto> res = participacionProyectoService.saveAll(participacionProyectos);
+        return ResponseEntity.ok().body(res);
     }
 
     /**
@@ -184,5 +199,13 @@ public class ParticipacionProyectoResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @DeleteMapping("/participacion-proyectos")
+    public ResponseEntity<Void> deleteParticipacionProyectoList(@RequestParam("ids") List<Long> ids) {
+        log.debug("REST request to delete All ParticipacionProyecto : ");
+
+        participacionProyectoService.deleteAll(ids);
+        return ResponseEntity.noContent().build();
     }
 }

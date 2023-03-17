@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IUser } from 'app/admin/user-management/user-management.model';
-import { IParticipacionProyecto } from 'app/entities/participacion-proyecto/participacion-proyecto.model';
+import { IUser } from 'app/entities/user/user.model';
+import { IParticipacionProyecto, NewParticipacionProyecto } from 'app/entities/participacion-proyecto/participacion-proyecto.model';
 import { ParticipacionProyectoService } from 'app/entities/participacion-proyecto/service/participacion-proyecto.service';
-import { check } from 'prettier';
+import { UserService } from 'app/entities/user/user.service';
+import { IProyecto } from '../proyecto.model';
+import { ProyectoService } from '../service/proyecto.service';
 
 @Component({
   selector: 'jhi-participacion',
@@ -11,16 +13,28 @@ import { check } from 'prettier';
   styleUrls: ['./participacion.component.scss'],
 })
 export class ParticipacionComponent implements OnInit {
-  usuarios?: IUser[];
+  usuarios: IUser[] = [];
 
   proyectoId?: number;
-  paricipacion?: IParticipacionProyecto[];
+  proyecto?: IProyecto;
+  paricipacion: IParticipacionProyecto[] = [];
   usuariosEnProyecto: IUser[] = [];
 
-  constructor(protected participacionProyectoService: ParticipacionProyectoService, protected activeRoute: ActivatedRoute) {}
+  constructor(
+    protected participacionProyectoService: ParticipacionProyectoService,
+    protected activeRoute: ActivatedRoute,
+    protected userService: UserService,
+    protected proyectoService: ProyectoService
+  ) {}
 
   ngOnInit(): void {
     this.proyectoId = this.activeRoute.snapshot.params['id'];
+    if (this.proyectoId)
+      this.proyectoService.find(this.proyectoId).subscribe({
+        next: res => {
+          if (res.body) this.proyecto = res.body;
+        },
+      });
     this.load();
   }
 
@@ -29,7 +43,16 @@ export class ParticipacionComponent implements OnInit {
       this.participacionProyectoService.findByProyecto(this.proyectoId).subscribe({
         next: res => {
           this.paricipacion = res.body ?? [];
+
           if (res.body) {
+            this.paricipacion.forEach(e => {
+              e.check = false;
+              if (e.usuario?.check) e.usuario.check = true;
+            });
+          }
+
+          if (res.body) {
+            this.usuariosEnProyecto = [];
             res.body.forEach(e => {
               if (e.usuario) {
                 this.usuariosEnProyecto.push(e.usuario);
@@ -40,15 +63,42 @@ export class ParticipacionComponent implements OnInit {
               e.check = false;
             });
           }
-          console.log('usuarios: ', this.usuariosEnProyecto);
+
+          this.userService.query().subscribe({
+            next: res => {
+              this.usuarios = res.body ?? [];
+
+              this.usuarios.forEach(e => {
+                e.check = false;
+              });
+
+              this.usuarios = this.usuarios.filter(obj => !this.usuariosEnProyecto.map(o => o.id).includes(obj.id));
+            },
+          });
         },
       });
-
-    //obtener todos los
   }
 
-  checked(id: number): void {
-    this.usuariosEnProyecto = this.usuariosEnProyecto.map(user => {
+  checked(id: number | undefined): void {
+    if (typeof id !== undefined) {
+      this.usuariosEnProyecto = this.usuariosEnProyecto.map(user => {
+        if (user.id === id) {
+          return { ...user, check: !user.check };
+        }
+        return user;
+      });
+
+      this.paricipacion = this.paricipacion.map(parti => {
+        if (parti.id === id) {
+          return { ...parti, check: !parti.check };
+        }
+        return parti;
+      });
+    }
+  }
+
+  checked2(id: number): void {
+    this.usuarios = this.usuarios.map(user => {
       if (user.id === id) {
         return { ...user, check: !user.check };
       }
@@ -57,8 +107,47 @@ export class ParticipacionComponent implements OnInit {
   }
 
   quitarUsuarios(): void {
-    const usersFilter: IUser[] = this.usuariosEnProyecto.filter(user => user.check === true);
+    const usersFilter: IParticipacionProyecto[] = this.paricipacion.filter(user => user.check === true);
 
-    console.log(usersFilter);
+    this.participacionProyectoService.deleteAll(usersFilter).subscribe({
+      next: res => {
+        console.log(res);
+        this.load();
+      },
+    });
+
+    console.log('participaciones', this.paricipacion);
+  }
+
+  agregarUsuarios(): void {
+    const usersFilter: IUser[] = this.usuarios.filter(user => user.check === true);
+
+    let participantes: NewParticipacionProyecto[] = [];
+    usersFilter.forEach(e => {
+      participantes.push({ id: null, esAdmin: false, proyecto: this.proyecto, usuario: e });
+    });
+
+    this.participacionProyectoService.createAll(participantes).subscribe({
+      next: res => {
+        console.log(res);
+
+        this.load();
+
+        // const creados = res.body ?? [];
+
+        // let usuariosEnviados : IUser[] = [];
+
+        // creados.forEach(e => {
+        //   if (e.usuario)
+        //   usuariosEnviados.push(e.usuario)
+        // });
+
+        // if (res.body && res.body !== null){
+        //   this.usuariosEnProyecto = [...res.body, ...this.usuariosEnProyecto]
+
+        //   this.usuarios = this.usuarios.filter(obj => !usuariosEnviados.map(o => o.id).includes(obj.id));
+        // }
+      },
+    });
   }
 }

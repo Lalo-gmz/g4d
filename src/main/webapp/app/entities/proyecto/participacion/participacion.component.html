@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-sm-6">
       <h5>Todos los usuarios</h5>
-      <button class="btn btn-primary">Incluir al proyecto <i class="bi bi-arrow-bar-right"></i></button>
+      <button (click)="agregarUsuarios()" class="btn btn-primary">Incluir al proyecto <i class="bi bi-arrow-bar-right"></i></button>
       <table class="table">
         <thead>
           <tr>
@@ -15,11 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><input type="checkbox" name="" id="" /></td>
-            <td>1</td>
-            <td>Admin</td>
-            <td>Juan Perez</td>
+          <tr *ngFor="let usuario of usuarios">
+            <td><input [checked]="usuario.check" (click)="checked2(usuario.id)" type="checkbox" name="" id="" /></td>
+            <td>{{ usuario.id }}</td>
+            <td>{{ usuario.login }}</td>
+            <td>{{ usuario.firstName + ' ' + usuario.lastName }}</td>
           </tr>
         </tbody>
       </table>
@@ -37,11 +37,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let usuario of usuariosEnProyecto">
-            <td><input [checked]="usuario.check" (click)="checked(usuario.id ?? 0)" type="checkbox" name="" id="" /></td>
-            <td>{{ usuario.id }}</td>
-            <td>{{ usuario.login }}</td>
-            <td>{{ usuario.firstName + ' ' + usuario.lastName }}</td>
+          <tr *ngFor="let usuario of paricipacion">
+            <td><input [checked]="usuario.check" (click)="checked(usuario.id)" type="checkbox" name="" id="" /></td>
+            <td>{{ usuario.usuario?.id }}</td>
+            <td>{{ usuario.usuario?.login }}</td>
+            <td>{{ usuario.usuario?.firstName + ' ' + usuario.usuario?.lastName }}</td>
           </tr>
         </tbody>
       </table>

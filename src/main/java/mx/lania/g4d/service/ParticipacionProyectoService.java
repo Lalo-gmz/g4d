@@ -1,5 +1,6 @@
 package mx.lania.g4d.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.ParticipacionProyecto;
@@ -33,6 +34,11 @@ public class ParticipacionProyectoService {
     public ParticipacionProyecto save(ParticipacionProyecto participacionProyecto) {
         log.debug("Request to save ParticipacionProyecto : {}", participacionProyecto);
         return participacionProyectoRepository.save(participacionProyecto);
+    }
+
+    public List<ParticipacionProyecto> saveAll(List<ParticipacionProyecto> participacionProyectos) {
+        log.debug("Request to save ParticipacionProyecto : {}", participacionProyectos);
+        return participacionProyectoRepository.saveAll(participacionProyectos);
     }
 
     /**
@@ -110,5 +116,17 @@ public class ParticipacionProyectoService {
     public void delete(Long id) {
         log.debug("Request to delete ParticipacionProyecto : {}", id);
         participacionProyectoRepository.deleteById(id);
+    }
+
+    public void deleteAll(List<Long> ids) {
+        List<ParticipacionProyecto> participacionProyectoList = new ArrayList<>();
+        for (long id : ids) {
+            Optional<ParticipacionProyecto> optional = participacionProyectoRepository.findById(id);
+            if (optional.isPresent()) {
+                participacionProyectoList.add(optional.get());
+            }
+        }
+
+        participacionProyectoRepository.deleteAll(participacionProyectoList);
     }
 }
