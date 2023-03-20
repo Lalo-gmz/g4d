@@ -20,6 +20,8 @@ export class EtiquetaUpdateComponent implements OnInit {
 
   funcionalidadsSharedCollection: IFuncionalidad[] = [];
 
+  funcionalidadId: Number = 0;
+
   editForm: EtiquetaFormGroup = this.etiquetaFormService.createEtiquetaFormGroup();
 
   constructor(
@@ -33,6 +35,8 @@ export class EtiquetaUpdateComponent implements OnInit {
     this.funcionalidadService.compareFuncionalidad(o1, o2);
 
   ngOnInit(): void {
+    this.funcionalidadId = parseInt(this.activatedRoute.snapshot.params['idFuncionalidad']);
+
     this.activatedRoute.data.subscribe(({ etiqueta }) => {
       this.etiqueta = etiqueta;
       if (etiqueta) {
@@ -49,7 +53,21 @@ export class EtiquetaUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const etiqueta = this.etiquetaFormService.getEtiqueta(this.editForm);
+    let etiqueta = this.etiquetaFormService.getEtiqueta(this.editForm);
+
+    console.log('coleccion', this.funcionalidadsSharedCollection);
+    console.log('idFUncionalidad', this.funcionalidadId);
+
+    const funcionalidadEcontrada = this.funcionalidadsSharedCollection.find(func => func.id === this.funcionalidadId);
+
+    if (etiqueta.color === undefined || etiqueta.color === '' || etiqueta.color === null) {
+      etiqueta.color = '#000000';
+    }
+
+    etiqueta.funcionalidad = funcionalidadEcontrada;
+
+    console.log('Etiqueta:', etiqueta);
+
     if (etiqueta.id !== null) {
       this.subscribeToSaveResponse(this.etiquetaService.update(etiqueta));
     } else {

@@ -14,8 +14,23 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_marcado">Marcado</label>
+          <label class="form-label" for="field_marcado">Es destacado</label>
           <input type="checkbox" class="form-check" name="marcado" id="field_marcado" data-cy="marcado" formControlName="marcado" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_atributo">Atributo</label>
+          <select
+            class="form-control"
+            id="field_atributo"
+            data-cy="atributo"
+            name="atributo"
+            formControlName="atributo"
+            [compareWith]="compareAtributo"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="atributoOption" *ngFor="let atributoOption of atributosSharedCollection">{{ atributoOption.nombre }}</option>
+          </select>
         </div>
 
         <div class="row mb-3">
@@ -37,21 +52,6 @@
             <option [ngValue]="funcionalidadOption" *ngFor="let funcionalidadOption of funcionalidadsSharedCollection">
               {{ funcionalidadOption.id }}
             </option>
-          </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_atributo">Atributo</label>
-          <select
-            class="form-control"
-            id="field_atributo"
-            data-cy="atributo"
-            name="atributo"
-            formControlName="atributo"
-            [compareWith]="compareAtributo"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="atributoOption" *ngFor="let atributoOption of atributosSharedCollection">{{ atributoOption.id }}</option>
           </select>
         </div>
       </div>

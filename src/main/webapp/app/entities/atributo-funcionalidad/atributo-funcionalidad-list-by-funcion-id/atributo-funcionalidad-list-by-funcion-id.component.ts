@@ -13,12 +13,14 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
 
   atributosFuncionalidads?: IAtributoFuncionalidad[];
 
+  funcionId: number = 0;
   constructor(protected atributoFuncionalidadService: AtributoFuncionalidadService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       // eslint-disable-next-line radix
       const id = parseInt(params['id']);
+      this.funcionId = id;
       if (id) {
         this.atributoFuncionalidadService
           .findByFuncionalidadId(id)

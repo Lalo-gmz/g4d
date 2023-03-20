@@ -1,6 +1,6 @@
 <div class="border rounded border-secondary mb-3">
   <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
-    <div class="pl-3">Etiquetas <i class="bi bi-tag"></i> {{ etiquetas?.length ?? '0' }}</div>
+    <div class="pl-3 d-flex">Etiquetas <i class="bi bi-tag mx-1"></i> {{ etiquetas?.length ?? '0' }}</div>
   </div>
   <table class="table mb-0">
     <tbody>
@@ -12,14 +12,13 @@
             [style.backgroundColor]="etiqueta.color"
             [style.color]="etiqueta.contrasteColor"
           >
-            {{ etiqueta.nombre }}
+            {{ etiqueta.nombre }} <a (click)="delete(etiqueta)" *jhiHasAnyAuthority="['ROLE_ADMIN']"><i class="bi bi-trash3-fill"></i></a>
           </div>
+          <a routerLink="/etiqueta/new/funcionalidad/1" *jhiHasAnyAuthority="['ROLE_ADMIN']" class="badge rounded-pill borde-sin-fondo">
+            <i class="bi bi-plus-lg"></i> Nueva Etiqueta
+          </a>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-<!--
-  propiedad permite agreagar estilos reactivos
-  [ngStyle]="{ 'marginRight': last ? '0' : '.4em' }"
--->

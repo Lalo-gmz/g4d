@@ -1,3 +1,9 @@
 .mr-2 {
   margin-right: 0.4em;
 }
+
+.borde-sin-fondo {
+  border: 1px solid white !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  text-decoration: none;
+}

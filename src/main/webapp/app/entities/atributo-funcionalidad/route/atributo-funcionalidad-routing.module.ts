@@ -26,7 +26,7 @@ const atributoFuncionalidadRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'new/funcionalidad/:funcionalidadId',
     component: AtributoFuncionalidadUpdateComponent,
     resolve: {
       atributoFuncionalidad: AtributoFuncionalidadRoutingResolveService,

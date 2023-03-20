@@ -8,6 +8,9 @@
         >
       </ng-container>
     </div>
+    <a [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
+      <i class="bi bi-plus"></i> Añadir Nuevo :<span class="text-white-50"> Atributo</span>
+    </a>
   </div>
 </ng-container>
 
@@ -30,6 +33,11 @@
             <td>{{ atributosFuncionalidad.valor }}</td>
           </tr>
         </ng-container>
+        <tr>
+          <td colspan="2">
+            <a class="underline"> <i class="bi bi-plus"></i> Nuevo Atributo auxiliar </a>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

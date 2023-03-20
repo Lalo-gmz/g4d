@@ -132,21 +132,6 @@ export class ParticipacionComponent implements OnInit {
         console.log(res);
 
         this.load();
-
-        // const creados = res.body ?? [];
-
-        // let usuariosEnviados : IUser[] = [];
-
-        // creados.forEach(e => {
-        //   if (e.usuario)
-        //   usuariosEnviados.push(e.usuario)
-        // });
-
-        // if (res.body && res.body !== null){
-        //   this.usuariosEnProyecto = [...res.body, ...this.usuariosEnProyecto]
-
-        //   this.usuarios = this.usuarios.filter(obj => !usuariosEnviados.map(o => o.id).includes(obj.id));
-        // }
       },
     });
   }

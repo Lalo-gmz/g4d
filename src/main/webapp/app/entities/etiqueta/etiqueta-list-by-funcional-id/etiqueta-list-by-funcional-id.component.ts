@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EtiquetaDeleteDialogComponent } from '../delete/etiqueta-delete-dialog.component';
 import { IEtiqueta } from '../etiqueta.model';
 import { EtiquetaService } from '../service/etiqueta.service';
 
@@ -11,7 +13,7 @@ import { EtiquetaService } from '../service/etiqueta.service';
 })
 export class EtiquetaListByFuncionalIdComponent implements OnInit {
   etiquetas?: IEtiqueta[];
-  constructor(protected etiquetaService: EtiquetaService, private route: ActivatedRoute) {}
+  constructor(protected etiquetaService: EtiquetaService, private route: ActivatedRoute, protected modalService: NgbModal) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -63,5 +65,16 @@ export class EtiquetaListByFuncionalIdComponent implements OnInit {
   protected onError(): void {
     // eslint-disable-next-line no-console
     console.log('Error');
+  }
+
+  delete(etiqueta: IEtiqueta): void {
+    const modalRef = this.modalService.open(EtiquetaDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.etiqueta = etiqueta;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe({
+      next: (res: any) => {
+        this.etiquetas = this.etiquetas?.filter(e => e !== etiqueta);
+      },
+    });
   }
 }

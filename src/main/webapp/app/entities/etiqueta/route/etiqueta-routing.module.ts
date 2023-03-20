@@ -26,7 +26,7 @@ const etiquetaRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'new/funcionalidad/:idFuncionalidad',
     component: EtiquetaUpdateComponent,
     resolve: {
       etiqueta: EtiquetaRoutingResolveService,

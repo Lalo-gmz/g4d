@@ -25,6 +25,8 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
 
   editForm: AtributoFuncionalidadFormGroup = this.atributoFuncionalidadFormService.createAtributoFuncionalidadFormGroup();
 
+  funcionalidadId: number = 0;
+
   constructor(
     protected atributoFuncionalidadService: AtributoFuncionalidadService,
     protected atributoFuncionalidadFormService: AtributoFuncionalidadFormService,
@@ -39,6 +41,8 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
   compareAtributo = (o1: IAtributo | null, o2: IAtributo | null): boolean => this.atributoService.compareAtributo(o1, o2);
 
   ngOnInit(): void {
+    this.funcionalidadId = parseInt(this.activatedRoute.snapshot.params['funcionalidadId']);
+
     this.activatedRoute.data.subscribe(({ atributoFuncionalidad }) => {
       this.atributoFuncionalidad = atributoFuncionalidad;
       if (atributoFuncionalidad) {
@@ -55,7 +59,14 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const atributoFuncionalidad = this.atributoFuncionalidadFormService.getAtributoFuncionalidad(this.editForm);
+    let atributoFuncionalidad = this.atributoFuncionalidadFormService.getAtributoFuncionalidad(this.editForm);
+
+    const funcionalidadEcontrada = this.funcionalidadsSharedCollection.find(func => func.id === this.funcionalidadId);
+
+    atributoFuncionalidad.funcionalidad = funcionalidadEcontrada;
+
+    console.log('Atributo: ', atributoFuncionalidad);
+
     if (atributoFuncionalidad.id !== null) {
       this.subscribeToSaveResponse(this.atributoFuncionalidadService.update(atributoFuncionalidad));
     } else {
