@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IAtributoFuncionalidad } from '../atributo-funcionalidad.model';
 import { AtributoFuncionalidadService } from '../service/atributo-funcionalidad.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AtributoFuncionalidadDeleteDialogComponent } from '../delete/atributo-funcionalidad-delete-dialog.component';
 
 @Component({
   selector: 'jhi-atributo-funcionalidad-list-by-funcion-id',
@@ -14,7 +16,11 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
   atributosFuncionalidads?: IAtributoFuncionalidad[];
 
   funcionId: number = 0;
-  constructor(protected atributoFuncionalidadService: AtributoFuncionalidadService, private route: ActivatedRoute) {}
+  constructor(
+    protected atributoFuncionalidadService: AtributoFuncionalidadService,
+    private route: ActivatedRoute,
+    protected modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -39,5 +45,16 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
     // this.atributosFuncionalidads = data ?? [];
     // eslint-disable-next-line no-console
     console.log(this.atributosFuncionalidads);
+  }
+
+  delete(atributoFuncionalidad: IAtributoFuncionalidad): void {
+    const modalRef = this.modalService.open(AtributoFuncionalidadDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.atributoFuncionalidad = atributoFuncionalidad;
+    // unsubscribe not needed because closed completes on modal close
+    modalRef.closed.subscribe({
+      next: (res: any) => {
+        this.atributosFuncionalidads = this.atributosFuncionalidads?.filter(atributo => atributo !== atributoFuncionalidad);
+      },
+    });
   }
 }

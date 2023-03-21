@@ -82,7 +82,12 @@
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
       </button>
 
-      <button type="button" [routerLink]="['/funcionalidad', funcionalidad.id, 'edit']" class="btn btn-primary">
+      <button
+        *jhiHasAnyAuthority="['ROLE_ADMIN']"
+        type="button"
+        [routerLink]="['/funcionalidad', funcionalidad.id, 'edit']"
+        class="btn btn-primary"
+      >
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
       </button>
     </div>

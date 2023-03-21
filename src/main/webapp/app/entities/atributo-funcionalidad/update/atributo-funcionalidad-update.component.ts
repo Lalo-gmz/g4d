@@ -43,6 +43,8 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.funcionalidadId = parseInt(this.activatedRoute.snapshot.params['funcionalidadId']);
 
+    console.log('Esto devuelve cuando no tiene valor', this.funcionalidadId);
+
     this.activatedRoute.data.subscribe(({ atributoFuncionalidad }) => {
       this.atributoFuncionalidad = atributoFuncionalidad;
       if (atributoFuncionalidad) {
@@ -61,9 +63,11 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
     this.isSaving = true;
     let atributoFuncionalidad = this.atributoFuncionalidadFormService.getAtributoFuncionalidad(this.editForm);
 
-    const funcionalidadEcontrada = this.funcionalidadsSharedCollection.find(func => func.id === this.funcionalidadId);
+    if (!Number.isNaN(this.funcionalidadId)) {
+      const funcionalidadEcontrada = this.funcionalidadsSharedCollection.find(func => func.id === this.funcionalidadId);
 
-    atributoFuncionalidad.funcionalidad = funcionalidadEcontrada;
+      atributoFuncionalidad.funcionalidad = funcionalidadEcontrada;
+    }
 
     console.log('Atributo: ', atributoFuncionalidad);
 

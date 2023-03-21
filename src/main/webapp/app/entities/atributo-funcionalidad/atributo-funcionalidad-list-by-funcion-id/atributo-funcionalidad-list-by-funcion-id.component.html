@@ -3,12 +3,21 @@
   <div class="d-block pb-3">
     <div *ngFor="let atributosFuncionalidad of atributosFuncionalidads">
       <ng-container *ngIf="atributosFuncionalidad.marcado">
-        <i class="bi bi-star"></i> {{ atributosFuncionalidad.atributo?.nombre }} :<span class="text-white-50">
-          {{ atributosFuncionalidad.valor }}</span
-        >
+        <div class="hover-to-display">
+          <i class="bi bi-star"></i> {{ atributosFuncionalidad.atributo?.nombre }} :<span
+            *jhiHasAnyAuthority="['ROLE_ADMIN']"
+            class="text-white-50 hover-to-display"
+          >
+            {{ atributosFuncionalidad.valor }}
+            <span class="hover-display text-white">
+              <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <i class="bi bi-pencil-fill"></i> </a>
+              | <a (click)="delete(atributosFuncionalidad)"> <i class="bi bi-trash3-fill"></i> </a>
+            </span>
+          </span>
+        </div>
       </ng-container>
     </div>
-    <a [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
+    <a *jhiHasAnyAuthority="['ROLE_ADMIN']" [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
       <i class="bi bi-plus"></i> Añadir Nuevo :<span class="text-white-50"> Atributo</span>
     </a>
   </div>
@@ -24,6 +33,7 @@
         <tr>
           <th>Clave</th>
           <th>Valor</th>
+          <th *jhiHasAnyAuthority="['ROLE_ADMIN']"></th>
         </tr>
       </thead>
       <tbody>
@@ -31,11 +41,19 @@
           <tr *ngIf="!atributosFuncionalidad.marcado">
             <td>{{ atributosFuncionalidad.atributo?.nombre }}</td>
             <td>{{ atributosFuncionalidad.valor }}</td>
+            <td *jhiHasAnyAuthority="['ROLE_ADMIN']">
+              <span class="">
+                <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <i class="bi bi-pencil-fill"></i> </a>
+                | <a (click)="delete(atributosFuncionalidad)"> <i class="bi bi-trash3-fill"></i> </a>
+              </span>
+            </td>
           </tr>
         </ng-container>
-        <tr>
+        <tr *jhiHasAnyAuthority="['ROLE_ADMIN']">
           <td colspan="2">
-            <a class="underline"> <i class="bi bi-plus"></i> Nuevo Atributo auxiliar </a>
+            <a [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
+              <i class="bi bi-plus"></i> Nuevo Atributo auxiliar
+            </a>
           </td>
         </tr>
       </tbody>
