@@ -1,6 +1,9 @@
 <div>
-  <h2 id="page-heading" data-cy="FuncionalidadHeading">
-    <span>Funcionalidads</span>
+  <h4 id="page-heading" data-cy="FuncionalidadHeading">
+    <span class="text-white-50">
+      <a (click)="previousState()"> <i class="bi bi-arrow-left"></i> Atrás </a> <i class="bi bi-chevron-right"></i>&nbsp;
+    </span>
+    <span>Funcionalidads - Kanban</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -19,7 +22,7 @@
         <span> Crear nuevo Funcionalidad </span>
       </button>
     </div>
-  </h2>
+  </h4>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -27,6 +30,56 @@
 
   <div class="alert alert-warning" id="no-result" *ngIf="funcionalidads?.length === 0">
     <span>Ningún Funcionalidads encontrado</span>
+  </div>
+
+  <div class="mb-4">
+    <h2>Kanban 🗃️</h2>
+    <ul class="nav nav-tabs mb-3">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page">Todas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link">Mis asignaciones</a>
+      </li>
+    </ul>
+    <div></div>
+    <div class="container-fluid">
+      <div class="row">
+        <div *ngFor="let func of keysEstatus" class="col mx-1 columna-fondo pt-2 rounded">
+          <h4 class="columna-titulo">{{ func }}</h4>
+          <ng-container *ngIf="funcPorEstatus && funcPorEstatus[func]">
+            <div *ngFor="let f of funcPorEstatus[func]" class="card">
+              <div class="card-body">
+                <div class="card-title d-flex fs-4">
+                  <div>{{ f.nombre }}</div>
+                  <span *ngIf="f.prioridad?.nombre" style="height: 100%" class="badge fs-6 text-bg-danger ms-auto">
+                    {{ f.prioridad?.nombre }}
+                  </span>
+                </div>
+                <div>
+                  <span *ngFor="let user of f.users; let lastItem = last">
+                    <i class="bi bi-person-circle"></i> {{ user.login }} <i *ngIf="!lastItem" class="bi bi-dot"></i>
+                  </span>
+                </div>
+                <div>
+                  <span
+                    *ngFor="let etiqueta of f.etiquetas"
+                    [style.backgroundColor]="etiqueta.color"
+                    [style.color]="etiqueta.contrasteColor"
+                    class="badge rounded-pill margin-right"
+                  >
+                    {{ etiqueta.nombre }}
+                  </span>
+                </div>
+                <div>
+                  <a [routerLink]="['/funcionalidad', f.id, 'view']"># {{ f.id }} </a>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="funcionalidads && funcionalidads.length > 0">

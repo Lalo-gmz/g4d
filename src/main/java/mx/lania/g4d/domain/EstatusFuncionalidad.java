@@ -28,6 +28,9 @@ public class EstatusFuncionalidad implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "orden")
+    private Integer orden;
+
     @OneToMany(mappedBy = "estatusFuncionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
@@ -39,7 +42,6 @@ public class EstatusFuncionalidad implements Serializable {
     private Set<Funcionalidad> funcionalidads = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
-
     public Long getId() {
         return this.id;
     }
@@ -47,6 +49,14 @@ public class EstatusFuncionalidad implements Serializable {
     public EstatusFuncionalidad id(Long id) {
         this.setId(id);
         return this;
+    }
+
+    public Integer getOrden() {
+        return orden;
+    }
+
+    public void setOrden(Integer orden) {
+        this.orden = orden;
     }
 
     public void setId(Long id) {

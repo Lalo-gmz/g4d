@@ -39,7 +39,7 @@ export class EtiquetaListByFuncionalIdComponent implements OnInit {
     this.etiquetas = data ?? [];
     this.agreagarPropContraste();
     // eslint-disable-next-line no-console
-    console.log(this.etiquetas);
+    // console.log(this.etiquetas);
   }
 
   protected agreagarPropContraste(): void {

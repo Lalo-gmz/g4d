@@ -19,6 +19,7 @@ type EstatusFuncionalidadFormDefaults = Pick<NewEstatusFuncionalidad, 'id'>;
 type EstatusFuncionalidadFormGroupContent = {
   id: FormControl<IEstatusFuncionalidad['id'] | NewEstatusFuncionalidad['id']>;
   nombre: FormControl<IEstatusFuncionalidad['nombre']>;
+  orden: FormControl<IEstatusFuncionalidad['orden']>;
 };
 
 export type EstatusFuncionalidadFormGroup = FormGroup<EstatusFuncionalidadFormGroupContent>;
@@ -41,6 +42,7 @@ export class EstatusFuncionalidadFormService {
         }
       ),
       nombre: new FormControl(estatusFuncionalidadRawValue.nombre),
+      orden: new FormControl(estatusFuncionalidadRawValue.orden),
     });
   }
 

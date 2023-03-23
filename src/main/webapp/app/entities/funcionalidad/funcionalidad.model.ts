@@ -3,6 +3,7 @@ import { IUser } from 'app/entities/user/user.model';
 import { IEstatusFuncionalidad } from 'app/entities/estatus-funcionalidad/estatus-funcionalidad.model';
 import { IIteracion } from 'app/entities/iteracion/iteracion.model';
 import { IPrioridad } from 'app/entities/prioridad/prioridad.model';
+import { IEtiqueta } from '../etiqueta/etiqueta.model';
 
 export interface IFuncionalidad {
   id: number;
@@ -16,6 +17,7 @@ export interface IFuncionalidad {
   estatusFuncionalidad?: IEstatusFuncionalidad | null;
   iteracion?: IIteracion | null;
   prioridad?: IPrioridad | null;
+  etiquetas?: IEtiqueta[] | null;
 }
 
 export type NewFuncionalidad = Omit<IFuncionalidad, 'id'> & { id: null };

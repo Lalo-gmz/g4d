@@ -8,13 +8,18 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, FuncionalidadService } from '../service/funcionalidad.service';
 import { FuncionalidadDeleteDialogComponent } from '../delete/funcionalidad-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { IEstatusFuncionalidad } from 'app/entities/estatus-funcionalidad/estatus-funcionalidad.model';
 
 @Component({
   selector: 'jhi-funcionalidad',
   templateUrl: './funcionalidad.component.html',
+  styleUrls: ['./funcionalidad.component.scss'],
 })
 export class FuncionalidadComponent implements OnInit {
   funcionalidads?: IFuncionalidad[];
+  funcPorEstatus?: Record<string, IFuncionalidad[]>;
+  keysEstatus?: string[];
+
   isLoading = false;
   iteracionId?: number;
   predicate = 'id';
@@ -80,6 +85,9 @@ export class FuncionalidadComponent implements OnInit {
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.funcionalidads = this.refineData(dataFromBody);
+    this.agreagarPropContraste();
+    this.ordenarPorEstatusOrden();
+    this.loadKanban();
   }
 
   protected refineData(data: IFuncionalidad[]): IFuncionalidad[] {
@@ -117,6 +125,66 @@ export class FuncionalidadComponent implements OnInit {
       return [];
     } else {
       return [predicate + ',' + ascendingQueryParam];
+    }
+  }
+
+  protected ordenarPorEstatusOrden(): void {
+    if (this.funcionalidads) {
+      this.funcionalidads = this.funcionalidads.sort(this.compararFuncionalidad);
+    }
+  }
+
+  compararFuncionalidad(a: any, b: any): number {
+    if (a.estatusFuncionalidad?.orden < b.estatusFuncionalidad?.orden) {
+      return -1;
+    }
+    if (a.estatusFuncionalidad?.orden > b.estatusFuncionalidad?.orden) {
+      return 1;
+    }
+    return 0;
+  }
+
+  protected agreagarPropContraste(): void {
+    if (this.funcionalidads !== undefined) {
+      this.funcionalidads.forEach(e => {
+        if (e.etiquetas)
+          e.etiquetas.forEach(etiqueta => {
+            etiqueta.contrasteColor = this.getContrastColor(etiqueta.color);
+          });
+      });
+    }
+  }
+
+  protected getContrastColor(hexColor: any): string {
+    // Convertir el color exadecimal a un número entero
+    const color = parseInt(hexColor.replace('#', ''), 16);
+
+    // Calcular el brillo del color (usando la fórmula YIQ)
+    // eslint-disable-next-line no-bitwise
+    const brightness = ((color >> 16) & 0xff) * 0.299 + ((color >> 8) & 0xff) * 0.587 + (color & 0xff) * 0.114;
+
+    // Devolver el color blanco o negro, dependiendo del brillo
+    return brightness > 128 ? '#000000' : '#FFFFFF';
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  //  kanban
+
+  loadKanban(): void {
+    if (this.funcionalidads) {
+      this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
+        const estatusFuncionalidad = funcionalidad.estatusFuncionalidad?.nombre ?? 'none';
+        acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
+        acumulador[estatusFuncionalidad].push(funcionalidad);
+        return acumulador;
+      }, {});
+
+      this.keysEstatus = this.funcPorEstatus ? Object.keys(this.funcPorEstatus) : [];
+
+      console.log(this.funcPorEstatus);
     }
   }
 }
