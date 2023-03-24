@@ -20,6 +20,7 @@ export class FuncionalidadComponent implements OnInit {
   funcPorEstatus?: Record<string, IFuncionalidad[]>;
   keysEstatus?: string[];
 
+  tab: number = 1;
   isLoading = false;
   iteracionId?: number;
   predicate = 'id';

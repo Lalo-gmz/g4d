@@ -36,14 +36,18 @@
     <h2>Kanban 🗃️</h2>
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
-        <a class="nav-link active" aria-current="page">Todas</a>
+        <a class="nav-link" (click)="tab = 1" [ngClass]="{ active: tab === 1 }" aria-current="page">Todas</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">Mis asignaciones</a>
+        <a class="nav-link" (click)="tab = 2" [ngClass]="{ active: tab === 2 }">Mis asignaciones</a>
+      </li>
+      <li class="nav.item">
+        <a class="nav-link" (click)="tab = 3" [ngClass]="{ active: tab === 3 }"> Lista </a>
       </li>
     </ul>
     <div></div>
-    <div class="container-fluid">
+
+    <div *ngIf="tab === 1" class="container-fluid">
       <div class="row">
         <div *ngFor="let func of keysEstatus" class="col mx-1 columna-fondo pt-2 rounded">
           <h4 class="columna-titulo">{{ func }}</h4>
@@ -82,7 +86,7 @@
     </div>
   </div>
 
-  <div class="table-responsive table-entities" id="entities" *ngIf="funcionalidads && funcionalidads.length > 0">
+  <div class="table-responsive table-entities" id="entities" *ngIf="funcionalidads && funcionalidads.length > 0 && tab === 3">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
