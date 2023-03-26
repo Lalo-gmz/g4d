@@ -31,6 +31,9 @@ public class Iteracion implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
+    @Column(name = "id_gitlab")
+    private String idGitLab;
+
     @Column(name = "inicio")
     private LocalDate inicio;
 
@@ -68,6 +71,14 @@ public class Iteracion implements Serializable {
 
     public String getNombre() {
         return this.nombre;
+    }
+
+    public String getIdGitLab() {
+        return idGitLab;
+    }
+
+    public void setIdGitLab(String idGitLab) {
+        this.idGitLab = idGitLab;
     }
 
     public Iteracion nombre(String nombre) {

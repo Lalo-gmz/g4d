@@ -113,14 +113,17 @@ public class FuncionalidadService {
                 if (funcionalidad.getUrlGitLab() != null) {
                     existingFuncionalidad.setUrlGitLab(funcionalidad.getUrlGitLab());
                 }
-                if (funcionalidad.getFechaEntrega() != null) {
-                    existingFuncionalidad.setFechaEntrega(funcionalidad.getFechaEntrega());
-                }
                 if (funcionalidad.getCreado() != null) {
                     existingFuncionalidad.setCreado(funcionalidad.getCreado());
                 }
                 if (funcionalidad.getModificado() != null) {
                     existingFuncionalidad.setModificado(funcionalidad.getModificado());
+                }
+                if (funcionalidad.getEstatusFuncionalidad() != null) {
+                    existingFuncionalidad.setEstatusFuncionalidad(funcionalidad.getEstatusFuncionalidad());
+                }
+                if (funcionalidad.getPrioridad() != null) {
+                    existingFuncionalidad.setPrioridad(funcionalidad.getPrioridad());
                 }
 
                 return existingFuncionalidad;

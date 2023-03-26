@@ -17,11 +17,7 @@ import org.springframework.data.domain.PageImpl;
  */
 public class FuncionalidadRepositoryWithBagRelationshipsImpl implements FuncionalidadRepositoryWithBagRelationships {
 
-    private final EtiquetaRepository etiquetaRepository;
-
-    FuncionalidadRepositoryWithBagRelationshipsImpl(EtiquetaRepository etiquetaRepository) {
-        this.etiquetaRepository = etiquetaRepository;
-    }
+    FuncionalidadRepositoryWithBagRelationshipsImpl() {}
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,11 +38,7 @@ public class FuncionalidadRepositoryWithBagRelationshipsImpl implements Funciona
 
     @Override
     public List<Funcionalidad> fetchBagRelationships(List<Funcionalidad> funcionalidads) {
-        List<Funcionalidad> result = Optional.of(funcionalidads).map(this::fetchUsers).orElse(Collections.emptyList());
-        result.forEach(funcionalidad -> {
-            funcionalidad.setEtiquetas(etiquetaRepository.findByFuncionalidad(funcionalidad));
-        });
-        return result;
+        return Optional.of(funcionalidads).map(this::fetchUsers).orElse(Collections.emptyList());
     }
 
     Funcionalidad fetchUsers(Funcionalidad result) {

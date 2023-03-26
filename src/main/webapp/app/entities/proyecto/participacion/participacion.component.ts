@@ -135,4 +135,8 @@ export class ParticipacionComponent implements OnInit {
       },
     });
   }
+
+  previousState(): void {
+    window.history.back();
+  }
 }

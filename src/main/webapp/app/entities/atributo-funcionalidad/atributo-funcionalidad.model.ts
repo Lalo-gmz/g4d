@@ -7,6 +7,7 @@ export interface IAtributoFuncionalidad {
   valor?: string | null;
   funcionalidad?: Pick<IFuncionalidad, 'id'> | null;
   atributo?: IAtributo | null;
+  paraGitLab?: boolean | null;
 }
 
 export type NewAtributoFuncionalidad = Omit<IAtributoFuncionalidad, 'id'> & { id: null };

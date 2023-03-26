@@ -8,7 +8,6 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, FuncionalidadService } from '../service/funcionalidad.service';
 import { FuncionalidadDeleteDialogComponent } from '../delete/funcionalidad-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
-import { IEstatusFuncionalidad } from 'app/entities/estatus-funcionalidad/estatus-funcionalidad.model';
 
 @Component({
   selector: 'jhi-funcionalidad',
@@ -20,7 +19,9 @@ export class FuncionalidadComponent implements OnInit {
   funcPorEstatus?: Record<string, IFuncionalidad[]>;
   keysEstatus?: string[];
 
-  tab: number = 1;
+  proyectoId?: number;
+
+  tab: number = 3;
   isLoading = false;
   iteracionId?: number;
   predicate = 'id';
@@ -34,6 +35,7 @@ export class FuncionalidadComponent implements OnInit {
     protected modalService: NgbModal
   ) {
     this.iteracionId = this.activatedRoute.snapshot.params['id'];
+    this.proyectoId = this.activatedRoute.snapshot.params['proyectoId'];
   }
 
   trackId = (_index: number, item: IFuncionalidad): number => this.funcionalidadService.getFuncionalidadIdentifier(item);
@@ -86,9 +88,7 @@ export class FuncionalidadComponent implements OnInit {
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.funcionalidads = this.refineData(dataFromBody);
-    this.agreagarPropContraste();
     this.ordenarPorEstatusOrden();
-    this.loadKanban();
   }
 
   protected refineData(data: IFuncionalidad[]): IFuncionalidad[] {
@@ -145,17 +145,6 @@ export class FuncionalidadComponent implements OnInit {
     return 0;
   }
 
-  protected agreagarPropContraste(): void {
-    if (this.funcionalidads !== undefined) {
-      this.funcionalidads.forEach(e => {
-        if (e.etiquetas)
-          e.etiquetas.forEach(etiqueta => {
-            etiqueta.contrasteColor = this.getContrastColor(etiqueta.color);
-          });
-      });
-    }
-  }
-
   protected getContrastColor(hexColor: any): string {
     // Convertir el color exadecimal a un número entero
     const color = parseInt(hexColor.replace('#', ''), 16);
@@ -173,7 +162,7 @@ export class FuncionalidadComponent implements OnInit {
   }
 
   //  kanban
-
+  /*
   loadKanban(): void {
     if (this.funcionalidads) {
       this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
@@ -188,4 +177,5 @@ export class FuncionalidadComponent implements OnInit {
       console.log(this.funcPorEstatus);
     }
   }
+  */
 }

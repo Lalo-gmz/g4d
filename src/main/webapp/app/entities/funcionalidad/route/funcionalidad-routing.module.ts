@@ -10,7 +10,7 @@ import { ASC } from 'app/config/navigation.constants';
 
 const funcionalidadRoute: Routes = [
   {
-    path: 'iteracion/:id',
+    path: 'proyecto/:proyectoId/iteracion/:id',
     component: FuncionalidadComponent,
     data: {
       defaultSort: 'id,' + ASC,

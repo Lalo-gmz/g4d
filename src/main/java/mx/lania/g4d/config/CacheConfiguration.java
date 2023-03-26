@@ -55,17 +55,12 @@ public class CacheConfiguration {
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".participantes");
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".configuracions");
             createCache(cm, mx.lania.g4d.domain.Proyecto.class.getName() + ".iteracions");
-            createCache(cm, mx.lania.g4d.domain.EstatusFuncionalidad.class.getName());
-            createCache(cm, mx.lania.g4d.domain.EstatusFuncionalidad.class.getName() + ".funcionalidads");
-            createCache(cm, mx.lania.g4d.domain.Etiqueta.class.getName());
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName());
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".users");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".etiquetas");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".atributoFuncionalidads");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".comentarios");
             createCache(cm, mx.lania.g4d.domain.Funcionalidad.class.getName() + ".bitacoras");
-            createCache(cm, mx.lania.g4d.domain.Prioridad.class.getName());
-            createCache(cm, mx.lania.g4d.domain.Prioridad.class.getName() + ".funcionalidads");
             createCache(cm, mx.lania.g4d.domain.Comentario.class.getName());
             createCache(cm, mx.lania.g4d.domain.Atributo.class.getName());
             createCache(cm, mx.lania.g4d.domain.Atributo.class.getName() + ".atributoFuncionalidads");

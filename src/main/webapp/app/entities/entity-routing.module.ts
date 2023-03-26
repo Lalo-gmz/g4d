@@ -25,19 +25,9 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./estatus-funcionalidad/estatus-funcionalidad.module').then(m => m.EstatusFuncionalidadModule),
       },
       {
-        path: 'etiqueta',
-        data: { pageTitle: 'Etiquetas' },
-        loadChildren: () => import('./etiqueta/etiqueta.module').then(m => m.EtiquetaModule),
-      },
-      {
         path: 'funcionalidad',
         data: { pageTitle: 'Funcionalidads' },
         loadChildren: () => import('./funcionalidad/funcionalidad.module').then(m => m.FuncionalidadModule),
-      },
-      {
-        path: 'prioridad',
-        data: { pageTitle: 'Prioridads' },
-        loadChildren: () => import('./prioridad/prioridad.module').then(m => m.PrioridadModule),
       },
       {
         path: 'comentario',

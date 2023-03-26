@@ -1,15 +1,18 @@
 <div>
-  <h2 id="page-heading" data-cy="ProyectoHeading">
-    <span>Mis Proyectos</span>
-  </h2>
+  <h6>Proyectos</h6>
+  <hr />
+
+  <div class="d-flex justify-content-between">
+    <span class="fs-4"> Mis Proyectos </span> <button [routerLink]="'proyecto/new'" class="btn btn-primary">Nuevo Proyecto</button>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
 
-  <!-- <div class="alert alert-warning" id="no-result" *ngIf="proyectos?.length === 0">
-    <span>Ningún Proyectos encontrado</span>
-  </div> -->
+  <div class="alert alert-warning" id="no-result" *ngIf="proyectos?.length === 0">
+    <span>Ningún Proyecto encontrado</span>
+  </div>
 
   <div *ngIf="proyectos" class="mt-3">
     <div *ngFor="let proyecto of proyectos">

@@ -26,6 +26,9 @@ public class AtributoFuncionalidad implements Serializable {
     @Column(name = "marcado")
     private Boolean marcado;
 
+    @Column(name = "para_gitlab")
+    private Boolean paraGitLab;
+
     @Column(name = "valor")
     private String valor;
 
@@ -68,6 +71,14 @@ public class AtributoFuncionalidad implements Serializable {
 
     public void setMarcado(Boolean marcado) {
         this.marcado = marcado;
+    }
+
+    public Boolean getParaGitLab() {
+        return paraGitLab;
+    }
+
+    public void setParaGitLab(Boolean paraGitLab) {
+        this.paraGitLab = paraGitLab;
     }
 
     public String getValor() {

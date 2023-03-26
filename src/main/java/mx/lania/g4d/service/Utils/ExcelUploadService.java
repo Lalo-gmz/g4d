@@ -16,25 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ExcelUploadService {
 
-    private EstatusFuncionalidadService estatusFuncionalidadService;
     private UserService userService;
     private IteracionService iteracionService;
 
-    private PrioridadService prioridadService;
-    private EtiquetaService etiquetaService;
-
-    ExcelUploadService(
-        EstatusFuncionalidadService estatusFuncionalidadService,
-        UserService userService,
-        IteracionService iteracionService,
-        PrioridadService prioridadService,
-        EtiquetaService etiquetaService
-    ) {
+    ExcelUploadService(UserService userService, IteracionService iteracionService) {
         this.userService = userService;
-        this.estatusFuncionalidadService = estatusFuncionalidadService;
         this.iteracionService = iteracionService;
-        this.prioridadService = prioridadService;
-        this.etiquetaService = etiquetaService;
     }
 
     public boolean isValidExcelFile(MultipartFile file) {
@@ -87,7 +74,6 @@ public class ExcelUploadService {
                             funcionalidad.setUrlGitLab(cell.getStringCellValue());
                             break;
                         case 4:
-                            funcionalidad.setFechaEntrega(LocalDate.from(cell.getLocalDateTimeCellValue()));
                             break;
                         case 5:
                             String usuariosRaw = cell.getStringCellValue();
@@ -102,13 +88,7 @@ public class ExcelUploadService {
                             funcionalidad.setUsers(userSet);
                             break;
                         case 6:
-                            Optional<EstatusFuncionalidad> estatusFuncionalidad = estatusFuncionalidadService.findOneByNombre(
-                                cell.getStringCellValue()
-                            );
-                            if (estatusFuncionalidad.isPresent()) {
-                                funcionalidad.setEstatusFuncionalidad(estatusFuncionalidad.get());
-                            }
-                            break;
+                            funcionalidad.setEstatusFuncionalidad(cell.getStringCellValue());
                         case 7:
                             Optional<Iteracion> iteracion = iteracionService.findOneByNombreAndProyectoId(
                                 cell.getStringCellValue(),
@@ -119,23 +99,7 @@ public class ExcelUploadService {
                             }
                             break;
                         case 8:
-                            Optional<Prioridad> prioridadOptional = prioridadService.findOneByNombre(cell.getStringCellValue());
-                            if (prioridadOptional.isPresent()) {
-                                funcionalidad.setPrioridad(prioridadOptional.get());
-                            }
-                            break;
-                        case 9:
-                            String etiquetasRaw = cell.getStringCellValue();
-
-                            String[] subEtoquetas = etiquetasRaw.split(",");
-                            Set<Etiqueta> etiquetaSet = new HashSet<>();
-                            for (String sub : subEtoquetas) {
-                                Optional<Etiqueta> etiquetaOptional = etiquetaService.findOneByNombre(sub.trim());
-                                if (etiquetaOptional.isPresent()) {
-                                    etiquetaSet.add(etiquetaOptional.get());
-                                }
-                            }
-                            funcionalidad.setEtiquetas(etiquetaSet);
+                            funcionalidad.setPrioridad(cell.getStringCellValue());
                             break;
                         default:
                             break;

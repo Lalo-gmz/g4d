@@ -30,11 +30,7 @@
           <span class="text-white-50">Creado en </span> <span>{{ funcionalidad.creado | formatMediumDate }} </span>
         </div>
         <div>
-          <span class="text-white-50">&nbsp; Límite </span>
-          <span>
-            {{ funcionalidad.fechaEntrega | formatMediumDate }} |
-            <span *ngIf="funcionalidad.prioridad" class="badge text-bg-success">{{ funcionalidad.prioridad.nombre }}</span>
-          </span>
+          <span *ngIf="funcionalidad.prioridad" class="badge text-bg-success">{{ funcionalidad.prioridad }}</span>
         </div>
       </div>
 
@@ -44,9 +40,7 @@
         {{ funcionalidad.nombre }}
 
         <span *ngIf="funcionalidad.iteracion" class="badge bg-badge-primario">{{ funcionalidad.iteracion.nombre }}</span>
-        <span *ngIf="funcionalidad.estatusFuncionalidad" class="badge bg-badge-secundario">{{
-          funcionalidad.estatusFuncionalidad.nombre
-        }}</span>
+        <span *ngIf="funcionalidad.estatusFuncionalidad" class="badge bg-badge-secundario">{{ funcionalidad.estatusFuncionalidad }}</span>
       </h4>
       <div class="mb-2">
         <span class="text-white-50"> Asignado a </span>
@@ -58,9 +52,6 @@
 
       <!-- Atributos destacados -->
       <jhi-atributo-funcionalidad-list-by-funcion-id [destacados]="true"></jhi-atributo-funcionalidad-list-by-funcion-id>
-
-      <!-- Etiquetas -->
-      <jhi-etiqueta-list-by-funcional-id></jhi-etiqueta-list-by-funcional-id>
 
       <!-- Comentarios -->
       <jhi-list-by-id></jhi-list-by-id>

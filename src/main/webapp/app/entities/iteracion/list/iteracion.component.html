@@ -1,14 +1,21 @@
 <div>
-  <h2 id="page-heading" data-cy="IteracionHeading">
-    <span>Iteraciones de Proyecto # {{ proyectoId }} </span>
+  <div>
+    <span> <a class="text-decoration-none" [routerLink]="''">Proyectos</a> </span> <i class="bi bi-chevron-right"></i>
+    <span>Iteraciones</span>
+  </div>
+  <hr />
 
-    <div class="d-flex justify-content-end">
+  <div class="row">
+    <div class="col-md-3 col-sm-12">
+      <span class="fs-4 align-self-start">Iteraciones </span>
+    </div>
+
+    <div class="col-md-9 d-flex justify-content-end col-sm-12 mb-3">
       <button class="btn btn-secondary me-2" [routerLink]="'/proyecto/' + proyectoId + '/participacion'">
         <i class="bi bi-person-add"></i>
-        <span>Usuarios del proyecto</span>
+        <span>Administrar Usuarios</span>
       </button>
       <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/importar/proyecto/' + proyectoId">
-        <i class="bi bi-file-earmark-excel-fill"></i>
         <span>Importar Excel</span>
       </button>
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -23,11 +30,10 @@
         class="btn btn-primary jh-create-entity create-iteracion"
         [routerLink]="['/iteracion/new']"
       >
-        <fa-icon icon="plus"></fa-icon>
-        <span> Crear nuevo Iteracion </span>
+        <span> Nueva Iteración </span>
       </button>
     </div>
-  </h2>
+  </div>
 
   <jhi-alert-error></jhi-alert-error>
 
@@ -76,7 +82,7 @@
           </td>
 
           <td>
-            <a [routerLink]="['/funcionalidad/iteracion/' + iteracion.id]">
+            <a [routerLink]="['/funcionalidad/proyecto/' + proyectoId + '/iteracion/' + iteracion.id]">
               <span class="badge fs-5" style="background-color: #0d532a">{{ iteracion.nombre }}</span>
             </a>
           </td>
@@ -88,7 +94,7 @@
               <button
                 *jhiHasAnyAuthority="['ROLE_ADMIN']"
                 type="submit"
-                [routerLink]="['/iteracion', iteracion.id, 'view']"
+                [routerLink]="['/funcionalidad/proyecto/' + proyectoId + '/iteracion/' + iteracion.id]"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >

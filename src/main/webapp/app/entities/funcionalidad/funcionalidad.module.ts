@@ -6,7 +6,6 @@ import { FuncionalidadUpdateComponent } from './update/funcionalidad-update.comp
 import { FuncionalidadDeleteDialogComponent } from './delete/funcionalidad-delete-dialog.component';
 import { FuncionalidadRoutingModule } from './route/funcionalidad-routing.module';
 import { ComentarioListByIdComponent } from '../comentario/list-by-id/list-by-id.component';
-import { EtiquetaListByFuncionalIdComponent } from '../etiqueta/etiqueta-list-by-funcional-id/etiqueta-list-by-funcional-id.component';
 import { AtributoFuncionalidadListByFuncionIdComponent } from '../atributo-funcionalidad/atributo-funcionalidad-list-by-funcion-id/atributo-funcionalidad-list-by-funcion-id.component';
 import { BitacoraByFuncionalidadComponent } from '../bitacora/list-by-funcionalidad/bitacora.component';
 
@@ -18,7 +17,6 @@ import { BitacoraByFuncionalidadComponent } from '../bitacora/list-by-funcionali
     FuncionalidadUpdateComponent,
     FuncionalidadDeleteDialogComponent,
     ComentarioListByIdComponent,
-    EtiquetaListByFuncionalIdComponent,
     AtributoFuncionalidadListByFuncionIdComponent,
     BitacoraByFuncionalidadComponent,
   ],

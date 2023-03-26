@@ -35,24 +35,6 @@
               />
             </div>
           </div>
-          <div class="col-sm-6">
-            <label class="form-label" for="field_fechaEntrega">Fecha Entrega</label>
-            <div class="input-group">
-              <input
-                id="field_fechaEntrega"
-                data-cy="fechaEntrega"
-                type="text"
-                class="form-control"
-                name="fechaEntrega"
-                ngbDatepicker
-                #fechaEntregaDp="ngbDatepicker"
-                formControlName="fechaEntrega"
-              />
-              <button type="button" class="btn btn-secondary" (click)="fechaEntregaDp.toggle()">
-                <fa-icon icon="calendar-alt"></fa-icon>
-              </button>
-            </div>
-          </div>
         </div>
 
         <hr />
@@ -116,36 +98,20 @@
         <div class="row mb-3">
           <div class="col-sm-12">
             <label class="form-label" for="field_estatusFuncionalidad">Estatus Funcionalidad</label>
-            <select
+            <input
               class="form-control"
               id="field_estatusFuncionalidad"
               data-cy="estatusFuncionalidad"
               name="estatusFuncionalidad"
               formControlName="estatusFuncionalidad"
-              [compareWith]="compareEstatusFuncionalidad"
-            >
-              <option [ngValue]="null"></option>
-              <option
-                [ngValue]="estatusFuncionalidadOption"
-                *ngFor="let estatusFuncionalidadOption of estatusFuncionalidadsSharedCollection"
-              >
-                {{ estatusFuncionalidadOption.nombre }}
-              </option>
-            </select>
+            />
           </div>
         </div>
 
         <div style="display: none" class="row mb-3">
           <div class="col-sm-12">
             <label class="form-label" for="field_iteracion">Iteracion</label>
-            <select
-              class="form-control"
-              id="field_iteracion"
-              data-cy="iteracion"
-              name="iteracion"
-              formControlName="iteracion"
-              [compareWith]="compareIteracion"
-            >
+            <select class="form-control" id="field_iteracion" data-cy="iteracion" name="iteracion" formControlName="iteracion">
               <option [ngValue]="null"></option>
               <option [ngValue]="iteracionOption" *ngFor="let iteracionOption of iteracionsSharedCollection">
                 {{ iteracionOption.nombre }}
@@ -157,19 +123,7 @@
         <div class="row mb-3">
           <div class="col-sm-12">
             <label class="form-label" for="field_prioridad">Prioridad</label>
-            <select
-              class="form-control"
-              id="field_prioridad"
-              data-cy="prioridad"
-              name="prioridad"
-              formControlName="prioridad"
-              [compareWith]="comparePrioridad"
-            >
-              <option [ngValue]="null"></option>
-              <option [ngValue]="prioridadOption" *ngFor="let prioridadOption of prioridadsSharedCollection">
-                {{ prioridadOption.nombre }}
-              </option>
-            </select>
+            <input type="text" class="form-control" id="field_prioridad" data-cy="prioridad" name="prioridad" formControlName="prioridad" />
           </div>
         </div>
       </div>

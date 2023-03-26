@@ -147,7 +147,7 @@ public class FuncionalidadResource {
                 bitacora.setFuncionalidad(result);
                 bitacora.setUser(user);
                 bitacora.setCreado(Instant.now());
-                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ESTATUS) + " a " + result.getEstatusFuncionalidad().getNombre());
+                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ESTATUS) + " a " + result.getEstatusFuncionalidad());
                 bitacoraService.save(bitacora);
             }
             if (!result.getIteracion().equals(prev.getIteracion())) {
@@ -163,7 +163,7 @@ public class FuncionalidadResource {
                 bitacora.setFuncionalidad(result);
                 bitacora.setUser(user);
                 bitacora.setCreado(Instant.now());
-                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_PRIORIDAD) + " a " + result.getPrioridad().getNombre());
+                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_PRIORIDAD) + " a " + result.getPrioridad());
                 bitacoraService.save(bitacora);
             }
         }

@@ -35,7 +35,6 @@ type FuncionalidadFormGroupContent = {
   nombre: FormControl<FuncionalidadFormRawValue['nombre']>;
   descripcion: FormControl<FuncionalidadFormRawValue['descripcion']>;
   urlGitLab: FormControl<FuncionalidadFormRawValue['urlGitLab']>;
-  fechaEntrega: FormControl<FuncionalidadFormRawValue['fechaEntrega']>;
   creado: FormControl<FuncionalidadFormRawValue['creado']>;
   modificado: FormControl<FuncionalidadFormRawValue['modificado']>;
   users: FormControl<FuncionalidadFormRawValue['users']>;
@@ -64,7 +63,6 @@ export class FuncionalidadFormService {
       nombre: new FormControl(funcionalidadRawValue.nombre),
       descripcion: new FormControl(funcionalidadRawValue.descripcion),
       urlGitLab: new FormControl(funcionalidadRawValue.urlGitLab),
-      fechaEntrega: new FormControl(funcionalidadRawValue.fechaEntrega),
       creado: new FormControl(funcionalidadRawValue.creado),
       modificado: new FormControl(funcionalidadRawValue.modificado),
       users: new FormControl(funcionalidadRawValue.users ?? []),

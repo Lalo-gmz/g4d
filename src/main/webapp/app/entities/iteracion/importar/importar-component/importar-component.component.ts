@@ -51,4 +51,8 @@ export class ImportarComponentComponent implements OnInit {
   onFileSelected(event: any) {
     this.excel = <File>event.target.files[0];
   }
+
+  previousState(): void {
+    window.history.back();
+  }
 }

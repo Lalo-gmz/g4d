@@ -110,7 +110,6 @@ export class FuncionalidadService {
   protected convertDateFromClient<T extends IFuncionalidad | NewFuncionalidad | PartialUpdateFuncionalidad>(funcionalidad: T): RestOf<T> {
     return {
       ...funcionalidad,
-      fechaEntrega: funcionalidad.fechaEntrega?.format(DATE_FORMAT) ?? null,
       creado: funcionalidad.creado?.toJSON() ?? null,
       modificado: funcionalidad.modificado?.toJSON() ?? null,
     };
@@ -119,7 +118,6 @@ export class FuncionalidadService {
   protected convertDateFromServer(restFuncionalidad: RestFuncionalidad): IFuncionalidad {
     return {
       ...restFuncionalidad,
-      fechaEntrega: restFuncionalidad.fechaEntrega ? dayjs(restFuncionalidad.fechaEntrega) : undefined,
       creado: restFuncionalidad.creado ? dayjs(restFuncionalidad.creado) : undefined,
       modificado: restFuncionalidad.modificado ? dayjs(restFuncionalidad.modificado) : undefined,
     };

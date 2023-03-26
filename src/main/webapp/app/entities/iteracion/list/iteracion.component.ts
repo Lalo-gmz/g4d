@@ -118,4 +118,8 @@ export class IteracionComponent implements OnInit {
       return [predicate + ',' + ascendingQueryParam];
     }
   }
+
+  previousState(): void {
+    window.history.back();
+  }
 }

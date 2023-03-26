@@ -38,8 +38,8 @@ public class Funcionalidad implements Serializable {
     @Column(name = "url_git_lab")
     private String urlGitLab;
 
-    @Column(name = "fecha_entrega")
-    private LocalDate fechaEntrega;
+    @Column(name = "prioridad")
+    private String prioridad;
 
     @CreationTimestamp
     @Column(name = "creado")
@@ -58,23 +58,14 @@ public class Funcionalidad implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<User> users = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
-    private EstatusFuncionalidad estatusFuncionalidad;
+    @Column(name = "estatus_funcionalidad")
+    private String estatusFuncionalidad;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "funcionalidads", "proyecto" }, allowSetters = true)
     private Iteracion iteracion;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "funcionalidads" }, allowSetters = true)
-    private Prioridad prioridad;
-
-    @OneToMany(mappedBy = "funcionalidad", cascade = CascadeType.ALL)
-    // @OneToMany(mappedBy = "funcionalidad")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "funcionalidad" }, allowSetters = true)
-    private Set<Etiqueta> etiquetas = new HashSet<>();
+    // pasar a string
 
     @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -110,6 +101,22 @@ public class Funcionalidad implements Serializable {
         return this.nombre;
     }
 
+    public String getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(String prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public String getEstatusFuncionalidad() {
+        return estatusFuncionalidad;
+    }
+
+    public void setEstatusFuncionalidad(String estatusFuncionalidad) {
+        this.estatusFuncionalidad = estatusFuncionalidad;
+    }
+
     public Funcionalidad nombre(String nombre) {
         this.setNombre(nombre);
         return this;
@@ -143,19 +150,6 @@ public class Funcionalidad implements Serializable {
 
     public void setUrlGitLab(String urlGitLab) {
         this.urlGitLab = urlGitLab;
-    }
-
-    public LocalDate getFechaEntrega() {
-        return this.fechaEntrega;
-    }
-
-    public Funcionalidad fechaEntrega(LocalDate fechaEntrega) {
-        this.setFechaEntrega(fechaEntrega);
-        return this;
-    }
-
-    public void setFechaEntrega(LocalDate fechaEntrega) {
-        this.fechaEntrega = fechaEntrega;
     }
 
     public Instant getCreado() {
@@ -207,19 +201,6 @@ public class Funcionalidad implements Serializable {
         return this;
     }
 
-    public EstatusFuncionalidad getEstatusFuncionalidad() {
-        return this.estatusFuncionalidad;
-    }
-
-    public void setEstatusFuncionalidad(EstatusFuncionalidad estatusFuncionalidad) {
-        this.estatusFuncionalidad = estatusFuncionalidad;
-    }
-
-    public Funcionalidad estatusFuncionalidad(EstatusFuncionalidad estatusFuncionalidad) {
-        this.setEstatusFuncionalidad(estatusFuncionalidad);
-        return this;
-    }
-
     public Iteracion getIteracion() {
         return this.iteracion;
     }
@@ -230,50 +211,6 @@ public class Funcionalidad implements Serializable {
 
     public Funcionalidad iteracion(Iteracion iteracion) {
         this.setIteracion(iteracion);
-        return this;
-    }
-
-    public Prioridad getPrioridad() {
-        return this.prioridad;
-    }
-
-    public void setPrioridad(Prioridad prioridad) {
-        this.prioridad = prioridad;
-    }
-
-    public Funcionalidad prioridad(Prioridad prioridad) {
-        this.setPrioridad(prioridad);
-        return this;
-    }
-
-    public Set<Etiqueta> getEtiquetas() {
-        return this.etiquetas;
-    }
-
-    public void setEtiquetas(Set<Etiqueta> etiquetas) {
-        if (this.etiquetas != null) {
-            this.etiquetas.forEach(i -> i.setFuncionalidad(null));
-        }
-        if (etiquetas != null) {
-            etiquetas.forEach(i -> i.setFuncionalidad(this));
-        }
-        this.etiquetas = etiquetas;
-    }
-
-    public Funcionalidad etiquetas(Set<Etiqueta> etiquetas) {
-        this.setEtiquetas(etiquetas);
-        return this;
-    }
-
-    public Funcionalidad addEtiqueta(Etiqueta etiqueta) {
-        this.etiquetas.add(etiqueta);
-        etiqueta.setFuncionalidad(this);
-        return this;
-    }
-
-    public Funcionalidad removeEtiqueta(Etiqueta etiqueta) {
-        this.etiquetas.remove(etiqueta);
-        etiqueta.setFuncionalidad(null);
         return this;
     }
 
@@ -397,7 +334,6 @@ public class Funcionalidad implements Serializable {
             ", nombre='" + getNombre() + "'" +
             ", descripcion='" + getDescripcion() + "'" +
             ", urlGitLab='" + getUrlGitLab() + "'" +
-            ", fechaEntrega='" + getFechaEntrega() + "'" +
             ", creado='" + getCreado() + "'" +
             ", modificado='" + getModificado() + "'" +
             "}";
