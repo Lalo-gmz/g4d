@@ -7,6 +7,7 @@ import { ProyectoDeleteDialogComponent } from './delete/proyecto-delete-dialog.c
 import { ProyectoRoutingModule } from './route/proyecto-routing.module';
 import { ProyectoListByUserComponent } from './list-by-user/proyecto-list-by-user.component';
 import { ParticipacionComponent } from './participacion/participacion.component';
+import { FuncByProyectoComponent } from '../funcionalidad/func-by-proyecto/func-by-proyecto.component';
 
 @NgModule({
   imports: [SharedModule, ProyectoRoutingModule],
@@ -17,6 +18,7 @@ import { ParticipacionComponent } from './participacion/participacion.component'
     ProyectoDeleteDialogComponent,
     ProyectoListByUserComponent,
     ParticipacionComponent,
+    FuncByProyectoComponent,
   ],
 })
 export class ProyectoModule {}

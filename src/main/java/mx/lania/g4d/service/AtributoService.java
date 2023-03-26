@@ -90,6 +90,12 @@ public class AtributoService {
         return atributoRepository.findById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Optional<Atributo> findOneByNombre(String nombre) {
+        log.debug("Request to get Atributo : {}", nombre);
+        return atributoRepository.findOneByNombre(nombre);
+    }
+
     /**
      * Delete the atributo by id.
      *

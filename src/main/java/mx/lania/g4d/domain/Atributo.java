@@ -28,6 +28,9 @@ public class Atributo implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "para_gitlab")
+    private boolean paraGitLab;
+
     @OneToMany(mappedBy = "atributo")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
@@ -59,6 +62,14 @@ public class Atributo implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public boolean isParaGitLab() {
+        return paraGitLab;
+    }
+
+    public void setParaGitLab(boolean paraGitLab) {
+        this.paraGitLab = paraGitLab;
     }
 
     public Set<AtributoFuncionalidad> getAtributoFuncionalidads() {

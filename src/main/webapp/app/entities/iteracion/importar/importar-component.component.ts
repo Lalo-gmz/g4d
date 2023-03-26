@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { IteracionService } from '../../service/iteracion.service';
+import { IteracionService } from '../service/iteracion.service';
 
 @Component({
   selector: 'jhi-importar-component',
@@ -41,6 +41,8 @@ export class ImportarComponentComponent implements OnInit {
           this.enviadoCorrecto = true;
           this.faltaArchivo = false;
           this.registros = res.length;
+          console.table(res);
+          console.log({ res });
         },
       });
     } else {

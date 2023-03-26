@@ -1,11 +1,11 @@
-<div class="mb-5">
+<div class="">
   <div>
     <span> <i class="bi bi-arrow-left"></i> <a (click)="previousState()">Atras</a> </span> <i class="bi bi-chevron-right"></i>
     <span>Importar Excel</span>
   </div>
   <hr />
   <h4>Importar Funcionalidades en proyecto (# {{ proyectId }})</h4>
-  <div class="d-flex mt-4" style="height: 10em">
+  <div class="d-flex mt-4">
     <div class="m-auto mt-4 text-center">
       <div *ngIf="enviadoCorrecto" class="alert alert-success" role="alert">
         Se han guardado correctamente {{ registros }} funcionalidades.
@@ -29,10 +29,10 @@
 
       <hr />
 
-      <h6>
+      <span class="fs-6">
         Si aun no cuentas con la plantilla en formato MS Excel puedes descargarla
         <a [href]="'../../content/files/plantilla.xlsx'" download>aquí.</a>
-      </h6>
+      </span>
     </div>
   </div>
 </div>

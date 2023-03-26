@@ -8,7 +8,7 @@ import { IteracionUpdateComponent } from '../update/iteracion-update.component';
 import { IteracionRoutingResolveService } from './iteracion-routing-resolve.service';
 import { ASC } from 'app/config/navigation.constants';
 import { ProyectoRoutingResolveService } from 'app/entities/proyecto/route/proyecto-routing-resolve.service';
-import { ImportarComponentComponent } from '../importar/importar-component/importar-component.component';
+import { ImportarComponentComponent } from '../importar/importar-component.component';
 
 const iteracionRoute: Routes = [
   {

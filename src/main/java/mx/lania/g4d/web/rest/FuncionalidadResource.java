@@ -93,10 +93,17 @@ public class FuncionalidadResource {
     @PostMapping("funcionalidades/excel/proyecto/{id}")
     public ResponseEntity<?> createFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
         throws IOException {
+        /*
         if (excelUploadService.isValidExcelFile(file)) {
             List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
 
             return ResponseEntity.ok(funcionalidadService.saveAll(funcionalidads));
+        }
+        */
+        if (excelUploadService.isValidExcelFile(file)) {
+            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
+
+            return ResponseEntity.ok(funcionalidads);
         }
 
         return ResponseEntity.ok("ok");

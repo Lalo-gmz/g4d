@@ -11,5 +11,4 @@ public enum EtiquetaVisual {
     ATRIBUTOS,
     COMENTARIOS,
     ETIQUETAS,
-    PRIORIDAD,
 }

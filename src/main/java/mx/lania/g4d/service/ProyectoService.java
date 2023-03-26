@@ -76,6 +76,9 @@ public class ProyectoService {
                 if (proyecto.getModificado() != null) {
                     existingProyecto.setModificado(proyecto.getModificado());
                 }
+                if (proyecto.getIdProyectoGitLab() != null) {
+                    existingProyecto.setIdProyectoGitLab(proyecto.getIdProyectoGitLab());
+                }
 
                 return existingProyecto;
             })
