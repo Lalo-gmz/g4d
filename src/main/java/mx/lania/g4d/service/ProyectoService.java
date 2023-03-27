@@ -2,8 +2,11 @@ package mx.lania.g4d.service;
 
 import java.util.List;
 import java.util.Optional;
+import mx.lania.g4d.domain.ParticipacionProyecto;
 import mx.lania.g4d.domain.Proyecto;
+import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ProyectoRepository;
+import mx.lania.g4d.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,9 +28,17 @@ public class ProyectoService {
     private final Logger log = LoggerFactory.getLogger(ProyectoService.class);
 
     private final ProyectoRepository proyectoRepository;
+    private final ParticipacionProyectoService participacionProyectoService;
+    private final UserRepository userRepository;
 
-    public ProyectoService(ProyectoRepository proyectoRepository) {
+    public ProyectoService(
+        ProyectoRepository proyectoRepository,
+        ParticipacionProyectoService participacionProyectoService,
+        UserRepository userRepository
+    ) {
         this.proyectoRepository = proyectoRepository;
+        this.participacionProyectoService = participacionProyectoService;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -38,7 +49,20 @@ public class ProyectoService {
      */
     public Proyecto save(Proyecto proyecto) {
         log.debug("Request to save Proyecto : {}", proyecto);
-        return proyectoRepository.save(proyecto);
+        Proyecto res = proyectoRepository.save(proyecto);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        User user = null;
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+
+        ParticipacionProyecto participacionProyecto = new ParticipacionProyecto();
+        participacionProyecto.setProyecto(res);
+        participacionProyecto.setEsAdmin(true);
+        optionalUser.ifPresent(participacionProyecto::setUsuario);
+        participacionProyectoService.save(participacionProyecto);
+        return res;
     }
 
     /**

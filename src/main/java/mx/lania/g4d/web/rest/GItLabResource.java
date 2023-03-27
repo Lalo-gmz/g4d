@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.http.HttpResponse;
 import java.util.Map;
 import mx.lania.g4d.service.AuthGitLabService;
+import mx.lania.g4d.service.Utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -23,9 +24,11 @@ import org.springframework.web.client.RestTemplate;
 public class GItLabResource {
 
     private final AuthGitLabService authGitLabService;
+    private final GitLabService gitLabService;
 
-    public GItLabResource(AuthGitLabService authGitLabService) {
+    public GItLabResource(AuthGitLabService authGitLabService, GitLabService gitLabService) {
         this.authGitLabService = authGitLabService;
+        this.gitLabService = gitLabService;
     }
 
     private final Logger log = LoggerFactory.getLogger(GItLabResource.class);
@@ -41,5 +44,15 @@ public class GItLabResource {
         log.debug("Email: " + email);
 
         return "";
+    }
+
+    @GetMapping("/ValidatePersonalToken")
+    public String getUserGItLabByToken() {
+        return gitLabService.getUserGItLabByToken();
+    }
+
+    @PostMapping("/createGitProyect")
+    public String getUserGItLabByToken(@RequestParam(value = "name") String name) {
+        return gitLabService.SaveProyect(name);
     }
 }
