@@ -8,6 +8,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, FuncionalidadService } from '../service/funcionalidad.service';
 import { FuncionalidadDeleteDialogComponent } from '../delete/funcionalidad-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-funcionalidad',
@@ -17,11 +18,13 @@ import { SortService } from 'app/shared/sort/sort.service';
 export class FuncionalidadComponent implements OnInit {
   funcionalidads?: IFuncionalidad[];
   funcPorEstatus?: Record<string, IFuncionalidad[]>;
+  funcPorEstatusCopy?: Record<string, IFuncionalidad[]>;
   keysEstatus?: string[];
 
+  loginUsuario?: string;
   proyectoId?: number;
 
-  tab: number = 3;
+  tab: number = 1;
   isLoading = false;
   iteracionId?: number;
   predicate = 'id';
@@ -32,7 +35,8 @@ export class FuncionalidadComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected accountService: AccountService
   ) {
     this.iteracionId = this.activatedRoute.snapshot.params['id'];
     this.proyectoId = this.activatedRoute.snapshot.params['proyectoId'];
@@ -42,6 +46,9 @@ export class FuncionalidadComponent implements OnInit {
 
   ngOnInit(): void {
     this.load();
+    this.accountService.identity().subscribe(account => {
+      this.loginUsuario = account?.login ?? '';
+    });
   }
 
   delete(funcionalidad: IFuncionalidad): void {
@@ -89,6 +96,7 @@ export class FuncionalidadComponent implements OnInit {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.funcionalidads = this.refineData(dataFromBody);
     this.ordenarPorEstatusOrden();
+    this.loadKanban();
   }
 
   protected refineData(data: IFuncionalidad[]): IFuncionalidad[] {
@@ -178,4 +186,40 @@ export class FuncionalidadComponent implements OnInit {
     }
   }
   */
+
+  loadKanban(): void {
+    if (this.funcionalidads) {
+      this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
+        const estatusFuncionalidad = funcionalidad.estatusFuncionalidad ?? 'none';
+        acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
+        acumulador[estatusFuncionalidad].push(funcionalidad);
+        return acumulador;
+      }, {});
+
+      this.keysEstatus = this.funcPorEstatus ? Object.keys(this.funcPorEstatus) : [];
+
+      this.funcPorEstatusCopy = this.funcPorEstatus;
+    }
+  }
+
+  filtrar(isActive: boolean): void {
+    if (!isActive) {
+      this.funcPorEstatus = this.funcPorEstatusCopy;
+      this.tab = 1;
+    } else {
+      if (this.funcionalidads) {
+        this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
+          const estatusFuncionalidad = funcionalidad.estatusFuncionalidad ?? 'none';
+          acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
+          console.log('func users:', funcionalidad.users);
+          if (funcionalidad.users?.some(e => e.login === this.loginUsuario)) {
+            acumulador[estatusFuncionalidad].push(funcionalidad);
+          }
+          return acumulador;
+        }, {});
+        console.log('Func estatus filter by User:', this.funcPorEstatus);
+      }
+      this.tab = 2;
+    }
+  }
 }
