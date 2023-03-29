@@ -12,6 +12,12 @@ public class GitLabService {
     private final String privateToken = "glpat-XAxKq1RRktSdNcaqWNSk";
     private static final String GITLAB_API_URL = "https://gitlab.com/api/v4/";
 
+    private final ApiCaller apiCaller;
+
+    public GitLabService(ApiCaller apiCaller) {
+        this.apiCaller = apiCaller;
+    }
+
     public String getUserGItLabByToken() {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -54,5 +60,17 @@ public class GitLabService {
         } catch (HttpClientErrorException.Unauthorized ex) {
             return "{ msg: 'token invalido'}";
         }
+    }
+
+    public String SaveProjecto(String name) {
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("name", name);
+
+        JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, "projects", privateToken, requestObject);
+
+        if (!res.isEmpty()) {
+            return res.getAsString("id");
+        }
+        return "No econtrado";
     }
 }

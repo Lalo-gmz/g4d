@@ -49,9 +49,6 @@ const iteracionRoute: Routes = [
   {
     path: 'importar/proyecto/:id',
     component: ImportarComponentComponent,
-    resolve: {
-      iteracion: IteracionRoutingResolveService,
-    },
     canActivate: [UserRouteAccessService],
   },
 ];

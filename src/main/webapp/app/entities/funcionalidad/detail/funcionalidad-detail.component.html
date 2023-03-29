@@ -20,7 +20,9 @@
           >
             Editar
           </button>
-          <a target="”_blank”" class="btn btn-primary" [attr.href]="funcionalidad.urlGitLab"> Ir a GitLab </a>
+          <a target="”_blank”" *ngIf="funcionalidad.nombre" class="btn btn-primary" [attr.href]="slugify(funcionalidad.nombre)">
+            Ir a GitLab
+          </a>
         </span>
       </div>
 

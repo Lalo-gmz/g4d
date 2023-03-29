@@ -10,6 +10,7 @@ import { EntityArrayResponseType, ProyectoService } from '../service/proyecto.se
 export class ProyectoListByUserComponent implements OnInit {
   participaciones?: IParticipacionProyecto[];
   proyectos?: IProyecto[] = [];
+  GITURL?: string = 'https://gitlab.com/g4dadmin/';
 
   constructor(protected proyectoService: ProyectoService) {}
 
@@ -29,6 +30,13 @@ export class ProyectoListByUserComponent implements OnInit {
       },
     });
   }
+
+  convertToSlugURL(text: string) {
+    return this.GITURL + text.toLowerCase().replace(/\s+/g, '-');
+  }
+
+  // asignar la función a una propiedad del componente
+  slugify = this.convertToSlugURL.bind(this);
 
   addProyecto(p: IProyecto) {
     this.proyectos?.push(p);

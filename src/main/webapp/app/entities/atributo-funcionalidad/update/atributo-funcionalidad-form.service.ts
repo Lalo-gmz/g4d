@@ -22,7 +22,6 @@ type AtributoFuncionalidadFormGroupContent = {
   valor: FormControl<IAtributoFuncionalidad['valor']>;
   funcionalidad: FormControl<IAtributoFuncionalidad['funcionalidad']>;
   atributo: FormControl<IAtributoFuncionalidad['atributo']>;
-  paraGitLab: FormControl<IAtributoFuncionalidad['paraGitLab']>;
 };
 
 export type AtributoFuncionalidadFormGroup = FormGroup<AtributoFuncionalidadFormGroupContent>;
@@ -48,7 +47,6 @@ export class AtributoFuncionalidadFormService {
       valor: new FormControl(atributoFuncionalidadRawValue.valor),
       funcionalidad: new FormControl(atributoFuncionalidadRawValue.funcionalidad),
       atributo: new FormControl(atributoFuncionalidadRawValue.atributo),
-      paraGitLab: new FormControl(atributoFuncionalidadRawValue.paraGitLab),
     });
   }
 

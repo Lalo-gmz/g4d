@@ -19,6 +19,7 @@ type AtributoFormDefaults = Pick<NewAtributo, 'id'>;
 type AtributoFormGroupContent = {
   id: FormControl<IAtributo['id'] | NewAtributo['id']>;
   nombre: FormControl<IAtributo['nombre']>;
+  paraGitLab: FormControl<IAtributo['paraGitLab']>;
 };
 
 export type AtributoFormGroup = FormGroup<AtributoFormGroupContent>;
@@ -39,6 +40,7 @@ export class AtributoFormService {
         }
       ),
       nombre: new FormControl(atributoRawValue.nombre),
+      paraGitLab: new FormControl(atributoRawValue.paraGitLab),
     });
   }
 

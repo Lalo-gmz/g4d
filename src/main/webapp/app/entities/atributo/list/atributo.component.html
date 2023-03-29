@@ -44,6 +44,13 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="gitLab">
+            <div class="d-flex">
+              <span>Se exporta en GitLab</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+
           <th scope="col"></th>
         </tr>
       </thead>
@@ -53,6 +60,8 @@
             <a [routerLink]="['/atributo', atributo.id, 'view']">{{ atributo.id }}</a>
           </td>
           <td>{{ atributo.nombre }}</td>
+          <td>{{ atributo.paraGitLab }}</td>
+
           <td class="text-end">
             <div class="btn-group">
               <button

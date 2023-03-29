@@ -21,6 +21,7 @@ describe('Atributo Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
+            paraGitLab: expect.any(Object),
           })
         );
       });
@@ -32,6 +33,7 @@ describe('Atributo Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             nombre: expect.any(Object),
+            paraGitLab: expect.any(Object),
           })
         );
       });

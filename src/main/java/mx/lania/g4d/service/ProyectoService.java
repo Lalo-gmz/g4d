@@ -7,14 +7,13 @@ import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.repository.UserRepository;
+import mx.lania.g4d.service.Utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,14 +30,18 @@ public class ProyectoService {
     private final ParticipacionProyectoService participacionProyectoService;
     private final UserRepository userRepository;
 
+    private final GitLabService gitLabService;
+
     public ProyectoService(
         ProyectoRepository proyectoRepository,
         ParticipacionProyectoService participacionProyectoService,
-        UserRepository userRepository
+        UserRepository userRepository,
+        GitLabService gitLabService
     ) {
         this.proyectoRepository = proyectoRepository;
         this.participacionProyectoService = participacionProyectoService;
         this.userRepository = userRepository;
+        this.gitLabService = gitLabService;
     }
 
     /**
@@ -54,7 +57,6 @@ public class ProyectoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
 
-        User user = null;
         Optional<User> optionalUser = userRepository.findOneByLogin(login);
 
         ParticipacionProyecto participacionProyecto = new ParticipacionProyecto();
@@ -62,6 +64,15 @@ public class ProyectoService {
         participacionProyecto.setEsAdmin(true);
         optionalUser.ifPresent(participacionProyecto::setUsuario);
         participacionProyectoService.save(participacionProyecto);
+        if (res.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
+            String idGitLabProyect = gitLabService.SaveProjecto(res.getNombre());
+            res.setIdProyectoGitLab(idGitLabProyect);
+            Optional<Proyecto> proyectoConGitLab = partialUpdate(res);
+            if (proyectoConGitLab.isPresent()) {
+                res = proyectoConGitLab.get();
+            }
+        }
+
         return res;
     }
 
