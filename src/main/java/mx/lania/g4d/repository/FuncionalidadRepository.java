@@ -33,5 +33,12 @@ public interface FuncionalidadRepository extends FuncionalidadRepositoryWithBagR
         return this.fetchBagRelationships(this.findAllByIteracionId(id));
     }
 
+    default List<Funcionalidad> findAllWithEagerRelationshipsByProyectoId(Long id) {
+        return this.fetchBagRelationships(this.findAllByProyectoId(id));
+    }
+
     List<Funcionalidad> findAllByIteracionId(Long id);
+
+    @Query("SELECT f FROM Funcionalidad f JOIN f.iteracion i JOIN i.proyecto p WHERE p.id = :proyectoId")
+    List<Funcionalidad> findAllByProyectoId(@Param("proyectoId") Long proyectoId);
 }

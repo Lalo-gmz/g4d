@@ -1,5 +1,6 @@
 package mx.lania.g4d.web.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -14,7 +15,7 @@ import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -155,6 +156,15 @@ public class ProyectoResource {
         log.debug("REST request to get Proyecto : {}", id);
         Optional<Proyecto> proyecto = proyectoService.findOne(id);
         return ResponseUtil.wrapOrNotFound(proyecto);
+    }
+
+    @GetMapping("/proyectos/{id}/excel")
+    public ResponseEntity<byte[]> generarExcel(@PathVariable Long id) throws IOException {
+        byte[] excelBytes = proyectoService.generarExcel(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
+        headers.setContentDisposition(ContentDisposition.builder("attachment").filename("proyecto-" + id + ".xlsx").build());
+        return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
     }
 
     /**

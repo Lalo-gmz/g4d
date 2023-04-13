@@ -16,7 +16,10 @@
         <span>Administrar Usuarios</span>
       </button>
       <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/importar/proyecto/' + proyectoId">
-        <span>Importar Excel</span>
+        <span><i class="bi bi-upload"></i> Importar Excel</span>
+      </button>
+      <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/exportar/proyecto/' + proyectoId">
+        <span><i class="bi bi-download"></i> Descargar Excel</span>
       </button>
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
