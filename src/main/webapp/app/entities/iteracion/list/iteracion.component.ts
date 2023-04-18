@@ -8,6 +8,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, IteracionService } from '../service/iteracion.service';
 import { IteracionDeleteDialogComponent } from '../delete/iteracion-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
 
 @Component({
   selector: 'jhi-iteracion',
@@ -23,6 +24,7 @@ export class IteracionComponent implements OnInit {
   constructor(
     protected iteracionService: IteracionService,
     protected activatedRoute: ActivatedRoute,
+    protected proyectoService: ProyectoService,
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal
@@ -56,6 +58,22 @@ export class IteracionComponent implements OnInit {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  descargarExcel(proyectoId: number): void {
+    this.iteracionService.exportarExcel(proyectoId).subscribe({
+      next: res => {
+        const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.style.display = 'none';
+        a.href = url;
+        a.download = `Proyecto_${proyectoId}.xlsx`; // cambia el nombre del archivo según lo que desees
+        a.click();
+        window.URL.revokeObjectURL(url);
       },
     });
   }

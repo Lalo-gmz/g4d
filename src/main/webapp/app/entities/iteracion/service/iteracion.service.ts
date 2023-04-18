@@ -71,6 +71,10 @@ export class IteracionService {
     return this.http.post<any>(`/api/funcionalidades/excel/proyecto/${proyectoId}`, file);
   }
 
+  exportarExcel(proyectoId: number) {
+    return this.http.get(`/api/proyectos/${proyectoId}/excel`, { responseType: 'blob' });
+  }
+
   query(id?: number, req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     if (id) {

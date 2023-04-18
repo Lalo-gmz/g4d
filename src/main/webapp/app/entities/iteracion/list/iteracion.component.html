@@ -18,7 +18,7 @@
       <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/importar/proyecto/' + proyectoId">
         <span><i class="bi bi-upload"></i> Importar Excel</span>
       </button>
-      <button class="btn btn-secondary me-2" [routerLink]="'/iteracion/exportar/proyecto/' + proyectoId">
+      <button class="btn btn-secondary me-2" (click)="descargarExcel(proyectoId!)">
         <span><i class="bi bi-download"></i> Descargar Excel</span>
       </button>
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
