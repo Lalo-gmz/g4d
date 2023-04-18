@@ -17,7 +17,11 @@ import org.springframework.data.domain.PageImpl;
  */
 public class FuncionalidadRepositoryWithBagRelationshipsImpl implements FuncionalidadRepositoryWithBagRelationships {
 
-    FuncionalidadRepositoryWithBagRelationshipsImpl() {}
+    private final AtributoFuncionalidadRepository atributoFuncionalidadRepository;
+
+    FuncionalidadRepositoryWithBagRelationshipsImpl(AtributoFuncionalidadRepository atributoFuncionalidadRepository) {
+        this.atributoFuncionalidadRepository = atributoFuncionalidadRepository;
+    }
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -38,7 +42,13 @@ public class FuncionalidadRepositoryWithBagRelationshipsImpl implements Funciona
 
     @Override
     public List<Funcionalidad> fetchBagRelationships(List<Funcionalidad> funcionalidads) {
-        return Optional.of(funcionalidads).map(this::fetchUsers).orElse(Collections.emptyList());
+        List<Funcionalidad> result = Optional.of(funcionalidads).map(this::fetchUsers).orElse(Collections.emptyList());
+        result.forEach(funcionalidad -> {
+            funcionalidad.setAtributoFuncionalidads(
+                atributoFuncionalidadRepository.findAtributoFuncionalidadByFuncionalidad(funcionalidad).get()
+            );
+        });
+        return result;
     }
 
     Funcionalidad fetchUsers(Funcionalidad result) {

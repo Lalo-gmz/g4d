@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.service.ProyectoService;
+import mx.lania.g4d.service.Utils.ExcelUploadService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +38,12 @@ public class ProyectoResource {
     private final ProyectoService proyectoService;
 
     private final ProyectoRepository proyectoRepository;
+    private final ExcelUploadService excelUploadService;
 
-    public ProyectoResource(ProyectoService proyectoService, ProyectoRepository proyectoRepository) {
+    public ProyectoResource(ProyectoService proyectoService, ProyectoRepository proyectoRepository, ExcelUploadService excelUploadService) {
         this.proyectoService = proyectoService;
         this.proyectoRepository = proyectoRepository;
+        this.excelUploadService = excelUploadService;
     }
 
     /**
@@ -160,7 +163,7 @@ public class ProyectoResource {
 
     @GetMapping("/proyectos/{id}/excel")
     public ResponseEntity<byte[]> generarExcel(@PathVariable Long id) throws IOException {
-        byte[] excelBytes = proyectoService.generarExcel(id);
+        byte[] excelBytes = excelUploadService.generarExcel(id);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
         headers.setContentDisposition(ContentDisposition.builder("attachment").filename("proyecto-" + id + ".xlsx").build());

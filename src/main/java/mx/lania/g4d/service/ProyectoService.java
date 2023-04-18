@@ -4,10 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import mx.lania.g4d.domain.Funcionalidad;
-import mx.lania.g4d.domain.ParticipacionProyecto;
-import mx.lania.g4d.domain.Proyecto;
-import mx.lania.g4d.domain.User;
+import mx.lania.g4d.domain.*;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.service.Utils.GitLabService;
@@ -38,19 +35,22 @@ public class ProyectoService {
     private final GitLabService gitLabService;
 
     private final FuncionalidadService funcionalidadService;
+    private final AtributoFuncionalidadService atributoFuncionalidadService;
 
     public ProyectoService(
         ProyectoRepository proyectoRepository,
         ParticipacionProyectoService participacionProyectoService,
         UserRepository userRepository,
         GitLabService gitLabService,
-        FuncionalidadService funcionalidadService
+        FuncionalidadService funcionalidadService,
+        AtributoFuncionalidadService atributoFuncionalidadService
     ) {
         this.proyectoRepository = proyectoRepository;
         this.participacionProyectoService = participacionProyectoService;
         this.userRepository = userRepository;
         this.gitLabService = gitLabService;
         this.funcionalidadService = funcionalidadService;
+        this.atributoFuncionalidadService = atributoFuncionalidadService;
     }
 
     /**
@@ -169,46 +169,5 @@ public class ProyectoService {
     public void delete(Long id) {
         log.debug("Request to delete Proyecto : {}", id);
         proyectoRepository.deleteById(id);
-    }
-
-    public byte[] generarExcel(Long id) throws IOException {
-        List<Funcionalidad> funcionalidadList = funcionalidadService.findAllByProyectoId(id);
-        System.out.println(funcionalidadList);
-
-        Workbook workbook = new XSSFWorkbook(); // crea un libro de trabajo de Excel
-        Sheet sheet = workbook.createSheet("Mi hoja"); // crea una hoja en el libro de trabajo
-
-        CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
-        Row headerRow = sheet.createRow(0); // crea la fila de encabezado
-        Cell idCell = headerRow.createCell(0);
-        idCell.setCellValue("id (no modificar)");
-        idCell.setCellStyle(headerStyle);
-        headerRow.createCell(1).setCellValue("Nombre*");
-        headerRow.createCell(2).setCellValue("Descripción*");
-        headerRow.createCell(3).setCellValue("Asignación");
-        headerRow.createCell(4).setCellValue("Iteración");
-        headerRow.createCell(5).setCellValue("prioridad");
-        headerRow.createCell(6).setCellValue("Estatus");
-        int indexRow = 1;
-        for (Funcionalidad f : funcionalidadList) {
-            Row dataRow = sheet.createRow(indexRow); // crea una fila de datos
-            dataRow.createCell(0).setCellValue(f.getId());
-            dataRow.createCell(1).setCellValue(f.getNombre());
-            dataRow.createCell(2).setCellValue(f.getDescripcion());
-            dataRow.createCell(3).setCellValue(f.getUsers().toString());
-            dataRow.createCell(4).setCellValue(f.getIteracion().getNombre());
-            dataRow.createCell(5).setCellValue(f.getPrioridad());
-            dataRow.createCell(6).setCellValue(f.getEstatusFuncionalidad());
-
-            indexRow++;
-        }
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        workbook.write(outputStream); // escribe el libro de trabajo en un flujo de salida de bytes
-        workbook.close(); // cierra el libro de trabajo
-        return outputStream.toByteArray(); // devuelve los bytes del libro de trabajo como un arreglo de bytes
     }
 }

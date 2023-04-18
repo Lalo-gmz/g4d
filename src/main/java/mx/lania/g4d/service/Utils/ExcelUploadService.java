@@ -1,14 +1,13 @@
 package mx.lania.g4d.service.Utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.*;
 import mx.lania.g4d.domain.*;
 import mx.lania.g4d.service.*;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -189,5 +188,79 @@ public class ExcelUploadService {
             e.getStackTrace();
         }
         return funcionalidads;
+    }
+
+    public byte[] generarExcel(Long id) throws IOException {
+        List<Funcionalidad> funcionalidadList = funcionalidadService.findAllByProyectoId(id);
+        System.out.println(funcionalidadList);
+
+        Workbook workbook = new XSSFWorkbook(); // crea un libro de trabajo de Excel
+        Sheet sheet = workbook.createSheet("Mi hoja"); // crea una hoja en el libro de trabajo
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        Row headerRow = sheet.createRow(0); // crea la fila de encabezado
+        Cell idCell = headerRow.createCell(0);
+        idCell.setCellValue("id (no modificar)");
+
+        idCell.setCellStyle(headerStyle);
+        headerRow.createCell(1).setCellValue("Nombre*");
+        headerRow.createCell(2).setCellValue("Descripción*");
+        headerRow.createCell(3).setCellValue("Asignación");
+        headerRow.createCell(4).setCellValue("Iteración");
+        headerRow.createCell(5).setCellValue("prioridad");
+        headerRow.createCell(6).setCellValue("Estatus");
+
+        int index = 7;
+
+        //iterar iteraciones extras
+        List<Atributo> atributoList = atributoService.findAll();
+        for (Atributo atributo : atributoList) {
+            headerRow.createCell(index).setCellValue(atributo.getNombre());
+            index++;
+        }
+
+        int indexRow = 1;
+        for (Funcionalidad f : funcionalidadList) {
+            Row dataRow = sheet.createRow(indexRow); // crea una fila de datos
+            dataRow.createCell(0).setCellValue(f.getId());
+            dataRow.createCell(1).setCellValue(f.getNombre());
+            dataRow.createCell(2).setCellValue(f.getDescripcion());
+            //iterar users
+            String userArray = "";
+            for (User user : f.getUsers()) {
+                userArray = userArray.concat(user.getLogin() + ", ");
+            }
+            userArray = userArray.substring(0, userArray.length() - 2);
+
+            dataRow.createCell(3).setCellValue(userArray);
+            dataRow.createCell(4).setCellValue(f.getIteracion().getNombre());
+            dataRow.createCell(5).setCellValue(f.getPrioridad());
+            dataRow.createCell(6).setCellValue(f.getEstatusFuncionalidad());
+
+            index = 7;
+            for (Atributo atributo : atributoList) {
+                boolean flag = false;
+                for (AtributoFuncionalidad atributoFuncionalidad : f.getAtributoFuncionalidads()) {
+                    if (atributoFuncionalidad.getAtributo().getNombre().equals(atributo.getNombre())) {
+                        dataRow.createCell(index).setCellValue(atributoFuncionalidad.getValor());
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    dataRow.createCell(index).setCellValue("");
+                }
+                index++;
+            }
+
+            indexRow++;
+        }
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream); // escribe el libro de trabajo en un flujo de salida de bytes
+        workbook.close(); // cierra el libro de trabajo
+        return outputStream.toByteArray(); // devuelve los bytes del libro de trabajo como un arreglo de bytes
     }
 }
