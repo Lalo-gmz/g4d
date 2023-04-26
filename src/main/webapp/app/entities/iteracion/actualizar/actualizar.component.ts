@@ -4,18 +4,18 @@ import { ActivatedRoute } from '@angular/router';
 import { IteracionService } from '../service/iteracion.service';
 
 @Component({
-  selector: 'jhi-importar-component',
-  templateUrl: './importar-component.component.html',
-  styleUrls: ['./importar-component.component.scss'],
+  selector: 'jhi-actualizar',
+  templateUrl: './actualizar.component.html',
+  styleUrls: ['./actualizar.component.scss'],
 })
-export class ImportarComponentComponent implements OnInit {
+export class ActualizarComponent implements OnInit {
   importForm = new FormGroup({
     file: new FormControl('', Validators.required),
   });
 
   registros?: number;
 
-  proyectId: number;
+  proyectId?: number;
   excel?: any;
 
   enviado = false;
@@ -23,11 +23,11 @@ export class ImportarComponentComponent implements OnInit {
   faltaArchivo = false;
   enviadoCorrecto = false;
 
-  constructor(protected activeRoute: ActivatedRoute, protected iteracionService: IteracionService) {
+  constructor(protected activeRoute: ActivatedRoute, protected iteracionService: IteracionService) {}
+
+  ngOnInit(): void {
     this.proyectId = this.activeRoute.snapshot.params['id'];
   }
-
-  ngOnInit(): void {}
 
   save() {
     if (this.importForm.valid && this.proyectId) {
@@ -48,24 +48,6 @@ export class ImportarComponentComponent implements OnInit {
     } else {
       this.faltaArchivo = true;
     }
-  }
-
-  getPlantillaExcel(proyectoId: number): void {
-    this.iteracionService.getPlantilla(proyectoId).subscribe({
-      next: res => {
-        console.log(res);
-        const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        console.log(blob);
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        document.body.appendChild(a);
-        a.style.display = 'none';
-        a.href = url;
-        a.download = `Pantilla_carga_inicial_G4D.xlsx`; // cambia el nombre del archivo según lo que desees
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-    });
   }
 
   onFileSelected(event: any) {

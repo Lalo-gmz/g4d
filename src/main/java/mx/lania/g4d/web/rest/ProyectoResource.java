@@ -163,10 +163,19 @@ public class ProyectoResource {
 
     @GetMapping("/proyectos/{id}/excel")
     public ResponseEntity<byte[]> generarExcel(@PathVariable Long id) throws IOException {
-        byte[] excelBytes = excelUploadService.generarExcel(id);
+        byte[] excelBytes = excelUploadService.generarExcel(id, false);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
         headers.setContentDisposition(ContentDisposition.builder("attachment").filename("proyecto-" + id + ".xlsx").build());
+        return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/proyectos/{id}/PlantillaExcel")
+    public ResponseEntity<byte[]> generarPlantillaExcel(@PathVariable Long id) throws IOException {
+        byte[] excelBytes = excelUploadService.generarExcel(id, true);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
+        headers.setContentDisposition(ContentDisposition.builder("attachment").filename("Plantilla-" + id + ".xlsx").build());
         return new ResponseEntity<>(excelBytes, headers, HttpStatus.OK);
     }
 

@@ -3,6 +3,7 @@ package mx.lania.g4d.service;
 import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.AtributoFuncionalidad;
+import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.repository.AtributoFuncionalidadRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,5 +109,12 @@ public class AtributoFuncionalidadService {
     public void delete(Long id) {
         log.debug("Request to delete AtributoFuncionalidad : {}", id);
         atributoFuncionalidadRepository.deleteById(id);
+    }
+
+    public void deleteByFuncionalidad(Funcionalidad funcionalidad) {
+        List<AtributoFuncionalidad> atributoFuncionalidadList = atributoFuncionalidadRepository.deleteAtributoFuncionalidadsByFuncionalidadId(
+            funcionalidad.getId()
+        );
+        log.debug(atributoFuncionalidadList.toString());
     }
 }

@@ -4,7 +4,7 @@
     <span>Importar Excel</span>
   </div>
   <hr />
-  <h4>Importar Funcionalidades en proyecto (# {{ proyectId }})</h4>
+  <h4>Actualizar Funcionalidades en proyecto (# {{ proyectId }})</h4>
   <div class="d-flex mt-4">
     <div class="m-auto mt-4 text-center">
       <div *ngIf="enviadoCorrecto" class="alert alert-success" role="alert">
@@ -28,11 +28,6 @@
       </form>
 
       <hr />
-
-      <span class="fs-6">
-        Si aun no cuentas con la plantilla en formato MS Excel puedes descargarla
-        <button class="btn btn-secondary" (click)="getPlantillaExcel(proyectId)">aquí.</button>
-      </span>
     </div>
   </div>
 </div>

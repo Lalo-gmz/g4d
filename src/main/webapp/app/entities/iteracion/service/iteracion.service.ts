@@ -72,7 +72,26 @@ export class IteracionService {
   }
 
   exportarExcel(proyectoId: number) {
-    return this.http.get(`/api/proyectos/${proyectoId}/excel`, { responseType: 'blob' });
+    return this.http.get(`/api/proyectos/${proyectoId}/excel`, { responseType: 'blob', headers: { Accept: 'application/vnd.ms-excel' } });
+  }
+
+  updateByExcel(file: any, proyectoId: number): Observable<EntityArrayResponseType> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      }),
+    };
+
+    console.log('file:', file);
+
+    return this.http.post<any>(`/api/funcionalidades/excelUpdate/proyecto/${proyectoId}`, file);
+  }
+
+  getPlantilla(proyectoId: number) {
+    return this.http.get(`/api/proyectos/${proyectoId}/PlantillaExcel`, {
+      responseType: 'blob',
+      headers: { Accept: 'application/vnd.ms-excel' },
+    });
   }
 
   query(id?: number, req?: any): Observable<EntityArrayResponseType> {

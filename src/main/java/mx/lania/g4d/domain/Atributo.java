@@ -31,7 +31,7 @@ public class Atributo implements Serializable {
     @Column(name = "para_gitlab")
     private boolean paraGitLab;
 
-    @OneToMany(mappedBy = "atributo")
+    @OneToMany(mappedBy = "atributo", cascade = CascadeType.ALL, orphanRemoval = true)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
     private Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();

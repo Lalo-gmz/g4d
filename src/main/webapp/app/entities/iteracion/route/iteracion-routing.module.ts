@@ -9,6 +9,7 @@ import { IteracionRoutingResolveService } from './iteracion-routing-resolve.serv
 import { ASC } from 'app/config/navigation.constants';
 import { ProyectoRoutingResolveService } from 'app/entities/proyecto/route/proyecto-routing-resolve.service';
 import { ImportarComponentComponent } from '../importar/importar-component.component';
+import { ActualizarComponent } from '../actualizar/actualizar.component';
 
 const iteracionRoute: Routes = [
   {
@@ -49,6 +50,11 @@ const iteracionRoute: Routes = [
   {
     path: 'importar/proyecto/:id',
     component: ImportarComponentComponent,
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'actualizar/proyecto/:id',
+    component: ActualizarComponent,
     canActivate: [UserRouteAccessService],
   },
 ];

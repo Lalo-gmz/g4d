@@ -16,4 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface AtributoFuncionalidadRepository extends JpaRepository<AtributoFuncionalidad, Long> {
     Optional<List<AtributoFuncionalidad>> findAtributoFuncionalidadByFuncionalidadId(Long id);
     Optional<Set<AtributoFuncionalidad>> findAtributoFuncionalidadByFuncionalidad(Funcionalidad funcionalidad);
+
+    List<AtributoFuncionalidad> deleteAtributoFuncionalidadsByFuncionalidadId(Long id);
 }

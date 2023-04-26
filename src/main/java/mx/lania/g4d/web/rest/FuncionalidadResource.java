@@ -101,9 +101,28 @@ public class FuncionalidadResource {
         }
         */
         if (excelUploadService.isValidExcelFile(file)) {
-            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
+            List<Funcionalidad> funcionalidads = excelUploadService.updateFuncionalidadByExcel(file.getInputStream(), id);
 
             return ResponseEntity.ok(funcionalidads);
+        }
+
+        return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping("funcionalidades/excelUpdate/proyecto/{id}")
+    public ResponseEntity<?> updateFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
+        throws IOException {
+        /*
+        if (excelUploadService.isValidExcelFile(file)) {
+            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
+
+            return ResponseEntity.ok(funcionalidadService.saveAll(funcionalidads));
+        }
+        */
+        if (excelUploadService.isValidExcelFile(file)) {
+            List<Funcionalidad> funcionalidads = excelUploadService.updateFuncionalidadByExcel(file.getInputStream(), id);
+            List<Funcionalidad> result = funcionalidadService.saveAll(funcionalidads);
+            return ResponseEntity.ok(result);
         }
 
         return ResponseEntity.ok("ok");

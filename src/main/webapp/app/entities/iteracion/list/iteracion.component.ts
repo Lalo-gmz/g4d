@@ -65,6 +65,7 @@ export class IteracionComponent implements OnInit {
   descargarExcel(proyectoId: number): void {
     this.iteracionService.exportarExcel(proyectoId).subscribe({
       next: res => {
+        console.log(res);
         const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
