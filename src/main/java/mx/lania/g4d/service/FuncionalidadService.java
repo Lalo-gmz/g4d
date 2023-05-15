@@ -78,7 +78,12 @@ public class FuncionalidadService {
     }
 
     public List<Funcionalidad> saveAll(List<Funcionalidad> funcionalidades) {
-        return funcionalidadRepository.saveAll(funcionalidades);
+        List<Funcionalidad> res = funcionalidadRepository.saveAll(funcionalidades);
+        // crear un issue en gitlab
+        for (Funcionalidad funcionalidad : res) {
+            System.out.println(funcionalidad);
+        }
+        return res;
     }
 
     /**

@@ -121,8 +121,8 @@ public class FuncionalidadResource {
         */
         if (excelUploadService.isValidExcelFile(file)) {
             List<Funcionalidad> funcionalidads = excelUploadService.updateFuncionalidadByExcel(file.getInputStream(), id);
-            List<Funcionalidad> result = funcionalidadService.saveAll(funcionalidads);
-            return ResponseEntity.ok(result);
+            //List<Funcionalidad> result = funcionalidadService.saveAll(funcionalidads);
+            return ResponseEntity.ok(funcionalidads);
         }
 
         return ResponseEntity.ok("ok");

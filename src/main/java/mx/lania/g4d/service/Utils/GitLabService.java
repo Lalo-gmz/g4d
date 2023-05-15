@@ -62,6 +62,7 @@ public class GitLabService {
         }
     }
 
+    // hace uso de la ApiCaller
     public String SaveProjecto(String name) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("name", name);
@@ -72,5 +73,21 @@ public class GitLabService {
             return res.getAsString("id");
         }
         return "No econtrado";
+    }
+
+    public String CreateIssue(String title, String[] labels, String description, int projectId) {
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("title", title);
+        requestObject.put("description", description);
+        requestObject.put("labels", labels);
+
+        String recurso = "projects/" + projectId + "/issues";
+
+        JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, "projects", privateToken, requestObject);
+
+        if (!res.isEmpty()) {
+            return res.getAsString("id");
+        }
+        return "No fué posible crear el Issue";
     }
 }

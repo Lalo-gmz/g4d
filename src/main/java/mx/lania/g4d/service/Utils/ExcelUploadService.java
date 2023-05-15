@@ -194,154 +194,6 @@ public class ExcelUploadService {
     }
 
     @Transactional
-    public List<Funcionalidad> updateFuncionalidadFromExcel(InputStream inputStream, Long proyectoId) {
-        List<Funcionalidad> funcionalidads = new ArrayList<>();
-        try {
-            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            int rowIndex = 0;
-            List<Atributo> atributosExtra = new ArrayList<>();
-            for (Row row : sheet) {
-                Iterator<Cell> cellIterator = row.iterator();
-                int cellIndex = 0;
-                int atributoExtraIndex = 0;
-
-                Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();
-
-                if (rowIndex == 0) {
-                    int cIndex = 0;
-                    while (cellIterator.hasNext()) {
-                        Cell cell = cellIterator.next();
-
-                        if (cIndex >= 7) {
-                            if (!cell.getStringCellValue().isEmpty()) {
-                                Optional<Atributo> atributo = atributoService.findOneByNombre(cell.getStringCellValue());
-                                if (atributo.isPresent()) {
-                                    atributosExtra.add(atributo.get());
-                                } else {
-                                    Atributo nuevoAtributo = new Atributo();
-                                    nuevoAtributo.setNombre(cell.getStringCellValue());
-                                    nuevoAtributo.setParaGitLab(false);
-                                    Atributo nuevoAtributoG = atributoService.save(nuevoAtributo);
-                                    atributosExtra.add(nuevoAtributoG);
-                                }
-                            }
-                        }
-                        cIndex++;
-                    }
-                    rowIndex++;
-                    System.out.println(atributosExtra);
-                    continue;
-                }
-
-                Funcionalidad funcionalidad = new Funcionalidad();
-
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    switch (cellIndex) {
-                        case 0:
-                            Optional<Funcionalidad> funcionalidadOptional = funcionalidadService.findOne((long) cell.getNumericCellValue());
-                            if (funcionalidadOptional.isPresent()) {
-                                funcionalidad = funcionalidadOptional.get();
-                            }
-
-                            break;
-                        case 1:
-                            funcionalidad.setNombre(cell.getStringCellValue());
-                            break;
-                        case 2:
-                            funcionalidad.setDescripcion(cell.getStringCellValue());
-                            break;
-                        case 3:
-                            String usuariosRaw = cell.getStringCellValue();
-                            if (!usuariosRaw.isEmpty()) {
-                                String[] subcadenas = usuariosRaw.split(",");
-                                Set<User> userSet = new HashSet<>();
-                                for (String sub : subcadenas) {
-                                    Optional<User> userOptional = userService.findByLogin(sub.trim());
-                                    if (userOptional.isPresent()) {
-                                        userSet.add(userOptional.get());
-                                    }
-                                }
-                                funcionalidad.setUsers(userSet);
-                            } else {
-                                funcionalidad.setUsers(new HashSet<>());
-                            }
-
-                            break;
-                        case 4:
-                            String nombreIteracion = cell.getStringCellValue().isEmpty() ? "Por Asignar" : cell.getStringCellValue();
-                            Optional<Iteracion> iteracion = iteracionService.findOneByNombreAndProyectoId(nombreIteracion, proyectoId);
-                            if (iteracion.isEmpty()) {
-                                Iteracion iteracionNueva = new Iteracion();
-                                Optional<Proyecto> p = proyectoService.findOne(proyectoId);
-                                if (p.isPresent()) {
-                                    iteracionNueva.setProyecto(p.get());
-                                    iteracionNueva.setNombre(nombreIteracion);
-                                    iteracion = Optional.of(iteracionService.save(iteracionNueva));
-                                }
-                            }
-                            if (iteracion.isPresent()) {
-                                funcionalidad.setIteracion(iteracion.get());
-                            }
-                            break;
-                        case 5:
-                            funcionalidad.setPrioridad(cell.getStringCellValue());
-                            break;
-                        case 6:
-                            funcionalidad.setEstatusFuncionalidad(cell.getStringCellValue());
-                            break;
-                        default:
-                            if (cell.getCellType() != CellType.BLANK) {
-                                String celda;
-                                if (cell.getCellType() == CellType.NUMERIC) {
-                                    celda = Double.toString(cell.getNumericCellValue());
-                                } else {
-                                    celda = cell.getStringCellValue();
-                                }
-
-                                AtributoFuncionalidad preAtributo = new AtributoFuncionalidad();
-                                preAtributo.setValor(celda);
-                                preAtributo.setMarcado(false);
-                                preAtributo.setAtributo(atributosExtra.get(atributoExtraIndex));
-                                atributoFuncionalidads.add(preAtributo);
-                            }
-                            atributoExtraIndex++;
-                            break;
-                    }
-                    // se agreaga todas los atributos adicionales
-
-                    cellIndex++;
-                }
-                //System.out.println(atributoFuncionalidads );
-
-                //crear y retornar la funcionalidad creada
-                //Funcionalidad nuevaFuncionalidad = funcionalidadService.save(funcionalidad);
-
-                //limpiar los atributos atiguos
-                atributoFuncionalidadService.deleteByFuncionalidad(funcionalidad);
-
-                for (AtributoFuncionalidad a : atributoFuncionalidads) {
-                    a.setFuncionalidad(funcionalidad);
-                    atributoFuncionalidadService.save(a);
-                }
-
-                if (!atributoFuncionalidads.isEmpty()) {
-                    funcionalidad.setAtributoFuncionalidads(atributoFuncionalidads);
-                }
-
-                atributoFuncionalidads.clear();
-                System.out.println(funcionalidad);
-
-                funcionalidads.add(funcionalidad);
-            } // nueva row
-        } catch (IOException e) {
-            e.getStackTrace();
-        }
-        return funcionalidads;
-    }
-
-    @Transactional
     public List<Funcionalidad> updateFuncionalidadByExcel(InputStream inputStream, Long proyectoId) {
         List<Funcionalidad> funcionalidads = new ArrayList<>();
         try {
@@ -382,20 +234,24 @@ public class ExcelUploadService {
                     }
                 } else {
                     Funcionalidad funcionalidad = new Funcionalidad();
-
+                    boolean isNewFuncionalidad = false;
                     for (int j = 0; j < lastCellNum; j++) {
                         XSSFCell cell = row.getCell(j);
+
                         if (cell == null) {
                             // La celda está vacía, haz lo que necesites hacer
                         } else {
-                            boolean isNewFuncionalidad = false;
                             switch (j) {
                                 case 0:
-                                    Optional<Funcionalidad> funcionalidadOptional = funcionalidadService.findOne(
-                                        (long) cell.getNumericCellValue()
-                                    );
-                                    if (funcionalidadOptional.isPresent()) {
-                                        funcionalidad = funcionalidadOptional.get();
+                                    if (cell.getCellType() == CellType.NUMERIC && cell.getNumericCellValue() != 0) {
+                                        Optional<Funcionalidad> funcionalidadOptional = funcionalidadService.findOne(
+                                            (long) cell.getNumericCellValue()
+                                        );
+                                        if (funcionalidadOptional.isPresent()) {
+                                            funcionalidad = funcionalidadOptional.get();
+                                        } else {
+                                            isNewFuncionalidad = true;
+                                        }
                                     } else {
                                         funcionalidad = new Funcionalidad();
                                         isNewFuncionalidad = true;
@@ -469,35 +325,49 @@ public class ExcelUploadService {
                                     }
                                     break;
                             }
-
-                            //limpiar los atributos atiguos
-                            atributoFuncionalidadService.deleteByFuncionalidad(funcionalidad);
-
-                            for (AtributoFuncionalidad a : atributoFuncionalidads) {
-                                a.setFuncionalidad(funcionalidad);
-                                atributoFuncionalidadService.save(a);
-                            }
-
-                            /*
-                            if(!atributoFuncionalidads.isEmpty()){
-                                funcionalidad.setAtributoFuncionalidads(atributoFuncionalidads);
-
-                            }
-                            */
-
-                            atributoFuncionalidads.clear();
-                            System.out.println(funcionalidad);
-
-                            if (isNewFuncionalidad) {
-                                funcionalidads.add(funcionalidad);
-                            }
                         }
+                        //termina else
+
+                    }
+
+                    //fin for
+                    //limpiar los atributos atiguos solo si ya existe
+                    if (isNewFuncionalidad) {
+                        // crear funcionalidad nueva
+                        funcionalidad = funcionalidadService.save(funcionalidad);
+                    } else {
+                        atributoFuncionalidadService.deleteByFuncionalidad(funcionalidad);
+                        funcionalidad.setAtributoFuncionalidads(new HashSet<>());
+                    }
+
+                    Set<AtributoFuncionalidad> nuevosAtributosFuncionalidads = new HashSet<>();
+
+                    for (AtributoFuncionalidad a : atributoFuncionalidads) {
+                        a.setFuncionalidad(funcionalidad);
+                        nuevosAtributosFuncionalidads.add(atributoFuncionalidadService.save(a));
+                    }
+
+                    System.out.println(nuevosAtributosFuncionalidads);
+
+                    if (!atributoFuncionalidads.isEmpty()) {
+                        funcionalidad.setAtributoFuncionalidads(nuevosAtributosFuncionalidads);
+                    }
+
+                    atributoFuncionalidads.clear();
+                    //System.out.println(funcionalidad);
+
+                    if (isNewFuncionalidad) {
+                        funcionalidads.add(funcionalidad);
                     }
                 }
             }
+            System.out.println("[Nuevas]: " + funcionalidads);
+            // ? guardar las funcionalidades y retornar una lista de atributos funcioanlidades
+
         } catch (IOException e) {
             e.getStackTrace();
         }
+
         return funcionalidads;
     }
 

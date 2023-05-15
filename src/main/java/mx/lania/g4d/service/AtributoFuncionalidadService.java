@@ -111,6 +111,7 @@ public class AtributoFuncionalidadService {
         atributoFuncionalidadRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public void deleteByFuncionalidad(Funcionalidad funcionalidad) {
         List<AtributoFuncionalidad> atributoFuncionalidadList = atributoFuncionalidadRepository.deleteAtributoFuncionalidadsByFuncionalidadId(
             funcionalidad.getId()
