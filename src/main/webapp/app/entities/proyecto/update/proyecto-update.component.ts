@@ -18,6 +18,8 @@ export class ProyectoUpdateComponent implements OnInit {
   isSaving = false;
   proyecto: IProyecto | null = null;
 
+  isChecked: boolean = false;
+
   usersSharedCollection: IUser[] = [];
 
   editForm: ProyectoFormGroup = this.proyectoFormService.createProyectoFormGroup();
@@ -83,6 +85,18 @@ export class ProyectoUpdateComponent implements OnInit {
       this.usersSharedCollection,
       ...(proyecto.participantes ?? [])
     );
+  }
+
+  onCheckboxChange() {
+    this.isChecked = !this.isChecked;
+    console.log(this.isChecked);
+    if (this.isChecked) {
+      this.editForm.get('idProyectoGitLab')?.setValue('NUEVO');
+      this.editForm.get('idProyectoGitLab')?.disable();
+    } else {
+      this.editForm.get('idProyectoGitLab')?.setValue('');
+      this.editForm.get('idProyectoGitLab')?.enable();
+    }
   }
 
   protected loadRelationshipsOptions(): void {
