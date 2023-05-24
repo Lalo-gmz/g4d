@@ -10,6 +10,7 @@ import mx.lania.g4d.domain.enumeration.AccionBitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
+import mx.lania.g4d.service.Utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,9 @@ public class FuncionalidadService {
         log.debug("Request to save Funcionalidad : {}", funcionalidad);
         // guardar accion en bitacora
         // guardar bitacora
+
+        // Crear el simil de la funcionalidad en GitLab
+        //String funcionalidadIdGitLab =
 
         Funcionalidad result = funcionalidadRepository.save(funcionalidad);
 

@@ -32,7 +32,7 @@ const iteracionRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'new/:proyectoId',
     component: IteracionUpdateComponent,
     resolve: {
       iteracion: IteracionRoutingResolveService,

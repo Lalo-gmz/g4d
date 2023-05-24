@@ -17,6 +17,9 @@ import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service'
 export class IteracionUpdateComponent implements OnInit {
   isSaving = false;
   iteracion: IIteracion | null = null;
+  isChecked: boolean = false;
+
+  proyectoId: number;
 
   proyectosSharedCollection: IProyecto[] = [];
 
@@ -27,7 +30,9 @@ export class IteracionUpdateComponent implements OnInit {
     protected iteracionFormService: IteracionFormService,
     protected proyectoService: ProyectoService,
     protected activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.proyectoId = this.activatedRoute.snapshot.params['proyectoId'];
+  }
 
   compareProyecto = (o1: IProyecto | null, o2: IProyecto | null): boolean => this.proyectoService.compareProyecto(o1, o2);
 
@@ -39,6 +44,15 @@ export class IteracionUpdateComponent implements OnInit {
       }
 
       this.loadRelationshipsOptions();
+    });
+
+    //recuperar el proyecto de donde viene
+    this.proyectoService.find(this.proyectoId).subscribe({
+      next: res => {
+        console.log({ res });
+        this.editForm.get('proyecto')?.setValue(res.body);
+        this.editForm.get('proyecto')?.disable();
+      },
     });
   }
 
@@ -53,6 +67,18 @@ export class IteracionUpdateComponent implements OnInit {
       this.subscribeToSaveResponse(this.iteracionService.update(iteracion));
     } else {
       this.subscribeToSaveResponse(this.iteracionService.create(iteracion));
+    }
+  }
+
+  onCheckboxChange() {
+    this.isChecked = !this.isChecked;
+    console.log(this.isChecked);
+    if (this.isChecked) {
+      this.editForm.get('idGitLab')?.setValue('');
+      this.editForm.get('idGitLab')?.disable();
+    } else {
+      this.editForm.get('idGitLab')?.setValue('');
+      this.editForm.get('idGitLab')?.enable();
     }
   }
 

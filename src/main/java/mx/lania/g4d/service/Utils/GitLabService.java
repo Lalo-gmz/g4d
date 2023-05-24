@@ -1,5 +1,6 @@
 package mx.lania.g4d.service.Utils;
 
+import java.time.LocalDate;
 import java.util.Date;
 import net.minidev.json.JSONObject;
 import org.springframework.http.*;
@@ -108,7 +109,20 @@ public class GitLabService {
         return "No fué posible editar el Issue";
     }
 
-    public String CreateMilestone(String title, String description, Date due_date, Date start_date, int projectId) {
+    public String deleteIssue(int projectId, int issue_id) {
+        JSONObject requestObject = new JSONObject();
+
+        String recurso = "projects/" + projectId + "/issues/" + issue_id;
+
+        JSONObject res = apiCaller.httpCall(HttpMethod.DELETE, GITLAB_API_URL, recurso, privateToken, requestObject);
+
+        if (!res.isEmpty()) {
+            return res.getAsString("id");
+        }
+        return "No fué posible editar el Issue";
+    }
+
+    public String createMilestone(String title, String description, LocalDate due_date, LocalDate start_date, String projectId) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("title", title);
         requestObject.put("description", description);
@@ -135,6 +149,19 @@ public class GitLabService {
         String recurso = "projects/" + projectId + "/milestones/" + milestone_id;
 
         JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, recurso, privateToken, requestObject);
+
+        if (!res.isEmpty()) {
+            return res.getAsString("id");
+        }
+        return "No fué posible editar el Milestone";
+    }
+
+    public String deleteMilestoene(int projectId, int milestone_id) {
+        JSONObject requestObject = new JSONObject();
+
+        String recurso = "projects/" + projectId + "/milestones/" + milestone_id;
+
+        JSONObject res = apiCaller.httpCall(HttpMethod.DELETE, GITLAB_API_URL, recurso, privateToken, requestObject);
 
         if (!res.isEmpty()) {
             return res.getAsString("id");

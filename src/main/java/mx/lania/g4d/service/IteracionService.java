@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Iteracion;
 import mx.lania.g4d.repository.IteracionRepository;
+import mx.lania.g4d.service.Utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,11 @@ public class IteracionService {
 
     private final IteracionRepository iteracionRepository;
 
-    public IteracionService(IteracionRepository iteracionRepository) {
+    private final GitLabService gitLabService;
+
+    public IteracionService(IteracionRepository iteracionRepository, GitLabService gitLabService) {
         this.iteracionRepository = iteracionRepository;
+        this.gitLabService = gitLabService;
     }
 
     /**
@@ -32,6 +36,29 @@ public class IteracionService {
      */
     public Iteracion save(Iteracion iteracion) {
         log.debug("Request to save Iteracion : {}", iteracion);
+        boolean created = false;
+        if (iteracion.getIdGitLab() == null) {
+            String iteracioGitId = gitLabService.createMilestone(
+                iteracion.getNombre(),
+                "Creado desde G4D",
+                iteracion.getFin(),
+                iteracion.getInicio(),
+                iteracion.getProyecto().getIdProyectoGitLab()
+            );
+            iteracion.setIdGitLab(iteracioGitId);
+        } else {
+            if (iteracion.getIdGitLab().isEmpty()) {
+                String iteracioGitId = gitLabService.createMilestone(
+                    iteracion.getNombre(),
+                    "Creado desde G4D",
+                    iteracion.getFin(),
+                    iteracion.getInicio(),
+                    iteracion.getProyecto().getIdProyectoGitLab()
+                );
+                iteracion.setIdGitLab(iteracioGitId);
+            }
+        }
+
         return iteracionRepository.save(iteracion);
     }
 

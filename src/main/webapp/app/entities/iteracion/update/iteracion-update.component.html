@@ -20,6 +20,18 @@
         </div>
 
         <div class="row mb-3">
+          <label class="form-label" for="field_idGitLab">Milestone id en GitLab</label>
+          <input type="text" class="form-control" name="idGitLab" id="field_idGitLab" data-cy="idGitLab" formControlName="idGitLab" />
+          <div *ngIf="editForm.get('idGitLab')!.invalid && (editForm.get('idGitLab')!.dirty || editForm.get('idGitLab')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('idGitLab')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" (change)="onCheckboxChange()" />
+          <label class="form-check-label" for="flexSwitchCheckChecked">Crear Milestone (Iteración) en GitLab</label>
+        </div>
+
+        <div class="row mb-3">
           <label class="form-label" for="field_inicio">Inicio</label>
           <div class="input-group">
             <input

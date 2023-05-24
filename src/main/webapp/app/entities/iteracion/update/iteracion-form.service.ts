@@ -22,6 +22,7 @@ type IteracionFormGroupContent = {
   inicio: FormControl<IIteracion['inicio']>;
   fin: FormControl<IIteracion['fin']>;
   proyecto: FormControl<IIteracion['proyecto']>;
+  idGitLab: FormControl<IIteracion['idGitLab']>;
 };
 
 export type IteracionFormGroup = FormGroup<IteracionFormGroupContent>;
@@ -47,6 +48,7 @@ export class IteracionFormService {
       inicio: new FormControl(iteracionRawValue.inicio),
       fin: new FormControl(iteracionRawValue.fin),
       proyecto: new FormControl(iteracionRawValue.proyecto),
+      idGitLab: new FormControl(iteracionRawValue.idGitLab),
     });
   }
 

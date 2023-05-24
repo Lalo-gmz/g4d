@@ -7,6 +7,7 @@ export interface IIteracion {
   inicio?: dayjs.Dayjs | null;
   fin?: dayjs.Dayjs | null;
   proyecto?: Pick<IProyecto, 'id'> | null;
+  idGitLab?: string | null;
 }
 
 export type NewIteracion = Omit<IIteracion, 'id'> & { id: null };
