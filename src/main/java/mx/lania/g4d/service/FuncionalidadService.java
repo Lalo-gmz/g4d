@@ -11,6 +11,7 @@ import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.service.Utils.GitLabService;
+import mx.lania.g4d.web.rest.GItLabResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,17 +35,20 @@ public class FuncionalidadService {
     private final BitacoraRepository bitacoraRepository;
     private final UserRepository userRepository;
     private final BitacoraService bitacoraService;
+    private final GitLabService gitLabService;
 
     public FuncionalidadService(
         FuncionalidadRepository funcionalidadRepository,
         BitacoraRepository bitacoraRepository,
         UserRepository userRepository,
-        BitacoraService bitacoraService
+        BitacoraService bitacoraService,
+        GitLabService gitLabService
     ) {
         this.funcionalidadRepository = funcionalidadRepository;
         this.bitacoraRepository = bitacoraRepository;
         this.userRepository = userRepository;
         this.bitacoraService = bitacoraService;
+        this.gitLabService = gitLabService;
     }
 
     /**
@@ -59,7 +63,17 @@ public class FuncionalidadService {
         // guardar bitacora
 
         // Crear el simil de la funcionalidad en GitLab
-        //String funcionalidadIdGitLab =
+        if (funcionalidad.getUrlGitLab() == null || funcionalidad.getUrlGitLab().isEmpty() || funcionalidad.getUrlGitLab().isBlank()) {
+            String funcionalidadIdGitLab = gitLabService.createIssue(
+                funcionalidad.getNombre(),
+                //new String[]{"1","2","3"},
+                new String[] {},
+                funcionalidad.getDescripcion(),
+                funcionalidad.getIteracion().getIdGitLab(),
+                funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab()
+            );
+            funcionalidad.setUrlGitLab(funcionalidadIdGitLab);
+        }
 
         Funcionalidad result = funcionalidadRepository.save(funcionalidad);
 

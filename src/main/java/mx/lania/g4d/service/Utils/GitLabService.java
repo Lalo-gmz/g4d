@@ -77,11 +77,12 @@ public class GitLabService {
         return "No econtrado";
     }
 
-    public String createIssue(String title, String[] labels, String description, int projectId) {
+    public String createIssue(String title, String[] labels, String description, String milestoneId, String projectId) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("title", title);
         requestObject.put("description", description);
         requestObject.put("labels", labels);
+        requestObject.put("milestone_id", milestoneId);
 
         String recurso = "projects/" + projectId + "/issues";
 

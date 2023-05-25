@@ -27,7 +27,7 @@ const funcionalidadRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new',
+    path: 'new/iteracion/:iteracionId',
     component: FuncionalidadUpdateComponent,
     resolve: {
       funcionalidad: FuncionalidadRoutingResolveService,

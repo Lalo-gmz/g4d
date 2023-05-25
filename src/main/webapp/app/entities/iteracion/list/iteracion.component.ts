@@ -21,6 +21,8 @@ export class IteracionComponent implements OnInit {
   predicate = 'id';
   ascending = true;
 
+  nombreProyecto?: any;
+
   constructor(
     protected iteracionService: IteracionService,
     protected activatedRoute: ActivatedRoute,
@@ -60,6 +62,15 @@ export class IteracionComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
+    if (this.proyectoId) {
+      this.proyectoService.find(this.proyectoId).subscribe({
+        next: res => {
+          if (res.body) {
+            this.nombreProyecto = res.body.nombre;
+          }
+        },
+      });
+    }
   }
 
   descargarExcel(proyectoId: number): void {

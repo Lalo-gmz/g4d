@@ -21,6 +21,8 @@ export class FuncionalidadUpdateComponent implements OnInit {
   isSaving = false;
   funcionalidad: IFuncionalidad | null = null;
 
+  iteracionId: number;
+
   usersSharedCollection: IUser[] = [];
   estatusFuncionalidadsSharedCollection: IEstatusFuncionalidad[] = [];
   iteracionsSharedCollection: IIteracion[] = [];
@@ -33,7 +35,9 @@ export class FuncionalidadUpdateComponent implements OnInit {
     protected userService: UserService,
     protected iteracionService: IteracionService,
     protected activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.iteracionId = this.activatedRoute.snapshot.params['iteracionId'];
+  }
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
@@ -47,6 +51,16 @@ export class FuncionalidadUpdateComponent implements OnInit {
       }
 
       this.loadRelationshipsOptions();
+    });
+
+    //recuperar el proyecto de donde viene
+    this.iteracionService.find(this.iteracionId).subscribe({
+      next: res => {
+        console.log({ res });
+        console.log(this.editForm);
+        this.editForm.get('iteracion')?.setValue(res.body);
+        this.editForm.get('iteracion')?.disable();
+      },
     });
   }
 
