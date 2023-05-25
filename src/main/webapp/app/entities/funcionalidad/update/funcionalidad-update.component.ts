@@ -37,6 +37,7 @@ export class FuncionalidadUpdateComponent implements OnInit {
     protected activatedRoute: ActivatedRoute
   ) {
     this.iteracionId = this.activatedRoute.snapshot.params['iteracionId'];
+    console.log('iteracionId:', this.iteracionId);
   }
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
@@ -47,21 +48,24 @@ export class FuncionalidadUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ funcionalidad }) => {
       this.funcionalidad = funcionalidad;
       if (funcionalidad) {
+        console.log({ funcionalidad });
         this.updateForm(funcionalidad);
       }
 
       this.loadRelationshipsOptions();
     });
 
-    //recuperar el proyecto de donde viene
-    this.iteracionService.find(this.iteracionId).subscribe({
-      next: res => {
-        console.log({ res });
-        console.log(this.editForm);
-        this.editForm.get('iteracion')?.setValue(res.body);
-        this.editForm.get('iteracion')?.disable();
-      },
-    });
+    if (this.iteracionId) {
+      //recuperar el proyecto de donde viene
+      this.iteracionService.find(this.iteracionId).subscribe({
+        next: res => {
+          console.log('res:', res.body);
+          console.log('editForm:', this.editForm);
+          this.editForm.get('iteracion')?.setValue(res.body);
+          this.editForm.get('iteracion')?.disable();
+        },
+      });
+    }
   }
 
   previousState(): void {

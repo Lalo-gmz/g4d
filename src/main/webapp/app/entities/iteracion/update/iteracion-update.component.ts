@@ -47,13 +47,15 @@ export class IteracionUpdateComponent implements OnInit {
     });
 
     //recuperar el proyecto de donde viene
-    this.proyectoService.find(this.proyectoId).subscribe({
-      next: res => {
-        console.log({ res });
-        this.editForm.get('proyecto')?.setValue(res.body);
-        this.editForm.get('proyecto')?.disable();
-      },
-    });
+    if (this.proyectoId) {
+      this.proyectoService.find(this.proyectoId).subscribe({
+        next: res => {
+          console.log({ res });
+          this.editForm.get('proyecto')?.setValue(res.body);
+          this.editForm.get('proyecto')?.disable();
+        },
+      });
+    }
   }
 
   previousState(): void {
