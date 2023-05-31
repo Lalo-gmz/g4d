@@ -9,6 +9,7 @@ import { EntityArrayResponseType, IteracionService } from '../service/iteracion.
 import { IteracionDeleteDialogComponent } from '../delete/iteracion-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
+import { AlertService } from 'app/core/util/alert.service';
 
 @Component({
   selector: 'jhi-iteracion',
@@ -17,6 +18,7 @@ import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service'
 export class IteracionComponent implements OnInit {
   iteracions?: IIteracion[];
   isLoading = false;
+  isSync = false;
   proyectoId?: number;
   predicate = 'id';
   ascending = true;
@@ -29,7 +31,8 @@ export class IteracionComponent implements OnInit {
     protected proyectoService: ProyectoService,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected alertService: AlertService
   ) {
     this.proyectoId = this.activatedRoute.snapshot.params['id'];
   }
@@ -54,6 +57,23 @@ export class IteracionComponent implements OnInit {
           this.onResponseSuccess(res);
         },
       });
+  }
+
+  sincronizar(): void {
+    console.log('sincronizar');
+    this.isSync = true;
+    if (this.proyectoId) {
+      this.iteracionService.updateFuncionalidadesByIssuesAtGitLab(this.proyectoId).subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.alertService.addAlert({
+            type: 'success',
+            message: 'Se actualizaron ' + res.body?.length + ' Funcionalidades desde GitLab',
+            timeout: 5000,
+          });
+          this.isSync = false;
+        },
+      });
+    }
   }
 
   load(): void {

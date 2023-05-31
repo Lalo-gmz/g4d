@@ -9,6 +9,7 @@ import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IIteracion, NewIteracion } from '../iteracion.model';
+import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
 
 export type PartialUpdateIteracion = Partial<IIteracion> & Pick<IIteracion, 'id'>;
 
@@ -92,6 +93,10 @@ export class IteracionService {
       responseType: 'blob',
       headers: { Accept: 'application/vnd.ms-excel' },
     });
+  }
+
+  updateFuncionalidadesByIssuesAtGitLab(proyectoId: number): Observable<EntityArrayResponseType> {
+    return this.http.get<IFuncionalidad[]>(`/api/funcionalidads/updateProyecto/${proyectoId}`, { observe: 'response' });
   }
 
   query(id?: number, req?: any): Observable<EntityArrayResponseType> {

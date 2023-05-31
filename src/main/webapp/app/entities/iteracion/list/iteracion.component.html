@@ -15,6 +15,12 @@
         <i class="bi bi-person-add"></i>
         <span>Administrar Usuarios</span>
       </button>
+
+      <button class="btn btn-info me-2" (click)="sincronizar()" [disabled]="isSync">
+        <fa-icon icon="sync" [spin]="isSync"></fa-icon>
+        <span>Sincronizar con GitLab</span>
+      </button>
+
       <button
         *jhiHasAnyAuthority="['ROLE_ADMIN']"
         class="btn btn-secondary me-2"

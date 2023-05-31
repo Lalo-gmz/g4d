@@ -1,7 +1,17 @@
 package mx.lania.g4d.service.Utils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import mx.lania.g4d.service.mapper.Issue;
+import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -89,25 +99,38 @@ public class GitLabService {
         JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, recurso, privateToken, requestObject);
 
         if (!res.isEmpty()) {
-            return res.getAsString("id");
+            return res.getAsString("iid");
         }
         return "No fué posible crear el Issue";
     }
 
-    public String updateIssue(String title, String[] labels, String description, int projectId, int issue_id) {
+    public String updateIssue(String title, String[] labels, String description, int projectId, int issue_idd) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("title", title);
         requestObject.put("description", description);
         requestObject.put("labels", labels);
 
-        String recurso = "projects/" + projectId + "/issues/" + issue_id;
+        String recurso = "projects/" + projectId + "/issues/" + issue_idd;
 
-        JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, recurso, privateToken, requestObject);
+        JSONObject res = apiCaller.httpCall(HttpMethod.PUT, GITLAB_API_URL, recurso, privateToken, requestObject);
 
         if (!res.isEmpty()) {
             return res.getAsString("id");
         }
         return "No fué posible editar el Issue";
+    }
+
+    public String updateIssieLabels(String labels, String projectId, String issue_idd) {
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("labels", labels);
+
+        String recurso = "projects/" + projectId + "/issues/" + issue_idd;
+        JSONObject res = apiCaller.httpCall(HttpMethod.PUT, GITLAB_API_URL, recurso, privateToken, requestObject);
+
+        if (!res.isEmpty()) {
+            return res.getAsString("id");
+        }
+        return "No fué posible modificar el Issue";
     }
 
     public String deleteIssue(int projectId, int issue_id) {
@@ -168,5 +191,33 @@ public class GitLabService {
             return res.getAsString("id");
         }
         return "No fué posible editar el Milestone";
+    }
+
+    public List<Issue> GetAllIssuesByProyectoId(String gitLabProyectoId) {
+        JSONObject requestObject = new JSONObject();
+
+        String recurso = "projects/" + gitLabProyectoId + "/issues";
+
+        JSONArray jsonArray = apiCaller.httpCallArray(HttpMethod.GET, GITLAB_API_URL, recurso, privateToken, requestObject);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        List<Issue> data = null;
+        try {
+            data = objectMapper.readValue(jsonArray.toString(), new TypeReference<List<Issue>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        /*
+        try {
+            data = Converter.fromJsonString(jsonString);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        */
+        //System.out.println(data);
+
+        return data;
     }
 }

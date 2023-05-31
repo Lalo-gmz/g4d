@@ -1,24 +1,25 @@
 package mx.lania.g4d.service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
+import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.domain.User;
 import mx.lania.g4d.domain.enumeration.AccionBitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.service.Utils.GitLabService;
-import mx.lania.g4d.web.rest.GItLabResource;
+import mx.lania.g4d.service.mapper.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,6 +74,23 @@ public class FuncionalidadService {
                 funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab()
             );
             funcionalidad.setUrlGitLab(funcionalidadIdGitLab);
+
+            //preparar label para
+            StringBuilder labels = new StringBuilder();
+
+            labels
+                .append("g4d : ")
+                .append(funcionalidad.getEstatusFuncionalidad())
+                .append(",")
+                .append("Prioridad : ")
+                .append(funcionalidad.getPrioridad());
+
+            // crear las etiquetas prioridad y estatus
+            String res = gitLabService.updateIssieLabels(
+                labels.toString(),
+                funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab(),
+                funcionalidad.getUrlGitLab()
+            );
         }
 
         Funcionalidad result = funcionalidadRepository.save(funcionalidad);
@@ -212,5 +230,39 @@ public class FuncionalidadService {
     public void delete(Long id) {
         log.debug("Request to delete Funcionalidad : {}", id);
         funcionalidadRepository.deleteById(id);
+    }
+
+    @Transactional
+    public List<Funcionalidad> updateFuncionalidadsWithGitLab(Long proyectoId) {
+        List<Funcionalidad> funcionalidads = findAllByProyectoId(proyectoId);
+        Proyecto proyecto = funcionalidads.get(0).getIteracion().getProyecto();
+        List<Funcionalidad> funcionalidadsUpdated = new ArrayList<>();
+
+        List<Issue> issues = gitLabService.GetAllIssuesByProyectoId(String.valueOf(proyecto.getIdProyectoGitLab()));
+        for (Funcionalidad funcionalidad : funcionalidads) {
+            if (funcionalidad.getUrlGitLab() == null || funcionalidad.getUrlGitLab().isBlank() || funcionalidad.getUrlGitLab().isEmpty()) {
+                continue;
+            }
+            long gitlabIid = Long.parseLong(funcionalidad.getUrlGitLab());
+            //System.out.println(issues);
+            issues.forEach(issue -> {
+                if (issue.getIid() == gitlabIid) {
+                    System.out.println(funcionalidad.getEstatusFuncionalidad());
+                    System.out.println(issue.getLabels());
+                    List<String> labels = issue.getLabels();
+                    for (String label : labels) {
+                        if (label.contains("g4d :")) {
+                            if (!label.equalsIgnoreCase(funcionalidad.getEstatusFuncionalidad())) {
+                                System.out.println("Se encontró una diferencia y procede a cambiar estatus");
+                                funcionalidad.setEstatusFuncionalidad(label);
+                                funcionalidadsUpdated.add(update(funcionalidad));
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        return funcionalidadsUpdated;
     }
 }

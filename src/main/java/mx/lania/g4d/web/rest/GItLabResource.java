@@ -4,9 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.http.HttpResponse;
+import java.util.List;
 import java.util.Map;
 import mx.lania.g4d.service.AuthGitLabService;
 import mx.lania.g4d.service.Utils.GitLabService;
+import mx.lania.g4d.service.mapper.Issue;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -54,5 +58,10 @@ public class GItLabResource {
     @PostMapping("/createGitProyect")
     public String getUserGItLabByToken(@RequestParam(value = "name") String name) {
         return gitLabService.SaveProyect(name);
+    }
+
+    @GetMapping("/getAllProyectsByProyectId")
+    public List<Issue> getAllProyectsByProyectId(@RequestParam(value = "proyectId") String proyectId) {
+        return gitLabService.GetAllIssuesByProyectoId(proyectId);
     }
 }

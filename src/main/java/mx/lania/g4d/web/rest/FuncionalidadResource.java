@@ -248,6 +248,16 @@ public class FuncionalidadResource {
         return funcionalidadService.findAll();
     }
 
+    // updateFuncionalidadsWithGitLab
+    @GetMapping("/funcionalidads/updateProyecto/{proyectoId}")
+    public List<Funcionalidad> updateFuncionalidadsWithGitLab(
+        @RequestParam(required = false, defaultValue = "false") boolean eagerload,
+        @PathVariable Long proyectoId
+    ) {
+        log.debug("REST request to update all funcionalidades con gitlab");
+        return funcionalidadService.updateFuncionalidadsWithGitLab(proyectoId);
+    }
+
     @GetMapping("/funcionalidads/iteracion/{iteracionId}")
     public List<Funcionalidad> getAllFuncionalidadsByIteracionId(
         @RequestParam(required = false, defaultValue = "false") boolean eagerload,
