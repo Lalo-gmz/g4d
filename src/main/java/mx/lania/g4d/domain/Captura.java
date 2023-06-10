@@ -27,15 +27,12 @@ public class Captura implements Serializable {
     @Column(name = "funcionalidades")
     private String funcionalidades;
 
-    @Column(name = "estatus")
-    private String estatus;
-
     @Column(name = "fecha")
     private Instant fecha;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "funcionalidads", "proyecto" }, allowSetters = true)
-    private Iteracion iteracion;
+    @JsonIgnoreProperties(value = { "funcionalidads", "iteracion" }, allowSetters = true)
+    private Proyecto proyecto;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -65,19 +62,6 @@ public class Captura implements Serializable {
         this.funcionalidades = funcionalidades;
     }
 
-    public String getEstatus() {
-        return this.estatus;
-    }
-
-    public Captura estatus(String estatus) {
-        this.setEstatus(estatus);
-        return this;
-    }
-
-    public void setEstatus(String estatus) {
-        this.estatus = estatus;
-    }
-
     public Instant getFecha() {
         return this.fecha;
     }
@@ -91,16 +75,16 @@ public class Captura implements Serializable {
         this.fecha = fecha;
     }
 
-    public Iteracion getIteracion() {
-        return this.iteracion;
+    public Proyecto getProyecto() {
+        return this.proyecto;
     }
 
-    public void setIteracion(Iteracion iteracion) {
-        this.iteracion = iteracion;
+    public void setProyecto(Proyecto proyecto) {
+        this.proyecto = proyecto;
     }
 
-    public Captura iteracion(Iteracion iteracion) {
-        this.setIteracion(iteracion);
+    public Captura proyecto(Proyecto proyecto) {
+        this.setProyecto(proyecto);
         return this;
     }
 
@@ -129,7 +113,6 @@ public class Captura implements Serializable {
         return "Captura{" +
             "id=" + getId() +
             ", funcionalidades='" + getFuncionalidades() + "'" +
-            ", estatus='" + getEstatus() + "'" +
             ", fecha='" + getFecha() + "'" +
             "}";
     }

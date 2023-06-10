@@ -90,7 +90,8 @@ jhi-navbar {
 //#333238
 
 .form-control:disabled {
-  background-color: #444444;
+  background-color: rgba(0, 0, 0, 0) !important;
+  cursor: not-allowed;
 }
 
 .form-control {
@@ -115,7 +116,7 @@ option {
 /*  ------------------------  */
 
 .bg-badge-primario {
-  background-color: #0d532a;
+  background-color: #0d6431;
 }
 
 .bg-badge-secundario {

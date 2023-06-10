@@ -1,5 +1,7 @@
 package mx.lania.g4d.repository;
 
+import java.util.List;
+import java.util.Optional;
 import mx.lania.g4d.domain.Captura;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -9,4 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface CapturaRepository extends JpaRepository<Captura, Long> {}
+public interface CapturaRepository extends JpaRepository<Captura, Long> {
+    Optional<List<Captura>> getAllByProyectoId(Long id);
+}

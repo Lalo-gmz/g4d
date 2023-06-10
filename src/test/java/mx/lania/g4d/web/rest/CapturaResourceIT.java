@@ -64,7 +64,7 @@ class CapturaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Captura createEntity(EntityManager em) {
-        Captura captura = new Captura().funcionalidades(DEFAULT_FUNCIONALIDADES).estatus(DEFAULT_ESTATUS).fecha(DEFAULT_FECHA);
+        Captura captura = new Captura().funcionalidades(DEFAULT_FUNCIONALIDADES).fecha(DEFAULT_FECHA);
         return captura;
     }
 
@@ -75,7 +75,7 @@ class CapturaResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Captura createUpdatedEntity(EntityManager em) {
-        Captura captura = new Captura().funcionalidades(UPDATED_FUNCIONALIDADES).estatus(UPDATED_ESTATUS).fecha(UPDATED_FECHA);
+        Captura captura = new Captura().funcionalidades(UPDATED_FUNCIONALIDADES).fecha(UPDATED_FECHA);
         return captura;
     }
 

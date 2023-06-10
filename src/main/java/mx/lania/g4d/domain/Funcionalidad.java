@@ -1,6 +1,8 @@
 package mx.lania.g4d.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -81,6 +83,39 @@ public class Funcionalidad implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "user", "funcionalidad" }, allowSetters = true)
     private Set<Bitacora> bitacoras = new HashSet<>();
+
+    public Funcionalidad() {}
+
+    @JsonCreator
+    public Funcionalidad(
+        @JsonProperty("id") Long id,
+        @JsonProperty("nombre") String nombre,
+        @JsonProperty("descripcion") String descripcion,
+        @JsonProperty("urlGitLab") String urlGitLab,
+        @JsonProperty("prioridad") String prioridad,
+        @JsonProperty("creado") Instant creado,
+        @JsonProperty("modificado") Instant modificado,
+        @JsonProperty("users") Set<User> users,
+        @JsonProperty("estatusFuncionalidad") String estatusFuncionalidad,
+        @JsonProperty("iteracion") Iteracion iteracion,
+        @JsonProperty("atributoFuncionalidads") Set<AtributoFuncionalidad> atributoFuncionalidads,
+        @JsonProperty("comentarios") Set<Comentario> comentarios,
+        @JsonProperty("bitacoras") Set<Bitacora> bitacoras
+    ) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.urlGitLab = urlGitLab;
+        this.prioridad = prioridad;
+        this.creado = creado;
+        this.modificado = modificado;
+        this.users = users;
+        this.estatusFuncionalidad = estatusFuncionalidad;
+        this.iteracion = iteracion;
+        this.atributoFuncionalidads = atributoFuncionalidads;
+        this.comentarios = comentarios;
+        this.bitacoras = bitacoras;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
