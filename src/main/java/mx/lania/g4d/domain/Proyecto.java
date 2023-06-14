@@ -36,6 +36,9 @@ public class Proyecto implements Serializable {
     @Column(name = "id_proyecto_git_lab", nullable = false, unique = true)
     private String idProyectoGitLab;
 
+    @Column(name = "abierto", columnDefinition = "BOOLEAN DEFAULT TRUE")
+    private boolean abierto;
+
     @CreationTimestamp
     @Column(name = "creado")
     private Instant creado;

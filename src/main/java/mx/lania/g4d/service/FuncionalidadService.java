@@ -249,13 +249,18 @@ public class FuncionalidadService {
                 if (issue.getIid() == gitlabIid) {
                     System.out.println(funcionalidad.getEstatusFuncionalidad());
                     System.out.println(issue.getLabels());
-                    List<String> labels = issue.getLabels();
-                    for (String label : labels) {
-                        if (label.contains("g4d :")) {
-                            if (!label.equalsIgnoreCase(funcionalidad.getEstatusFuncionalidad())) {
-                                System.out.println("Se encontró una diferencia y procede a cambiar estatus");
-                                funcionalidad.setEstatusFuncionalidad(label);
-                                funcionalidadsUpdated.add(update(funcionalidad));
+
+                    if (issue.getState().equalsIgnoreCase("closed")) {
+                        funcionalidad.setEstatusFuncionalidad("GitLab closed");
+                    } else {
+                        List<String> labels = issue.getLabels();
+                        for (String label : labels) {
+                            if (label.contains("g4d :")) {
+                                if (!label.equalsIgnoreCase(funcionalidad.getEstatusFuncionalidad())) {
+                                    System.out.println("Se encontró una diferencia y procede a cambiar estatus");
+                                    funcionalidad.setEstatusFuncionalidad(label);
+                                    funcionalidadsUpdated.add(update(funcionalidad));
+                                }
                             }
                         }
                     }

@@ -13,6 +13,8 @@ import java.util.List;
 import mx.lania.g4d.service.mapper.Issue;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -21,7 +23,9 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class GitLabService {
 
-    private final String privateToken = "glpat-XAxKq1RRktSdNcaqWNSk";
+    @Value("${gitlab.apikey}")
+    private String privateToken;
+
     private static final String GITLAB_API_URL = "https://gitlab.com/api/v4/";
 
     private final ApiCaller apiCaller;
