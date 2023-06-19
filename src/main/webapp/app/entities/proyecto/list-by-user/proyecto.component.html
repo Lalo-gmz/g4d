@@ -34,7 +34,7 @@
           <span class="text-white text-opacity-50"> Última modificación: </span> <span> {{ proyecto.modificado | formatMediumDate }} </span>
           <div>
             <span *ngIf="proyecto.nombre" class="text-white text-opacity-50">
-              <a [href]="slugify(proyecto.nombre)"> Ver en GitLab </a></span
+              <a [attr.href]="proyecto.enlaceGitLab"> Ver en GitLab </a></span
             >
           </div>
         </div>

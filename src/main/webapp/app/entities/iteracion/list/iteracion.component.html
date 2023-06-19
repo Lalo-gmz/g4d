@@ -28,6 +28,7 @@
       >
         <span><i class="bi bi-upload"></i> Carga Excel</span>
       </button>
+
       <button *jhiHasAnyAuthority="['ROLE_ADMIN']" class="btn btn-secondary me-2" (click)="descargarExcel(proyectoId!)">
         <span><i class="bi bi-download"></i> Descargar Excel</span>
       </button>
@@ -35,6 +36,10 @@
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refrescar lista</span>
+      </button>
+
+      <button *jhiHasAnyAuthority="['ROLE_ADMIN']" class="btn btn-secondary me-2" [routerLink]="'/script/proyecto/' + proyectoId">
+        <span><fa-icon icon="cogs" [fixedWidth]="true"></fa-icon> Editar Scripts</span>
       </button>
 
       <button

@@ -3,6 +3,7 @@ package mx.lania.g4d.service;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import mx.lania.g4d.domain.*;
 import mx.lania.g4d.repository.ProyectoRepository;
@@ -74,8 +75,9 @@ public class ProyectoService {
         optionalUser.ifPresent(participacionProyecto::setUsuario);
         participacionProyectoService.save(participacionProyecto);
         if (res.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
-            String idGitLabProyect = gitLabService.SaveProjecto(res.getNombre());
-            res.setIdProyectoGitLab(idGitLabProyect);
+            Map<String, String> idGitLabProyect = gitLabService.SaveProjecto(res.getNombre());
+            res.setIdProyectoGitLab(idGitLabProyect.get("id"));
+            res.setEnlaceGitLab(idGitLabProyect.get("web_url"));
             Optional<Proyecto> proyectoConGitLab = partialUpdate(res);
             if (proyectoConGitLab.isPresent()) {
                 res = proyectoConGitLab.get();

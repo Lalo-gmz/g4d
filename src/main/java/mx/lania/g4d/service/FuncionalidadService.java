@@ -3,6 +3,7 @@ package mx.lania.g4d.service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
@@ -65,7 +66,7 @@ public class FuncionalidadService {
 
         // Crear el simil de la funcionalidad en GitLab
         if (funcionalidad.getUrlGitLab() == null || funcionalidad.getUrlGitLab().isEmpty() || funcionalidad.getUrlGitLab().isBlank()) {
-            String funcionalidadIdGitLab = gitLabService.createIssue(
+            Map<String, String> funcionalidadIdGitLab = gitLabService.createIssue(
                 funcionalidad.getNombre(),
                 //new String[]{"1","2","3"},
                 new String[] {},
@@ -73,7 +74,8 @@ public class FuncionalidadService {
                 funcionalidad.getIteracion().getIdGitLab(),
                 funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab()
             );
-            funcionalidad.setUrlGitLab(funcionalidadIdGitLab);
+            funcionalidad.setUrlGitLab(funcionalidadIdGitLab.get("idd"));
+            funcionalidad.setEnlaceGitLab(funcionalidadIdGitLab.get("web_url"));
 
             //preparar label para
             StringBuilder labels = new StringBuilder();

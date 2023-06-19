@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="script">
+      <h2 data-cy="bitacoraDetailsHeading"><span>Script</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ script.id }}</span>
+        </dd>
+        <dd>
+          <span>{{ script.nombre }}</span>
+        </dd>
+        <dd>
+          <span>{{ script.descripcion }}</span>
+        </dd>
+        <dt><span>Accion</span></dt>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/script', script.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -7,9 +7,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import mx.lania.g4d.service.mapper.Issue;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
@@ -79,19 +77,28 @@ public class GitLabService {
     }
 
     // hace uso de la ApiCaller
-    public String SaveProjecto(String name) {
+    public Map<String, String> SaveProjecto(String name) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("name", name);
 
         JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, "projects", privateToken, requestObject);
 
         if (!res.isEmpty()) {
-            return res.getAsString("id");
+            String id = res.getAsString("id");
+            String webUrl = res.getAsString("web_url");
+
+            Map<String, String> result = new HashMap<>();
+            result.put("id", id);
+            result.put("web_url", webUrl);
+
+            return result;
         }
-        return "No econtrado";
+
+        // Si no fue posible crear el issue, regresar null o un mapa vacío según lo desees
+        return null;
     }
 
-    public String createIssue(String title, String[] labels, String description, String milestoneId, String projectId) {
+    public Map<String, String> createIssue(String title, String[] labels, String description, String milestoneId, String projectId) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("title", title);
         requestObject.put("description", description);
@@ -103,9 +110,18 @@ public class GitLabService {
         JSONObject res = apiCaller.httpCall(HttpMethod.POST, GITLAB_API_URL, recurso, privateToken, requestObject);
 
         if (!res.isEmpty()) {
-            return res.getAsString("iid");
+            String iid = res.getAsString("iid");
+            String webUrl = res.getAsString("web_url");
+
+            Map<String, String> result = new HashMap<>();
+            result.put("iid", iid);
+            result.put("web_url", webUrl);
+
+            return result;
         }
-        return "No fué posible crear el Issue";
+
+        // Si no fue posible crear el issue, regresar null o un mapa vacío según lo desees
+        return null;
     }
 
     public String updateIssue(String title, String[] labels, String description, int projectId, int issue_idd) {

@@ -8,6 +8,7 @@ export interface IProyecto {
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
   participantes?: Pick<IUser, 'id'>[] | null;
+  enlaceGitLab?: string | null;
 }
 
 export type NewProyecto = Omit<IProyecto, 'id'> & { id: null };

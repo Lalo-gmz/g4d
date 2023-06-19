@@ -40,6 +40,9 @@ public class Funcionalidad implements Serializable {
     @Column(name = "url_git_lab")
     private String urlGitLab;
 
+    @Column(name = "enlace_git_lab")
+    private String enlaceGitLab;
+
     @Column(name = "prioridad")
     private String prioridad;
 
@@ -181,6 +184,14 @@ public class Funcionalidad implements Serializable {
     public Funcionalidad urlGitLab(String urlGitLab) {
         this.setUrlGitLab(urlGitLab);
         return this;
+    }
+
+    public String getEnlaceGitLab() {
+        return enlaceGitLab;
+    }
+
+    public void setEnlaceGitLab(String enlaceGitLab) {
+        this.enlaceGitLab = enlaceGitLab;
     }
 
     public void setUrlGitLab(String urlGitLab) {

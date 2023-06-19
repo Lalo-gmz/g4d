@@ -36,6 +36,9 @@ public class Proyecto implements Serializable {
     @Column(name = "id_proyecto_git_lab", nullable = false, unique = true)
     private String idProyectoGitLab;
 
+    @Column(name = "enlace_git_lab")
+    private String enlaceGitLab;
+
     @Column(name = "abierto", columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean abierto;
 
@@ -88,6 +91,22 @@ public class Proyecto implements Serializable {
     public Proyecto nombre(String nombre) {
         this.setNombre(nombre);
         return this;
+    }
+
+    public String getEnlaceGitLab() {
+        return enlaceGitLab;
+    }
+
+    public void setEnlaceGitLab(String enlaceGitLab) {
+        this.enlaceGitLab = enlaceGitLab;
+    }
+
+    public boolean isAbierto() {
+        return abierto;
+    }
+
+    public void setAbierto(boolean abierto) {
+        this.abierto = abierto;
     }
 
     public void setNombre(String nombre) {

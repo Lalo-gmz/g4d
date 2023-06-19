@@ -60,6 +60,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./captura/captura.module').then(m => m.CapturaModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+      {
+        path: 'script',
+        data: { pageTitle: 'Script' },
+        loadChildren: () => import('./script/script.module').then(m => m.ScriptModule),
+      },
     ]),
   ],
 })

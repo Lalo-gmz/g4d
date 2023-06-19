@@ -7,6 +7,7 @@ export interface IFuncionalidad {
   nombre?: string | null;
   descripcion?: string | null;
   urlGitLab?: string | null;
+  enlaceGitLab?: string | null;
   // fechaEntrega?: dayjs.Dayjs | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
