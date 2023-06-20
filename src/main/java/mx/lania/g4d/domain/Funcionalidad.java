@@ -7,8 +7,11 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.*;
+import mx.lania.g4d.service.mapper.AtributosAdicionales;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.CreationTimestamp;
@@ -77,6 +80,9 @@ public class Funcionalidad implements Serializable {
     @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
     private Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();
 
+    @Transient
+    private Map<String, AtributosAdicionales> atributosAdicionales;
+
     @OneToMany(mappedBy = "funcionalidad")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "user" }, allowSetters = true)
@@ -121,6 +127,14 @@ public class Funcionalidad implements Serializable {
     }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Map<String, AtributosAdicionales> getAtributosAdicionales() {
+        return atributosAdicionales;
+    }
+
+    public void setAtributosAdicionales(Map<String, AtributosAdicionales> atributosAdicionales) {
+        this.atributosAdicionales = atributosAdicionales;
+    }
 
     public Long getId() {
         return this.id;

@@ -1,9 +1,6 @@
 package mx.lania.g4d.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
@@ -12,18 +9,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import mx.lania.g4d.domain.Captura;
-import mx.lania.g4d.domain.Funcionalidad;
-import mx.lania.g4d.domain.Proyecto;
+import java.util.*;
+import mx.lania.g4d.domain.*;
 import mx.lania.g4d.repository.CapturaRepository;
 import mx.lania.g4d.service.Utils.InstantTypeAdapter;
 import mx.lania.g4d.service.Utils.LocalDateTypeAdapter;
+import mx.lania.g4d.service.mapper.AtributosAdicionales;
 import mx.lania.g4d.service.mapper.CapturaResponse;
-import mx.lania.g4d.service.mapper.FuncionalidadResponse;
-import net.minidev.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,11 +33,18 @@ public class CapturaService {
     private final CapturaRepository capturaRepository;
     private final FuncionalidadService funcionalidadService;
     private final ProyectoService proyectoService;
+    private final AtributoService atributoService;
 
-    public CapturaService(CapturaRepository capturaRepository, FuncionalidadService funcionalidadService, ProyectoService proyectoService) {
+    public CapturaService(
+        CapturaRepository capturaRepository,
+        FuncionalidadService funcionalidadService,
+        ProyectoService proyectoService,
+        AtributoService atributoService
+    ) {
         this.capturaRepository = capturaRepository;
         this.funcionalidadService = funcionalidadService;
         this.proyectoService = proyectoService;
+        this.atributoService = atributoService;
     }
 
     /**
@@ -65,17 +64,33 @@ public class CapturaService {
         objectMapper.registerModule(new JavaTimeModule());
 
         List<Funcionalidad> funcionalidadList = funcionalidadService.findAllByProyectoId(proyectoId);
+
+        for (Funcionalidad funcionalidad : funcionalidadList) {
+            Map<String, AtributosAdicionales> atributosAdicionalesMap = new HashMap<>();
+            for (AtributoFuncionalidad atributoFuncionalidad : funcionalidad.getAtributoFuncionalidads()) {
+                Optional<Atributo> atributoOptional = atributoService.findOne(atributoFuncionalidad.getAtributo().getId());
+                if (atributoOptional.isPresent()) {
+                    Atributo atributo = atributoOptional.get();
+                    atributosAdicionalesMap.put(
+                        atributo.getNombre(),
+                        new AtributosAdicionales(atributo.getNombre(), atributoFuncionalidad.getValor())
+                    );
+                }
+            }
+            funcionalidad.setAtributosAdicionales(atributosAdicionalesMap);
+        }
+
         Optional<Proyecto> proyectoOptional = proyectoService.findOne(proyectoId);
         if (proyectoOptional.isPresent()) {
             Proyecto proyecto = proyectoOptional.get();
 
             try {
-                String json = objectMapper.writeValueAsString(funcionalidadList);
-                System.out.println(json);
+                String jsonString = objectMapper.writeValueAsString(funcionalidadList);
+                System.out.println(jsonString);
 
                 captura.setProyecto(proyecto);
                 captura.setFecha(Instant.now());
-                captura.setFuncionalidades(json);
+                captura.setFuncionalidades(jsonString);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }

@@ -43,16 +43,13 @@ export class ScriptComponent implements OnInit {
     this.scriptService.findByProyect(this.proyectoId!).subscribe({
       next: res => {
         if (res.body) {
+          console.log(script);
           this.capturas = res.body;
-
+          console.log(this.capturas);
           const nuevafuncion = new Function(script);
 
-          console.log(nuevafuncion);
-          //se evalúa en texto
-          //eval(script);
-
           const resultado = nuevafuncion(this.capturas);
-          console.log(resultado);
+          console.log(resultado(this.capturas));
         }
       },
     });
