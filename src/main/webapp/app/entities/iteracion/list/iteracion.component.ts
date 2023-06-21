@@ -10,6 +10,10 @@ import { IteracionDeleteDialogComponent } from '../delete/iteracion-delete-dialo
 import { SortService } from 'app/shared/sort/sort.service';
 import { ProyectoService } from 'app/entities/proyecto/service/proyecto.service';
 import { AlertService } from 'app/core/util/alert.service';
+import { ICaptura } from 'app/entities/script/captura.model';
+import * as XLSX from 'xlsx';
+import { ScriptService } from 'app/entities/script/service/script.service';
+import { IScript } from 'app/entities/script/script.model';
 
 @Component({
   selector: 'jhi-iteracion',
@@ -22,6 +26,8 @@ export class IteracionComponent implements OnInit {
   proyectoId?: number;
   predicate = 'id';
   ascending = true;
+  capturas?: ICaptura[];
+  scripts?: IScript[];
 
   nombreProyecto?: any;
 
@@ -32,7 +38,8 @@ export class IteracionComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
-    protected alertService: AlertService
+    protected alertService: AlertService,
+    protected scriptService: ScriptService
   ) {
     this.proyectoId = this.activatedRoute.snapshot.params['id'];
   }
@@ -87,6 +94,15 @@ export class IteracionComponent implements OnInit {
         next: res => {
           if (res.body) {
             this.nombreProyecto = res.body.nombre;
+          }
+        },
+      });
+
+      this.scriptService.findAllByProyectoId(null, this.proyectoId).subscribe({
+        next: res => {
+          if (res.body) {
+            this.scripts = res.body;
+            console.log(this.scripts);
           }
         },
       });
@@ -171,5 +187,51 @@ export class IteracionComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  ejecutar(script: string, nombrefuncion: string): void {
+    this.scriptService.findByProyect(this.proyectoId!).subscribe({
+      next: res => {
+        if (res.body) {
+          console.log(script);
+          this.capturas = res.body;
+          // console.log(this.capturas);
+          const nuevafuncion = new Function(script);
+
+          const resultado = nuevafuncion(this.capturas);
+          console.log(resultado(this.capturas));
+
+          //continuación
+
+          const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
+          const EXCEL_EXTENSION = '.xlsx';
+          //custome code
+          const worksheet = XLSX.utils.json_to_sheet(resultado(this.capturas));
+          const workbook = {
+            Sheets: {
+              testingSheet: worksheet,
+            },
+            SheetNames: ['testingSheet'],
+          };
+
+          const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+          const blobData = new Blob([excelBuffer], { type: EXCEL_TYPE });
+          //this.filerSaver.save(blobData, "demoFile")
+
+          const blobUrl = URL.createObjectURL(blobData);
+
+          // Crear un enlace <a> para descargar el archivo
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = nombrefuncion + '_g4d.xlsx'; // Establece el nombre de archivo que deseas para la descarga
+
+          // Simular un clic en el enlace para iniciar la descarga
+          link.click();
+
+          // Liberar la URL temporal
+          URL.revokeObjectURL(blobUrl);
+        }
+      },
+    });
   }
 }

@@ -37,7 +37,7 @@ public class ScriptService {
 
     @Transactional
     public Optional<List<Script>> findAllByProyectoId(Long id) {
-        return scriptRepository.findAllByProyectoIdOrderByOrdenAsc(id);
+        return scriptRepository.findAllByProyectoIdOrderByOrdenDesc(id);
     }
 
     public void delete(Long id) {

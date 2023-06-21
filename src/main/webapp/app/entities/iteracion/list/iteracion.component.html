@@ -38,10 +38,6 @@
         <span>Refrescar lista</span>
       </button>
 
-      <button *jhiHasAnyAuthority="['ROLE_ADMIN']" class="btn btn-secondary me-2" [routerLink]="'/script/proyecto/' + proyectoId">
-        <span><fa-icon icon="cogs" [fixedWidth]="true"></fa-icon> Editar Scripts</span>
-      </button>
-
       <button
         *jhiHasAnyAuthority="['ROLE_ADMIN']"
         id="jh-create-entity"
@@ -57,6 +53,29 @@
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
+
+  <hr />
+  <div class="row" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+    <div class="col-md-3 col-sm-12">
+      <span class="fs-4 align-self-start">Scripts </span>
+    </div>
+
+    <div class="col-md-9 d-flex justify-content-end col-sm-12 mb-3">
+      <button
+        *ngFor="let script of scripts; index as i"
+        class="btn btn-secondary me-2"
+        (click)="ejecutar(script.descripcion!, script.nombre!)"
+      >
+        <span><i class="bi bi-download"></i> {{ script.nombreBoton }} </span>
+      </button>
+
+      <button class="btn btn-secondary me-2" [routerLink]="'/script/proyecto/' + proyectoId">
+        <span><fa-icon icon="cogs" [fixedWidth]="true"></fa-icon> Editar Scripts</span>
+      </button>
+    </div>
+  </div>
+
+  <hr />
 
   <div class="alert alert-warning" id="no-result" *ngIf="iteracions?.length === 0">
     <span>Ningún Iteracions encontrado</span>
