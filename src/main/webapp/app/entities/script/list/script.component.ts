@@ -50,22 +50,23 @@ export class ScriptComponent implements OnInit {
           console.log(script);
           this.capturas = res.body;
           // console.log(this.capturas);
-          const nuevafuncion = new Function(script);
+          const nuevafuncion = new Function('capturas', script);
 
+          //console.log(nuevafuncion)
           const resultado = nuevafuncion(this.capturas);
-          console.log(resultado(this.capturas));
+          console.log(resultado);
 
           //continuación
 
           const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
           const EXCEL_EXTENSION = '.xlsx';
           //custome code
-          const worksheet = XLSX.utils.json_to_sheet(resultado(this.capturas));
+          const worksheet = XLSX.utils.json_to_sheet(nuevafuncion(this.capturas));
           const workbook = {
             Sheets: {
-              testingSheet: worksheet,
+              Script: worksheet,
             },
-            SheetNames: ['testingSheet'],
+            SheetNames: ['Script'],
           };
 
           const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
