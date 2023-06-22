@@ -10,6 +10,7 @@ import { ScriptDeleteDialogComponent } from '../delete/script-delete-dialog.comp
 import { SortService } from 'app/shared/sort/sort.service';
 import { ICaptura } from '../captura.model';
 import * as XLSX from 'xlsx';
+import { AlertService } from 'app/core/util/alert.service';
 //import { FileSaverService } from 'ngx-filesaver';
 
 @Component({
@@ -30,9 +31,9 @@ export class ScriptComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
-  ) //private filerSaver: FileSaverService
-  {
+    protected modalService: NgbModal,
+    protected alertService: AlertService //private filerSaver: FileSaverService
+  ) {
     this.proyectoId = this.activatedRoute.snapshot.params['id'];
   }
 
@@ -182,5 +183,21 @@ export class ScriptComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  copiarTextoAlPortapapeles(texto: string) {
+    navigator.clipboard
+      .writeText(texto)
+      .then(() => {
+        console.log('Texto copiado al portapapeles: ' + texto);
+        this.alertService.addAlert({
+          type: 'success',
+          message: 'Script Copiado',
+          timeout: 5000,
+        });
+      })
+      .catch(function (error) {
+        console.error('Error al copiar el texto al portapapeles: ', error);
+      });
   }
 }
