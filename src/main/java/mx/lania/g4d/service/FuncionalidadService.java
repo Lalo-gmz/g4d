@@ -74,7 +74,7 @@ public class FuncionalidadService {
                 funcionalidad.getIteracion().getIdGitLab(),
                 funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab()
             );
-            funcionalidad.setUrlGitLab(funcionalidadIdGitLab.get("idd"));
+            funcionalidad.setUrlGitLab(funcionalidadIdGitLab.get("iid"));
             funcionalidad.setEnlaceGitLab(funcionalidadIdGitLab.get("web_url"));
 
             //preparar label para

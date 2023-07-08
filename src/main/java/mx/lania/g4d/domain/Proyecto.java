@@ -59,12 +59,12 @@ public class Proyecto implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<User> participantes = new HashSet<>();
 
-    @OneToMany(mappedBy = "proyecto")
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "proyecto" }, allowSetters = true)
     private Set<Configuracion> configuracions = new HashSet<>();
 
-    @OneToMany(mappedBy = "proyecto")
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidads", "proyecto" }, allowSetters = true)
     private Set<Iteracion> iteracions = new HashSet<>();

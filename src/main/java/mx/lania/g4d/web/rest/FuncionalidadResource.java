@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.User;
@@ -14,6 +15,7 @@ import mx.lania.g4d.domain.enumeration.AccionBitacora;
 import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
+import mx.lania.g4d.service.AtributoFuncionalidadService;
 import mx.lania.g4d.service.BitacoraService;
 import mx.lania.g4d.service.FuncionalidadService;
 import mx.lania.g4d.service.Utils.ExcelUploadService;
@@ -54,19 +56,22 @@ public class FuncionalidadResource {
     private AccionBitacora accionBitacora;
 
     private ExcelUploadService excelUploadService;
+    private AtributoFuncionalidadService atributoFuncionalidadService;
 
     public FuncionalidadResource(
         FuncionalidadService funcionalidadService,
         FuncionalidadRepository funcionalidadRepository,
         UserRepository userRepository,
         BitacoraService bitacoraService,
-        ExcelUploadService excelUploadService
+        ExcelUploadService excelUploadService,
+        AtributoFuncionalidadService atributoFuncionalidadService
     ) {
         this.funcionalidadService = funcionalidadService;
         this.funcionalidadRepository = funcionalidadRepository;
         this.userRepository = userRepository;
         this.bitacoraService = bitacoraService;
         this.excelUploadService = excelUploadService;
+        this.atributoFuncionalidadService = atributoFuncionalidadService;
     }
 
     /**
@@ -289,6 +294,7 @@ public class FuncionalidadResource {
     @DeleteMapping("/funcionalidads/{id}")
     public ResponseEntity<Void> deleteFuncionalidad(@PathVariable Long id) {
         log.debug("REST request to delete Funcionalidad : {}", id);
+
         funcionalidadService.delete(id);
         return ResponseEntity
             .noContent()

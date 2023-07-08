@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import mx.lania.g4d.service.mapper.AtributosAdicionales;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A Funcionalidad.
@@ -75,7 +76,7 @@ public class Funcionalidad implements Serializable {
 
     // pasar a string
 
-    @OneToMany(mappedBy = "funcionalidad")
+    @OneToMany(mappedBy = "funcionalidad", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "atributo" }, allowSetters = true)
     private Set<AtributoFuncionalidad> atributoFuncionalidads = new HashSet<>();
@@ -83,12 +84,12 @@ public class Funcionalidad implements Serializable {
     @Transient
     private Map<String, AtributosAdicionales> atributosAdicionales;
 
-    @OneToMany(mappedBy = "funcionalidad")
+    @OneToMany(mappedBy = "funcionalidad", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "funcionalidad", "user" }, allowSetters = true)
     private Set<Comentario> comentarios = new HashSet<>();
 
-    @OneToMany(mappedBy = "funcionalidad")
+    @OneToMany(mappedBy = "funcionalidad", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "user", "funcionalidad" }, allowSetters = true)
     private Set<Bitacora> bitacoras = new HashSet<>();

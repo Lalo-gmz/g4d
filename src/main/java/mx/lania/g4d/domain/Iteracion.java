@@ -40,7 +40,7 @@ public class Iteracion implements Serializable {
     @Column(name = "fin")
     private LocalDate fin;
 
-    @OneToMany(mappedBy = "iteracion")
+    @OneToMany(mappedBy = "iteracion", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(
         value = {
