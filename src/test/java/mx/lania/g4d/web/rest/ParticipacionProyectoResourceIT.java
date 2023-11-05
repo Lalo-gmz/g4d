@@ -76,7 +76,6 @@ class ParticipacionProyectoResourceIT {
         participacionProyecto = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createParticipacionProyecto() throws Exception {
         int databaseSizeBeforeCreate = participacionProyectoRepository.findAll().size();
@@ -96,7 +95,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(DEFAULT_ES_ADMIN);
     }
 
-    @Test
     @Transactional
     void createParticipacionProyectoWithExistingId() throws Exception {
         // Create the ParticipacionProyecto with an existing ID
@@ -118,7 +116,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void getAllParticipacionProyectos() throws Exception {
         // Initialize the database
@@ -133,7 +130,6 @@ class ParticipacionProyectoResourceIT {
             .andExpect(jsonPath("$.[*].esAdmin").value(hasItem(DEFAULT_ES_ADMIN.booleanValue())));
     }
 
-    @Test
     @Transactional
     void getParticipacionProyecto() throws Exception {
         // Initialize the database
@@ -148,14 +144,12 @@ class ParticipacionProyectoResourceIT {
             .andExpect(jsonPath("$.esAdmin").value(DEFAULT_ES_ADMIN.booleanValue()));
     }
 
-    @Test
     @Transactional
     void getNonExistingParticipacionProyecto() throws Exception {
         // Get the participacionProyecto
         restParticipacionProyectoMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingParticipacionProyecto() throws Exception {
         // Initialize the database
@@ -184,7 +178,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
-    @Test
     @Transactional
     void putNonExistingParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -204,7 +197,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -224,7 +216,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -244,7 +235,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateParticipacionProyectoWithPatch() throws Exception {
         // Initialize the database
@@ -273,7 +263,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
-    @Test
     @Transactional
     void fullUpdateParticipacionProyectoWithPatch() throws Exception {
         // Initialize the database
@@ -302,7 +291,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(testParticipacionProyecto.getEsAdmin()).isEqualTo(UPDATED_ES_ADMIN);
     }
 
-    @Test
     @Transactional
     void patchNonExistingParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -322,7 +310,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -342,7 +329,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamParticipacionProyecto() throws Exception {
         int databaseSizeBeforeUpdate = participacionProyectoRepository.findAll().size();
@@ -362,7 +348,6 @@ class ParticipacionProyectoResourceIT {
         assertThat(participacionProyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteParticipacionProyecto() throws Exception {
         // Initialize the database

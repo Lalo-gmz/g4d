@@ -10,11 +10,10 @@ import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.domain.User;
 import mx.lania.g4d.domain.enumeration.AccionBitacora;
-import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
-import mx.lania.g4d.service.Utils.GitLabService;
 import mx.lania.g4d.service.mapper.Issue;
+import mx.lania.g4d.service.utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -34,20 +33,17 @@ public class FuncionalidadService {
     private final Logger log = LoggerFactory.getLogger(FuncionalidadService.class);
 
     private final FuncionalidadRepository funcionalidadRepository;
-    private final BitacoraRepository bitacoraRepository;
     private final UserRepository userRepository;
     private final BitacoraService bitacoraService;
     private final GitLabService gitLabService;
 
     public FuncionalidadService(
         FuncionalidadRepository funcionalidadRepository,
-        BitacoraRepository bitacoraRepository,
         UserRepository userRepository,
         BitacoraService bitacoraService,
         GitLabService gitLabService
     ) {
         this.funcionalidadRepository = funcionalidadRepository;
-        this.bitacoraRepository = bitacoraRepository;
         this.userRepository = userRepository;
         this.bitacoraService = bitacoraService;
         this.gitLabService = gitLabService;
@@ -61,14 +57,9 @@ public class FuncionalidadService {
      */
     public Funcionalidad save(Funcionalidad funcionalidad) {
         log.debug("Request to save Funcionalidad : {}", funcionalidad);
-        // guardar accion en bitacora
-        // guardar bitacora
-
-        // Crear el simil de la funcionalidad en GitLab
         if (funcionalidad.getUrlGitLab() == null || funcionalidad.getUrlGitLab().isEmpty() || funcionalidad.getUrlGitLab().isBlank()) {
             Map<String, String> funcionalidadIdGitLab = gitLabService.createIssue(
                 funcionalidad.getNombre(),
-                //new String[]{"1","2","3"},
                 new String[] {},
                 funcionalidad.getDescripcion(),
                 funcionalidad.getIteracion().getIdGitLab(),
@@ -77,7 +68,6 @@ public class FuncionalidadService {
             funcionalidad.setUrlGitLab(funcionalidadIdGitLab.get("iid"));
             funcionalidad.setEnlaceGitLab(funcionalidadIdGitLab.get("web_url"));
 
-            //preparar label para
             StringBuilder labels = new StringBuilder();
 
             labels
@@ -87,8 +77,7 @@ public class FuncionalidadService {
                 .append("Prioridad : ")
                 .append(funcionalidad.getPrioridad());
 
-            // crear las etiquetas prioridad y estatus
-            String res = gitLabService.updateIssieLabels(
+            gitLabService.updateIssieLabels(
                 labels.toString(),
                 funcionalidad.getIteracion().getProyecto().getIdProyectoGitLab(),
                 funcionalidad.getUrlGitLab()
@@ -113,15 +102,6 @@ public class FuncionalidadService {
         }
 
         return result;
-    }
-
-    public List<Funcionalidad> saveAll(List<Funcionalidad> funcionalidades) {
-        List<Funcionalidad> res = funcionalidadRepository.saveAll(funcionalidades);
-        // crear un issue en gitlab
-        for (Funcionalidad funcionalidad : res) {
-            System.out.println(funcionalidad);
-        }
-        return res;
     }
 
     /**
@@ -187,19 +167,13 @@ public class FuncionalidadService {
 
     @Transactional(readOnly = true)
     public List<Funcionalidad> findAllByIteracionId(Long iteracionId) {
-        log.debug("Request to get all Funcionalidads");
+        log.debug("Request to get all Funcionalidads by Iteración id");
         return funcionalidadRepository.findAllWithEagerRelationshipsByIteracionId(iteracionId);
     }
 
     @Transactional(readOnly = true)
     public List<Funcionalidad> findAllByProyectoId(Long proyectoId) {
-        log.debug("Request to get all Funcionalidads");
-        return funcionalidadRepository.findAllWithEagerRelationshipsByProyectoId(proyectoId);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Funcionalidad> findAllByProyectoIdWithRelations(Long proyectoId) {
-        log.debug("Request to get all Funcionalidads");
+        log.debug("Request to get all Funcionalidads by proyecto Id");
         return funcionalidadRepository.findAllWithEagerRelationshipsByProyectoId(proyectoId);
     }
 
@@ -240,29 +214,22 @@ public class FuncionalidadService {
         Proyecto proyecto = funcionalidads.get(0).getIteracion().getProyecto();
         List<Funcionalidad> funcionalidadsUpdated = new ArrayList<>();
 
-        List<Issue> issues = gitLabService.GetAllIssuesByProyectoId(String.valueOf(proyecto.getIdProyectoGitLab()));
+        List<Issue> issues = gitLabService.getAllIssuesByProyectoId(String.valueOf(proyecto.getIdProyectoGitLab()));
         for (Funcionalidad funcionalidad : funcionalidads) {
             if (funcionalidad.getUrlGitLab() == null || funcionalidad.getUrlGitLab().isBlank() || funcionalidad.getUrlGitLab().isEmpty()) {
                 continue;
             }
             long gitlabIid = Long.parseLong(funcionalidad.getUrlGitLab());
-            //System.out.println(issues);
             issues.forEach(issue -> {
-                if (issue.getIid() == gitlabIid) {
-                    System.out.println(funcionalidad.getEstatusFuncionalidad());
-                    System.out.println(issue.getLabels());
-
-                    if (issue.getState().equalsIgnoreCase("closed")) {
-                        funcionalidad.setEstatusFuncionalidad("GitLab closed");
-                    } else {
-                        List<String> labels = issue.getLabels();
-                        for (String label : labels) {
-                            if (label.contains("g4d :")) {
-                                if (!label.equalsIgnoreCase(funcionalidad.getEstatusFuncionalidad())) {
-                                    System.out.println("Se encontró una diferencia y procede a cambiar estatus");
-                                    funcionalidad.setEstatusFuncionalidad(label);
-                                    funcionalidadsUpdated.add(update(funcionalidad));
-                                }
+                if (issue.getIid() == gitlabIid && issue.getState().equalsIgnoreCase("closed")) {
+                    funcionalidad.setEstatusFuncionalidad("GitLab closed");
+                } else {
+                    List<String> labels = issue.getLabels();
+                    for (String label : labels) {
+                        if (label.contains("g4d :")) {
+                            if (!label.equalsIgnoreCase(funcionalidad.getEstatusFuncionalidad())) {
+                                funcionalidad.setEstatusFuncionalidad(label);
+                                funcionalidadsUpdated.add(update(funcionalidad));
                             }
                         }
                     }

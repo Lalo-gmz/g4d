@@ -1,22 +1,14 @@
 package mx.lania.g4d.web.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import mx.lania.g4d.domain.Captura;
-import mx.lania.g4d.domain.Funcionalidad;
-import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.CapturaRepository;
 import mx.lania.g4d.service.CapturaService;
 import mx.lania.g4d.service.mapper.CapturaResponse;
-import mx.lania.g4d.service.mapper.FuncionalidadResponse;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

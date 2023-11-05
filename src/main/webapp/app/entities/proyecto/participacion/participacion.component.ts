@@ -10,7 +10,6 @@ import { ProyectoService } from '../service/proyecto.service';
 @Component({
   selector: 'jhi-participacion',
   templateUrl: './participacion.component.html',
-  styleUrls: ['./participacion.component.scss'],
 })
 export class ParticipacionComponent implements OnInit {
   usuarios: IUser[] = [];
@@ -41,7 +40,7 @@ export class ParticipacionComponent implements OnInit {
   load(): void {
     if (this.proyectoId)
       this.participacionProyectoService.findByProyecto(this.proyectoId).subscribe({
-        next: res => {
+        next: (res): void => {
           this.paricipacion = res.body ?? [];
 
           if (res.body) {
@@ -110,27 +109,22 @@ export class ParticipacionComponent implements OnInit {
     const usersFilter: IParticipacionProyecto[] = this.paricipacion.filter(user => user.check === true);
 
     this.participacionProyectoService.deleteAll(usersFilter).subscribe({
-      next: res => {
-        console.log(res);
+      next: () => {
         this.load();
       },
     });
-
-    console.log('participaciones', this.paricipacion);
   }
 
   agregarUsuarios(): void {
     const usersFilter: IUser[] = this.usuarios.filter(user => user.check === true);
 
-    let participantes: NewParticipacionProyecto[] = [];
+    const participantes: NewParticipacionProyecto[] = [];
     usersFilter.forEach(e => {
       participantes.push({ id: null, esAdmin: false, proyecto: this.proyecto, usuario: e });
     });
 
     this.participacionProyectoService.createAll(participantes).subscribe({
-      next: res => {
-        console.log(res);
-
+      next: () => {
         this.load();
       },
     });

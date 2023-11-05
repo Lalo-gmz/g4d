@@ -1,17 +1,18 @@
 package mx.lania.g4d.web.rest;
 
-import java.util.*;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.security.SecurityUtils;
-import mx.lania.g4d.service.AuthGitLabService;
 import mx.lania.g4d.service.MailService;
 import mx.lania.g4d.service.UserService;
 import mx.lania.g4d.service.dto.AdminUserDTO;
 import mx.lania.g4d.service.dto.PasswordChangeDTO;
-import mx.lania.g4d.web.rest.errors.*;
+import mx.lania.g4d.web.rest.errors.EmailAlreadyUsedException;
+import mx.lania.g4d.web.rest.errors.InvalidPasswordException;
+import mx.lania.g4d.web.rest.errors.LoginAlreadyUsedException;
 import mx.lania.g4d.web.rest.vm.KeyAndPasswordVM;
 import mx.lania.g4d.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.StringUtils;
@@ -42,12 +43,7 @@ public class AccountResource {
 
     private final MailService mailService;
 
-    public AccountResource(
-        UserRepository userRepository,
-        UserService userService,
-        MailService mailService,
-        AuthGitLabService authGitLabService
-    ) {
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;

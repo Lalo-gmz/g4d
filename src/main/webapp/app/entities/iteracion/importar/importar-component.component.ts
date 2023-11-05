@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { IteracionService } from '../service/iteracion.service';
@@ -6,9 +6,8 @@ import { IteracionService } from '../service/iteracion.service';
 @Component({
   selector: 'jhi-importar-component',
   templateUrl: './importar-component.component.html',
-  styleUrls: ['./importar-component.component.scss'],
 })
-export class ImportarComponentComponent implements OnInit {
+export class ImportarComponentComponent {
   importForm = new FormGroup({
     file: new FormControl('', Validators.required),
   });
@@ -27,12 +26,10 @@ export class ImportarComponentComponent implements OnInit {
     this.proyectId = this.activeRoute.snapshot.params['id'];
   }
 
-  ngOnInit(): void {}
-
-  save() {
+  save(): void {
     if (this.importForm.valid && this.proyectId) {
       this.enviado = true;
-      let formulario = new FormData();
+      const formulario = new FormData();
       formulario.append('file', this.excel);
 
       this.iteracionService.import(formulario, this.proyectId).subscribe({
@@ -41,8 +38,6 @@ export class ImportarComponentComponent implements OnInit {
           this.enviadoCorrecto = true;
           this.faltaArchivo = false;
           this.registros = res.length;
-          console.table(res);
-          console.log({ res });
         },
       });
     } else {
@@ -52,10 +47,8 @@ export class ImportarComponentComponent implements OnInit {
 
   getPlantillaExcel(proyectoId: number): void {
     this.iteracionService.getPlantilla(proyectoId).subscribe({
-      next: res => {
-        console.log(res);
+      next: (res: any) => {
         const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        console.log(blob);
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         document.body.appendChild(a);
@@ -68,7 +61,7 @@ export class ImportarComponentComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any) {
+  onFileSelected(event: any): void {
     this.excel = <File>event.target.files[0];
   }
 

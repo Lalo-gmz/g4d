@@ -37,7 +37,7 @@ public class ParticipacionProyectoService {
     }
 
     public List<ParticipacionProyecto> saveAll(List<ParticipacionProyecto> participacionProyectos) {
-        log.debug("Request to save ParticipacionProyecto : {}", participacionProyectos);
+        log.debug("Request to save a list of ParticipacionProyecto : {}", participacionProyectos);
         return participacionProyectoRepository.saveAll(participacionProyectos);
     }
 
@@ -86,13 +86,13 @@ public class ParticipacionProyectoService {
 
     @Transactional(readOnly = true)
     public List<ParticipacionProyecto> findAllByUser() {
-        log.debug("Request to get all ParticipacionProyectos");
+        log.debug("Request to get all ParticipacionProyectos by user");
         return participacionProyectoRepository.findByUsuarioIsCurrentUser();
     }
 
     @Transactional(readOnly = true)
     public Optional<List<ParticipacionProyecto>> findAllByProyecto(Long id) {
-        log.debug("Request to get all ParticipacionProyectos");
+        log.debug("Request to get all ParticipacionProyecto by proyecto id");
         return participacionProyectoRepository.findAllByProyectoId(id);
     }
 

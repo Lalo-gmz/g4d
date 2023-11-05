@@ -1,16 +1,14 @@
 package mx.lania.g4d.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import mx.lania.g4d.domain.*;
+import mx.lania.g4d.domain.ParticipacionProyecto;
+import mx.lania.g4d.domain.Proyecto;
+import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.repository.UserRepository;
-import mx.lania.g4d.service.Utils.GitLabService;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import mx.lania.g4d.service.utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -35,23 +33,16 @@ public class ProyectoService {
 
     private final GitLabService gitLabService;
 
-    private final FuncionalidadService funcionalidadService;
-    private final AtributoFuncionalidadService atributoFuncionalidadService;
-
     public ProyectoService(
         ProyectoRepository proyectoRepository,
         ParticipacionProyectoService participacionProyectoService,
         UserRepository userRepository,
-        GitLabService gitLabService,
-        FuncionalidadService funcionalidadService,
-        AtributoFuncionalidadService atributoFuncionalidadService
+        GitLabService gitLabService
     ) {
         this.proyectoRepository = proyectoRepository;
         this.participacionProyectoService = participacionProyectoService;
         this.userRepository = userRepository;
         this.gitLabService = gitLabService;
-        this.funcionalidadService = funcionalidadService;
-        this.atributoFuncionalidadService = atributoFuncionalidadService;
     }
 
     /**
@@ -75,7 +66,7 @@ public class ProyectoService {
         optionalUser.ifPresent(participacionProyecto::setUsuario);
         participacionProyectoService.save(participacionProyecto);
         if (res.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
-            Map<String, String> idGitLabProyect = gitLabService.SaveProjecto(res.getNombre());
+            Map<String, String> idGitLabProyect = gitLabService.saveProjecto(res.getNombre());
             res.setIdProyectoGitLab(idGitLabProyect.get("id"));
             res.setEnlaceGitLab(idGitLabProyect.get("web_url"));
             Optional<Proyecto> proyectoConGitLab = partialUpdate(res);

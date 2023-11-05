@@ -6,7 +6,6 @@ import { IteracionService } from '../service/iteracion.service';
 @Component({
   selector: 'jhi-actualizar',
   templateUrl: './actualizar.component.html',
-  styleUrls: ['./actualizar.component.scss'],
 })
 export class ActualizarComponent implements OnInit {
   importForm = new FormGroup({
@@ -29,10 +28,10 @@ export class ActualizarComponent implements OnInit {
     this.proyectId = this.activeRoute.snapshot.params['id'];
   }
 
-  save() {
+  save(): void {
     if (this.importForm.valid && this.proyectId) {
       this.enviado = true;
-      let formulario = new FormData();
+      const formulario = new FormData();
       formulario.append('file', this.excel);
 
       this.iteracionService.import(formulario, this.proyectId).subscribe({
@@ -41,8 +40,6 @@ export class ActualizarComponent implements OnInit {
           this.enviadoCorrecto = true;
           this.faltaArchivo = false;
           this.registros = res.length;
-          console.table(res);
-          console.log({ res });
         },
       });
     } else {
@@ -50,7 +47,7 @@ export class ActualizarComponent implements OnInit {
     }
   }
 
-  onFileSelected(event: any) {
+  onFileSelected(event: any): void {
     this.excel = <File>event.target.files[0];
   }
 

@@ -1,7 +1,7 @@
 <div>
   <div>
-    <span> <a class="text-decoration-none" [routerLink]="''">Proyectos</a> </span> <i class="bi bi-chevron-right"></i>
-    <span>{{ nombreProyecto }} </span> <i class="bi bi-chevron-right"></i> <span>Iteraciones</span>
+    <span> <a class="text-decoration-none" [routerLink]="''">Proyectos</a> </span> <em class="bi bi-chevron-right"></em>
+    <span>{{ nombreProyecto }} </span> <em class="bi bi-chevron-right"></em> <span>Iteraciones</span>
   </div>
   <hr />
 
@@ -12,7 +12,7 @@
 
     <div class="col-md-9 d-flex justify-content-end col-sm-12 mb-3">
       <button class="btn btn-secondary me-2" [routerLink]="'/proyecto/' + proyectoId + '/participacion'">
-        <i class="bi bi-person-add"></i>
+        <em class="bi bi-person-add"></em>
         <span>Administrar Usuarios</span>
       </button>
 
@@ -26,11 +26,11 @@
         class="btn btn-secondary me-2"
         [routerLink]="'/iteracion/importar/proyecto/' + proyectoId"
       >
-        <span><i class="bi bi-upload"></i> Carga Excel</span>
+        <span><em class="bi bi-upload"></em> Carga Excel</span>
       </button>
 
       <button *jhiHasAnyAuthority="['ROLE_ADMIN']" class="btn btn-secondary me-2" (click)="descargarExcel(proyectoId!)">
-        <span><i class="bi bi-download"></i> Descargar Excel</span>
+        <span><em class="bi bi-download"></em> Descargar Excel</span>
       </button>
 
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -66,7 +66,7 @@
         class="btn btn-secondary me-2"
         (click)="ejecutar(script.descripcion!, script.nombre!)"
       >
-        <span><i class="bi bi-download"></i> {{ script.nombreBoton }} </span>
+        <span><em class="bi bi-download"></em> {{ script.nombreBoton }} </span>
       </button>
 
       <button class="btn btn-secondary me-2" [routerLink]="'/script/proyecto/' + proyectoId">

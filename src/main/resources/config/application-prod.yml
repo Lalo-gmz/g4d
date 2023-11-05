@@ -33,9 +33,9 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/g4d
-    username: g4d
-    password:
+    url: jdbc:postgresql://localhost:5432/g4d_v2
+    username: postgres
+    password: admin
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -124,3 +124,5 @@ jhipster:
 # ===================================================================
 
 # application:
+gitlab:
+  apikey: 'glpat-XAxKq1RRktSdNcaqWNSk'

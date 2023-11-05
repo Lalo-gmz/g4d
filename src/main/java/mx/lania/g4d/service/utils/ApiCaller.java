@@ -1,4 +1,4 @@
-package mx.lania.g4d.service.Utils;
+package mx.lania.g4d.service.utils;
 
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;

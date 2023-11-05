@@ -22,7 +22,6 @@ export class FuncionalidadUpdateComponent implements OnInit {
   isSaving = false;
   funcionalidad: IFuncionalidad | null = null;
 
-  //iteracionId: number;
   iteracion: IIteracion | null = null;
 
   usersSharedCollection: IUser[] = [];
@@ -38,10 +37,7 @@ export class FuncionalidadUpdateComponent implements OnInit {
     protected iteracionService: IteracionService,
     protected activatedRoute: ActivatedRoute,
     protected proyectoService: ProyectoService
-  ) {
-    //this.iteracionId = this.activatedRoute.snapshot.params['iteracionId'];
-    //console.log('iteracionId:', this.iteracionId);
-  }
+  ) {}
 
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
@@ -51,36 +47,17 @@ export class FuncionalidadUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ funcionalidad }) => {
       this.funcionalidad = funcionalidad;
       if (funcionalidad) {
-        console.log({ funcionalidad });
         this.updateForm(funcionalidad);
         this.iteracionService.find(this.funcionalidad!.iteracion!.id).subscribe({
           next: res => {
             if (res.body) {
               this.iteracion = res.body;
-              console.log(this.iteracion);
               this.loadRelationshipsOptions();
             }
           },
         });
       }
     });
-
-    /*
-    if (this.iteracionId) {
-
-      this.iteracionService.find(this.iteracionId).subscribe({
-        next: res => {
-          if(res.body)
-            this.iteracion = res.body;
-          console.log('res:', res.body);
-          console.log('editForm:', this.editForm);
-          this.editForm.get('iteracion')?.setValue(res.body);
-          this.editForm.get('iteracion')?.disable();
-          alert("Iteracion: " + this.iteracion.proyecto!.id);
-        },
-      });
-    }
-    */
   }
 
   previousState(): void {
@@ -138,11 +115,9 @@ export class FuncionalidadUpdateComponent implements OnInit {
       .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, ...(this.funcionalidad?.users ?? []))))
       .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
 
-    console.log(this.iteracion);
     if (this.iteracion?.proyecto?.id) {
-      console.log('Buscando iteraciones');
       this.iteracionService
-        .query(this.iteracion?.proyecto?.id)
+        .query(this.iteracion.proyecto.id)
         .pipe(map((res: HttpResponse<IIteracion[]>) => res.body ?? []))
         .pipe(
           map((iteracions: IIteracion[]) =>

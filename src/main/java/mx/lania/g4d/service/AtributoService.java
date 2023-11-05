@@ -36,6 +36,17 @@ public class AtributoService {
     }
 
     /**
+     * Save an atributo List.
+     *
+     * @param atributo the entity to save.
+     * @return the persisted entity.
+     */
+    public List<Atributo> saveAll(List<Atributo> atributoList) {
+        log.debug("Request to save atributoList");
+        return atributoRepository.saveAll(atributoList);
+    }
+
+    /**
      * Update a atributo.
      *
      * @param atributo the entity to save.

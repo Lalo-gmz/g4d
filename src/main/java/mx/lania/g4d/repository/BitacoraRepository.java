@@ -2,7 +2,8 @@ package mx.lania.g4d.repository;
 
 import java.util.List;
 import mx.lania.g4d.domain.Bitacora;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**

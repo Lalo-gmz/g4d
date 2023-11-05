@@ -44,7 +44,7 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
     this.atributosFuncionalidads = data?.filter((e: { marcado: boolean }) => e.marcado === this.destacados) ?? [];
     // this.atributosFuncionalidads = data ?? [];
     // eslint-disable-next-line no-console
-    console.log(this.atributosFuncionalidads);
+    // console.log(this.atributosFuncionalidads);
   }
 
   delete(atributoFuncionalidad: IAtributoFuncionalidad): void {
@@ -52,7 +52,7 @@ export class AtributoFuncionalidadListByFuncionIdComponent implements OnInit {
     modalRef.componentInstance.atributoFuncionalidad = atributoFuncionalidad;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe({
-      next: (res: any) => {
+      next: () => {
         this.atributosFuncionalidads = this.atributosFuncionalidads?.filter(atributo => atributo !== atributoFuncionalidad);
       },
     });

@@ -1,12 +1,17 @@
 <div class="border rounded border-secondary mb-3">
   <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
-    <div class="pl-3">Comentarios <i class="bi bi-chat"></i> {{ comentarios?.length ?? '0' }}</div>
+    <div class="pl-3">Comentarios <em class="bi bi-chat"></em> {{ comentarios?.length ?? '0' }}</div>
   </div>
-  <table *ngIf="comentarios" class="table mb-0">
+  <table *ngIf="comentarios" class="table mb-0" aria-describedby="comentarios">
+    <thead>
+      <tr>
+        <th>Comentarios</th>
+      </tr>
+    </thead>
     <tbody>
       <tr *ngFor="let comentario of comentarios">
         <td>
-          <i class="bi bi-person-circle"></i> {{ comentario.user?.firstName }} · {{ comentario.creado | formatMediumDatetime }}
+          <em class="bi bi-person-circle"></em> {{ comentario.user?.firstName }} · {{ comentario.creado | formatMediumDatetime }}
           <p class="text-white-50 mt-1">
             {{ comentario.mensaje }}
           </p>
@@ -16,8 +21,8 @@
   </table>
   <div class="d-grid">
     <button (click)="puedeComentar = !puedeComentar" class="btn btn-secondary">
-      <ng-container *ngIf="!puedeComentar"> <i class="bi bi-chevron-down"></i> Nuevo comentario </ng-container>
-      <ng-container *ngIf="puedeComentar"> <i class="bi bi-chevron-up"></i> Cancelar comentario </ng-container>
+      <ng-container *ngIf="!puedeComentar"> <em class="bi bi-chevron-down"></em> Nuevo comentario </ng-container>
+      <ng-container *ngIf="puedeComentar"> <em class="bi bi-chevron-up"></em> Cancelar comentario </ng-container>
     </button>
 
     <form *ngIf="puedeComentar" class="d-grid p-4" name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="myForm">

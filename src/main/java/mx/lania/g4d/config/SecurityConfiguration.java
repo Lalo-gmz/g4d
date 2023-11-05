@@ -1,7 +1,8 @@
 package mx.lania.g4d.config;
 
-import mx.lania.g4d.security.*;
-import mx.lania.g4d.security.jwt.*;
+import mx.lania.g4d.security.AuthoritiesConstants;
+import mx.lania.g4d.security.jwt.JWTConfigurer;
+import mx.lania.g4d.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;

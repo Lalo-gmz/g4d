@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import mx.lania.g4d.domain.Iteracion;
 import mx.lania.g4d.repository.IteracionRepository;
-import mx.lania.g4d.service.Utils.GitLabService;
+import mx.lania.g4d.service.utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,6 @@ public class IteracionService {
      */
     public Iteracion save(Iteracion iteracion) {
         log.debug("Request to save Iteracion : {}", iteracion);
-        boolean created = false;
         if (iteracion.getIdGitLab() == null) {
             String iteracioGitId = gitLabService.createMilestone(
                 iteracion.getNombre(),

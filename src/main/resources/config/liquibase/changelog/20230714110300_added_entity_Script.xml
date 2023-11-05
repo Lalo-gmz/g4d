@@ -7,31 +7,29 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the entity Iteracion.
+        Added the entity Script.
     -->
-    <changeSet id="20230224170626-1" author="jhipster">
-        <createTable tableName="iteracion">
+    <changeSet id="20230714110300-1" author="angelgmz">
+        <createTable tableName="script">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="nombre" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="id_gitlab" type="varchar(255)">
+            <column name="descripcion" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="inicio" type="date">
-                <constraints nullable="true" />
+            <column name="nombre_boton" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
-            <column name="abierto" type="boolean">
-                <constraints nullable="true" />
-            </column>
-            <column name="fin" type="date">
+            <column name="orden" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="proyecto_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -46,17 +44,5 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20230224170626-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/fake-data/iteracion.csv"
-                  separator=";"
-                  tableName="iteracion"
-                  usePreparedStatements="true">
-            <column name="id" type="numeric"/>
-            <column name="nombre" type="string"/>
-            <column name="inicio" type="date"/>
-            <column name="fin" type="date"/>
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
-        </loadData>
-    </changeSet>
+
 </databaseChangeLog>

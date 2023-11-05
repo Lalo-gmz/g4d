@@ -33,7 +33,9 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
     protected funcionalidadService: FuncionalidadService,
     protected atributoService: AtributoService,
     protected activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this.funcionalidadId = this.activatedRoute.snapshot.params['funcionalidadId'];
+  }
 
   compareFuncionalidad = (o1: IFuncionalidad | null, o2: IFuncionalidad | null): boolean =>
     this.funcionalidadService.compareFuncionalidad(o1, o2);
@@ -41,10 +43,6 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
   compareAtributo = (o1: IAtributo | null, o2: IAtributo | null): boolean => this.atributoService.compareAtributo(o1, o2);
 
   ngOnInit(): void {
-    this.funcionalidadId = parseInt(this.activatedRoute.snapshot.params['funcionalidadId']);
-
-    console.log('Esto devuelve cuando no tiene valor', this.funcionalidadId);
-
     this.activatedRoute.data.subscribe(({ atributoFuncionalidad }) => {
       this.atributoFuncionalidad = atributoFuncionalidad;
       if (atributoFuncionalidad) {
@@ -61,15 +59,13 @@ export class AtributoFuncionalidadUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    let atributoFuncionalidad = this.atributoFuncionalidadFormService.getAtributoFuncionalidad(this.editForm);
+    const atributoFuncionalidad = this.atributoFuncionalidadFormService.getAtributoFuncionalidad(this.editForm);
 
     if (!Number.isNaN(this.funcionalidadId)) {
       const funcionalidadEcontrada = this.funcionalidadsSharedCollection.find(func => func.id === this.funcionalidadId);
 
       atributoFuncionalidad.funcionalidad = funcionalidadEcontrada;
     }
-
-    console.log('Atributo: ', atributoFuncionalidad);
 
     if (atributoFuncionalidad.id !== null) {
       this.subscribeToSaveResponse(this.atributoFuncionalidadService.update(atributoFuncionalidad));

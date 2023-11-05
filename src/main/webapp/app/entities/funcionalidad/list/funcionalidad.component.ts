@@ -104,7 +104,6 @@ export class FuncionalidadComponent implements OnInit {
   }
 
   protected fillComponentAttributesFromResponseBody(data: IFuncionalidad[] | null): IFuncionalidad[] {
-    console.log(data);
     return data ?? [];
   }
 
@@ -169,34 +168,15 @@ export class FuncionalidadComponent implements OnInit {
     window.history.back();
   }
 
-  //  kanban
-  /*
   loadKanban(): void {
     if (this.funcionalidads) {
-      this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
-        const estatusFuncionalidad = funcionalidad.estatusFuncionalidad?.nombre ?? 'none';
-        acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
-        acumulador[estatusFuncionalidad].push(funcionalidad);
-        return acumulador;
-      }, {});
-
-      this.keysEstatus = this.funcPorEstatus ? Object.keys(this.funcPorEstatus) : [];
-
-      console.log(this.funcPorEstatus);
-    }
-  }
-  */
-
-  loadKanban(): void {
-    if (this.funcionalidads) {
-      this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
+      this.funcPorEstatus = this.funcionalidads.reduce((acumulador: { [key: string]: any[] }, funcionalidad) => {
         const estatusFuncionalidad = funcionalidad.estatusFuncionalidad ?? 'none';
-        acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
-        acumulador[estatusFuncionalidad].push(funcionalidad);
+        (acumulador[estatusFuncionalidad] ??= []).push(funcionalidad);
         return acumulador;
       }, {});
 
-      this.keysEstatus = this.funcPorEstatus ? Object.keys(this.funcPorEstatus) : [];
+      this.keysEstatus = Object.keys(this.funcPorEstatus);
 
       this.funcPorEstatusCopy = this.funcPorEstatus;
     }
@@ -208,16 +188,14 @@ export class FuncionalidadComponent implements OnInit {
       this.tab = 1;
     } else {
       if (this.funcionalidads) {
-        this.funcPorEstatus = this.funcionalidads.reduce((acumulador: any, funcionalidad) => {
+        this.funcPorEstatus = this.funcionalidads.reduce((acumulador: { [key: string]: any[] }, funcionalidad) => {
           const estatusFuncionalidad = funcionalidad.estatusFuncionalidad ?? 'none';
           acumulador[estatusFuncionalidad] = acumulador[estatusFuncionalidad] || [];
-          console.log('func users:', funcionalidad.users);
           if (funcionalidad.users?.some(e => e.login === this.loginUsuario)) {
             acumulador[estatusFuncionalidad].push(funcionalidad);
           }
           return acumulador;
         }, {});
-        console.log('Func estatus filter by User:', this.funcPorEstatus);
       }
       this.tab = 2;
     }

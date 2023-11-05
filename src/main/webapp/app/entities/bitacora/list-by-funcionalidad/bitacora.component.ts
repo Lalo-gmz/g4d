@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBitacora } from '../bitacora.model';
@@ -31,7 +31,6 @@ export class BitacoraByFuncionalidadComponent implements OnInit {
     this.bitacoraService.findAllByFuncionalidad(this.funcionalidadId).subscribe({
       next: res => {
         this.bitacoras = res.body ?? [];
-        console.log(this.bitacoras);
       },
     });
   }

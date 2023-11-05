@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IFuncionalidad } from '../funcionalidad.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../funcionalidad.test-samples';
 
@@ -9,7 +8,6 @@ import { FuncionalidadService, RestFuncionalidad } from './funcionalidad.service
 
 const requireRestSample: RestFuncionalidad = {
   ...sampleWithRequiredData,
-  fechaEntrega: sampleWithRequiredData.fechaEntrega?.format(DATE_FORMAT),
   creado: sampleWithRequiredData.creado?.toJSON(),
   modificado: sampleWithRequiredData.modificado?.toJSON(),
 };

@@ -79,7 +79,6 @@ class AtributoFuncionalidadResourceIT {
         atributoFuncionalidad = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeCreate = atributoFuncionalidadRepository.findAll().size();
@@ -100,7 +99,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(testAtributoFuncionalidad.getValor()).isEqualTo(DEFAULT_VALOR);
     }
 
-    @Test
     @Transactional
     void createAtributoFuncionalidadWithExistingId() throws Exception {
         // Create the AtributoFuncionalidad with an existing ID
@@ -122,7 +120,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void getAllAtributoFuncionalidads() throws Exception {
         // Initialize the database
@@ -138,7 +135,6 @@ class AtributoFuncionalidadResourceIT {
             .andExpect(jsonPath("$.[*].valor").value(hasItem(DEFAULT_VALOR)));
     }
 
-    @Test
     @Transactional
     void getAtributoFuncionalidad() throws Exception {
         // Initialize the database
@@ -154,14 +150,12 @@ class AtributoFuncionalidadResourceIT {
             .andExpect(jsonPath("$.valor").value(DEFAULT_VALOR));
     }
 
-    @Test
     @Transactional
     void getNonExistingAtributoFuncionalidad() throws Exception {
         // Get the atributoFuncionalidad
         restAtributoFuncionalidadMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingAtributoFuncionalidad() throws Exception {
         // Initialize the database
@@ -191,7 +185,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(testAtributoFuncionalidad.getValor()).isEqualTo(UPDATED_VALOR);
     }
 
-    @Test
     @Transactional
     void putNonExistingAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -211,7 +204,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -231,7 +223,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -251,7 +242,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateAtributoFuncionalidadWithPatch() throws Exception {
         // Initialize the database
@@ -281,7 +271,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(testAtributoFuncionalidad.getValor()).isEqualTo(DEFAULT_VALOR);
     }
 
-    @Test
     @Transactional
     void fullUpdateAtributoFuncionalidadWithPatch() throws Exception {
         // Initialize the database
@@ -311,7 +300,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(testAtributoFuncionalidad.getValor()).isEqualTo(UPDATED_VALOR);
     }
 
-    @Test
     @Transactional
     void patchNonExistingAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -331,7 +319,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -351,7 +338,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamAtributoFuncionalidad() throws Exception {
         int databaseSizeBeforeUpdate = atributoFuncionalidadRepository.findAll().size();
@@ -371,7 +357,6 @@ class AtributoFuncionalidadResourceIT {
         assertThat(atributoFuncionalidadList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteAtributoFuncionalidad() throws Exception {
         // Initialize the database

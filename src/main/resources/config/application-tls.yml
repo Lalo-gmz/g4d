@@ -17,3 +17,7 @@ server:
     enabled-protocols: TLSv1.2
   http2:
     enabled: true
+
+# application:
+gitlab:
+  apikey: 'glpat-XAxKq1RRktSdNcaqWNSk'

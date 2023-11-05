@@ -84,7 +84,6 @@ class ComentarioResourceIT {
         comentario = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createComentario() throws Exception {
         int databaseSizeBeforeCreate = comentarioRepository.findAll().size();
@@ -102,7 +101,6 @@ class ComentarioResourceIT {
         assertThat(testComentario.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void createComentarioWithExistingId() throws Exception {
         // Create the Comentario with an existing ID
@@ -120,7 +118,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void checkMensajeIsRequired() throws Exception {
         int databaseSizeBeforeTest = comentarioRepository.findAll().size();
@@ -137,7 +134,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeTest);
     }
 
-    @Test
     @Transactional
     void getAllComentarios() throws Exception {
         // Initialize the database
@@ -154,7 +150,6 @@ class ComentarioResourceIT {
             .andExpect(jsonPath("$.[*].modificado").value(hasItem(DEFAULT_MODIFICADO.toString())));
     }
 
-    @Test
     @Transactional
     void getComentario() throws Exception {
         // Initialize the database
@@ -171,14 +166,12 @@ class ComentarioResourceIT {
             .andExpect(jsonPath("$.modificado").value(DEFAULT_MODIFICADO.toString()));
     }
 
-    @Test
     @Transactional
     void getNonExistingComentario() throws Exception {
         // Get the comentario
         restComentarioMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingComentario() throws Exception {
         // Initialize the database
@@ -209,7 +202,6 @@ class ComentarioResourceIT {
         assertThat(testComentario.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void putNonExistingComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -229,7 +221,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -249,7 +240,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -265,7 +255,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateComentarioWithPatch() throws Exception {
         // Initialize the database
@@ -296,7 +285,6 @@ class ComentarioResourceIT {
         assertThat(testComentario.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void fullUpdateComentarioWithPatch() throws Exception {
         // Initialize the database
@@ -327,7 +315,6 @@ class ComentarioResourceIT {
         assertThat(testComentario.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void patchNonExistingComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -347,7 +334,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -367,7 +353,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamComentario() throws Exception {
         int databaseSizeBeforeUpdate = comentarioRepository.findAll().size();
@@ -385,7 +370,6 @@ class ComentarioResourceIT {
         assertThat(comentarioList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteComentario() throws Exception {
         // Initialize the database

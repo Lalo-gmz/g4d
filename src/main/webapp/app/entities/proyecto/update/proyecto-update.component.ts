@@ -87,9 +87,8 @@ export class ProyectoUpdateComponent implements OnInit {
     );
   }
 
-  onCheckboxChange() {
+  onCheckboxChange(): void {
     this.isChecked = !this.isChecked;
-    console.log(this.isChecked);
     if (this.isChecked) {
       this.editForm.get('idProyectoGitLab')?.setValue('NUEVO');
       this.editForm.get('idProyectoGitLab')?.disable();

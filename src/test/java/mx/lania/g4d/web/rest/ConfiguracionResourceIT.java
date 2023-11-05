@@ -80,7 +80,6 @@ class ConfiguracionResourceIT {
         configuracion = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createConfiguracion() throws Exception {
         int databaseSizeBeforeCreate = configuracionRepository.findAll().size();
@@ -97,7 +96,6 @@ class ConfiguracionResourceIT {
         assertThat(testConfiguracion.getValor()).isEqualTo(DEFAULT_VALOR);
     }
 
-    @Test
     @Transactional
     void createConfiguracionWithExistingId() throws Exception {
         // Create the Configuracion with an existing ID
@@ -115,7 +113,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void getAllConfiguracions() throws Exception {
         // Initialize the database
@@ -131,7 +128,6 @@ class ConfiguracionResourceIT {
             .andExpect(jsonPath("$.[*].valor").value(hasItem(DEFAULT_VALOR)));
     }
 
-    @Test
     @Transactional
     void getConfiguracion() throws Exception {
         // Initialize the database
@@ -147,14 +143,12 @@ class ConfiguracionResourceIT {
             .andExpect(jsonPath("$.valor").value(DEFAULT_VALOR));
     }
 
-    @Test
     @Transactional
     void getNonExistingConfiguracion() throws Exception {
         // Get the configuracion
         restConfiguracionMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingConfiguracion() throws Exception {
         // Initialize the database
@@ -184,7 +178,6 @@ class ConfiguracionResourceIT {
         assertThat(testConfiguracion.getValor()).isEqualTo(UPDATED_VALOR);
     }
 
-    @Test
     @Transactional
     void putNonExistingConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -204,7 +197,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -224,7 +216,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -240,7 +231,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateConfiguracionWithPatch() throws Exception {
         // Initialize the database
@@ -270,7 +260,6 @@ class ConfiguracionResourceIT {
         assertThat(testConfiguracion.getValor()).isEqualTo(UPDATED_VALOR);
     }
 
-    @Test
     @Transactional
     void fullUpdateConfiguracionWithPatch() throws Exception {
         // Initialize the database
@@ -300,7 +289,6 @@ class ConfiguracionResourceIT {
         assertThat(testConfiguracion.getValor()).isEqualTo(UPDATED_VALOR);
     }
 
-    @Test
     @Transactional
     void patchNonExistingConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -320,7 +308,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -340,7 +327,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamConfiguracion() throws Exception {
         int databaseSizeBeforeUpdate = configuracionRepository.findAll().size();
@@ -358,7 +344,6 @@ class ConfiguracionResourceIT {
         assertThat(configuracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteConfiguracion() throws Exception {
         // Initialize the database

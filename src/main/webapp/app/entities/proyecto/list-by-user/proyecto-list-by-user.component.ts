@@ -26,19 +26,11 @@ export class ProyectoListByUserComponent implements OnInit {
           this.participaciones.forEach(e => {
             if (e.proyecto) this.addProyecto(e.proyecto);
           });
-        console.log(this.proyectos);
       },
     });
   }
 
-  convertToSlugURL(text: string) {
-    return this.GITURL + text.toLowerCase().replace(/\s+/g, '-');
-  }
-
-  // asignar la función a una propiedad del componente
-  slugify = this.convertToSlugURL.bind(this);
-
-  addProyecto(p: IProyecto) {
+  addProyecto(p: IProyecto): void {
     this.proyectos?.push(p);
   }
 

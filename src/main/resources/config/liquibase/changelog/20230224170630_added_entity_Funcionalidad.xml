@@ -23,6 +23,15 @@
             <column name="url_git_lab" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="enlace_git_lab" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="prioridad" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="estatus_funcionalidad" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="fecha_entrega" type="date">
                 <constraints nullable="true" />
             </column>
@@ -32,9 +41,7 @@
             <column name="modificado" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
-            <column name="estatus_funcionalidad_id" type="bigint">
-                <constraints nullable="true" />
-            </column>
+
             <column name="iteracion_id" type="bigint">
                 <constraints nullable="true" />
             </column>

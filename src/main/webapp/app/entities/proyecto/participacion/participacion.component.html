@@ -1,6 +1,6 @@
 <div>
   <div>
-    <span> <i class="bi bi-arrow-left"></i> <a (click)="previousState()">Atras</a> </span> <i class="bi bi-chevron-right"></i>
+    <span> <em class="bi bi-arrow-left"></em> <a (click)="previousState()">Atras</a> </span> <em class="bi bi-chevron-right"></em>
     <span>Administrar Usuarios</span>
   </div>
   <hr />
@@ -13,14 +13,14 @@
   <div class="row">
     <div class="col-sm-6">
       <h5>Todos los usuarios</h5>
-      <button (click)="agregarUsuarios()" class="btn btn-primary">Incluir al proyecto <i class="bi bi-arrow-bar-right"></i></button>
-      <table class="table">
+      <button (click)="agregarUsuarios()" class="btn btn-primary">Incluir al proyecto <em class="bi bi-arrow-bar-right"></em></button>
+      <table class="table" aria-describedby="todos los usuarios">
         <thead>
           <tr>
-            <td>Check</td>
-            <td>#</td>
-            <td>Login</td>
-            <td>Nombre</td>
+            <th>Check</th>
+            <th>#</th>
+            <th>Login</th>
+            <th>Nombre</th>
           </tr>
         </thead>
         <tbody>
@@ -35,14 +35,14 @@
     </div>
     <div class="col-sm-6">
       <h5>Usuarios en el Proyecto</h5>
-      <button (click)="quitarUsuarios()" class="btn btn-danger"><i class="bi bi-arrow-bar-left"></i> Quitar del proyecto</button>
-      <table class="table">
+      <button (click)="quitarUsuarios()" class="btn btn-danger"><em class="bi bi-arrow-bar-left"></em> Quitar del proyecto</button>
+      <table class="table" aria-describedby="usuarios en proyecto">
         <thead>
           <tr>
-            <td>Check</td>
-            <td>#</td>
-            <td>Login</td>
-            <td>Nombre</td>
+            <th>Check</th>
+            <th>#</th>
+            <th>Login</th>
+            <th>Nombre</th>
           </tr>
         </thead>
         <tbody>

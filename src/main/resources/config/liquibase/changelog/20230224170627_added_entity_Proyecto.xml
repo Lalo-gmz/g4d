@@ -20,10 +20,16 @@
             <column name="id_proyecto_git_lab" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_proyecto__id_proyecto_git_lab" />
             </column>
+            <column name="enlace_git_lab" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_proyecto__enlace_git_lab" />
+            </column>
             <column name="creado" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="modificado" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="abierto" type="boolean">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

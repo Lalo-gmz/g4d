@@ -1,7 +1,7 @@
 package mx.lania.g4d.repository;
 
 import mx.lania.g4d.domain.Configuracion;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**

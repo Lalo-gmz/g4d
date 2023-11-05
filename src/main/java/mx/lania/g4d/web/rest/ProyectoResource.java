@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.service.ProyectoService;
-import mx.lania.g4d.service.Utils.ExcelUploadService;
+import mx.lania.g4d.service.utils.ExcelUploadService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

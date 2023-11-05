@@ -4,21 +4,21 @@
     <div *ngFor="let atributosFuncionalidad of atributosFuncionalidads">
       <ng-container *ngIf="atributosFuncionalidad.marcado">
         <div class="hover-to-display">
-          <i class="bi bi-star"></i> {{ atributosFuncionalidad.atributo?.nombre }} :<span
+          <em class="bi bi-star"></em> {{ atributosFuncionalidad.atributo?.nombre }} :<span
             *jhiHasAnyAuthority="['ROLE_ADMIN']"
             class="text-white-50 hover-to-display"
           >
             {{ atributosFuncionalidad.valor }}
             <span class="hover-display text-white">
-              <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <i class="bi bi-pencil-fill"></i> </a>
-              | <a (click)="delete(atributosFuncionalidad)"> <i class="bi bi-trash3-fill"></i> </a>
+              <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <em class="bi bi-pencil-fill"></em> </a>
+              | <a (click)="delete(atributosFuncionalidad)"> <em class="bi bi-trash3-fill"></em> </a>
             </span>
           </span>
         </div>
       </ng-container>
     </div>
     <a *jhiHasAnyAuthority="['ROLE_ADMIN']" [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
-      <i class="bi bi-plus"></i> Añadir Nuevo :<span class="text-white-50"> Atributo</span>
+      <em class="bi bi-plus"></em> Añadir Nuevo :<span class="text-white-50"> Atributo</span>
     </a>
   </div>
 </ng-container>
@@ -26,9 +26,9 @@
 <ng-container *ngIf="!destacados">
   <div class="border rounded border-secondary mb-3">
     <div class="p-1 bg-secondary bg-opacity-10 rounded-top">
-      <div class="pl-3">Atributos Auxiliares <i class="bi bi-bookmarks"></i> {{ atributosFuncionalidads?.length ?? '0' }}</div>
+      <div class="pl-3">Atributos Auxiliares <em class="bi bi-bookmarks"></em> {{ atributosFuncionalidads?.length ?? '0' }}</div>
     </div>
-    <table class="table mb-0">
+    <table class="table mb-0" aria-describedby="atributos clave valor">
       <thead>
         <tr>
           <th>Clave</th>
@@ -43,8 +43,8 @@
             <td>{{ atributosFuncionalidad.valor }}</td>
             <td *jhiHasAnyAuthority="['ROLE_ADMIN']">
               <span class="">
-                <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <i class="bi bi-pencil-fill"></i> </a>
-                | <a (click)="delete(atributosFuncionalidad)"> <i class="bi bi-trash3-fill"></i> </a>
+                <a [routerLink]="'/atributo-funcionalidad/' + atributosFuncionalidad.id + '/edit'"> <em class="bi bi-pencil-fill"></em> </a>
+                | <a (click)="delete(atributosFuncionalidad)"> <em class="bi bi-trash3-fill"></em> </a>
               </span>
             </td>
           </tr>
@@ -52,7 +52,7 @@
         <tr *jhiHasAnyAuthority="['ROLE_ADMIN']">
           <td colspan="2">
             <a [routerLink]="'/atributo-funcionalidad/new/funcionalidad/' + funcionId" class="underline">
-              <i class="bi bi-plus"></i> Nuevo Atributo auxiliar
+              <em class="bi bi-plus"></em> Nuevo Atributo auxiliar
             </a>
           </td>
         </tr>

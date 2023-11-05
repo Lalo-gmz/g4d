@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
@@ -26,6 +26,9 @@ export type PartialUpdateRestIteracion = RestOf<PartialUpdateIteracion>;
 
 export type EntityResponseType = HttpResponse<IIteracion>;
 export type EntityArrayResponseType = HttpResponse<IIteracion[]>;
+
+export type EntityResponseTypeF = HttpResponse<IFuncionalidad>;
+export type EntityArrayResponseTypeF = HttpResponse<IFuncionalidad[]>;
 
 @Injectable({ providedIn: 'root' })
 export class IteracionService {
@@ -61,34 +64,20 @@ export class IteracionService {
   }
 
   import(file: any, proyectoId: number): Observable<EntityArrayResponseType> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-      }),
-    };
-
-    console.log('file:', file);
-
-    return this.http.post<any>(`/api/funcionalidades/excel/proyecto/${proyectoId}`, file);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return this.http.post<any>(`/api/funcionalidades/excelUpdate/proyecto/${proyectoId}`, file);
   }
 
-  exportarExcel(proyectoId: number) {
+  exportarExcel(proyectoId: number): any {
     return this.http.get(`/api/proyectos/${proyectoId}/excel`, { responseType: 'blob', headers: { Accept: 'application/vnd.ms-excel' } });
   }
 
   updateByExcel(file: any, proyectoId: number): Observable<EntityArrayResponseType> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-      }),
-    };
-
-    console.log('file:', file);
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return this.http.post<any>(`/api/funcionalidades/excelUpdate/proyecto/${proyectoId}`, file);
   }
 
-  getPlantilla(proyectoId: number) {
+  getPlantilla(proyectoId: number): any {
     return this.http.get(`/api/proyectos/${proyectoId}/PlantillaExcel`, {
       responseType: 'blob',
       headers: { Accept: 'application/vnd.ms-excel' },

@@ -76,7 +76,6 @@ class AtributoResourceIT {
         atributo = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createAtributo() throws Exception {
         int databaseSizeBeforeCreate = atributoRepository.findAll().size();
@@ -92,7 +91,6 @@ class AtributoResourceIT {
         assertThat(testAtributo.getNombre()).isEqualTo(DEFAULT_NOMBRE);
     }
 
-    @Test
     @Transactional
     void createAtributoWithExistingId() throws Exception {
         // Create the Atributo with an existing ID
@@ -110,7 +108,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void getAllAtributos() throws Exception {
         // Initialize the database
@@ -125,7 +122,6 @@ class AtributoResourceIT {
             .andExpect(jsonPath("$.[*].nombre").value(hasItem(DEFAULT_NOMBRE)));
     }
 
-    @Test
     @Transactional
     void getAtributo() throws Exception {
         // Initialize the database
@@ -140,14 +136,12 @@ class AtributoResourceIT {
             .andExpect(jsonPath("$.nombre").value(DEFAULT_NOMBRE));
     }
 
-    @Test
     @Transactional
     void getNonExistingAtributo() throws Exception {
         // Get the atributo
         restAtributoMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingAtributo() throws Exception {
         // Initialize the database
@@ -176,7 +170,6 @@ class AtributoResourceIT {
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
     }
 
-    @Test
     @Transactional
     void putNonExistingAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -196,7 +189,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -216,7 +208,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -232,7 +223,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateAtributoWithPatch() throws Exception {
         // Initialize the database
@@ -261,7 +251,6 @@ class AtributoResourceIT {
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
     }
 
-    @Test
     @Transactional
     void fullUpdateAtributoWithPatch() throws Exception {
         // Initialize the database
@@ -290,7 +279,6 @@ class AtributoResourceIT {
         assertThat(testAtributo.getNombre()).isEqualTo(UPDATED_NOMBRE);
     }
 
-    @Test
     @Transactional
     void patchNonExistingAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -310,7 +298,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -330,7 +317,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamAtributo() throws Exception {
         int databaseSizeBeforeUpdate = atributoRepository.findAll().size();
@@ -346,7 +332,6 @@ class AtributoResourceIT {
         assertThat(atributoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteAtributo() throws Exception {
         // Initialize the database

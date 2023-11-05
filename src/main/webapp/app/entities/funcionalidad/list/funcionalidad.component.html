@@ -1,8 +1,8 @@
 <div>
   <div>
-    <span> <a class="text-decoration-none" [routerLink]="''">Proyectos</a> </span> <i class="bi bi-chevron-right"></i>
+    <span> <a class="text-decoration-none" [routerLink]="''">Proyectos</a> </span> <em class="bi bi-chevron-right"></em>
     <span><a class="text-decoration-none" [routerLink]="'/iteracion/proyecto/' + proyectoId">Iteraciones</a></span>
-    <i class="bi bi-chevron-right"></i> <span> Funcionalidades </span>
+    <em class="bi bi-chevron-right"></em> <span> Funcionalidades </span>
   </div>
   <hr />
   <div class="row mb-4">
@@ -67,7 +67,7 @@
                 </div>
                 <div>
                   <span *ngFor="let user of f.users; let lastItem = last">
-                    <i class="bi bi-person-circle"></i> {{ user.login }} <i *ngIf="!lastItem" class="bi bi-dot"></i>
+                    <em class="bi bi-person-circle"></em> {{ user.login }} <em *ngIf="!lastItem" class="bi bi-dot"></em>
                   </span>
                 </div>
                 <div>
@@ -97,12 +97,6 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <!-- <th scope="col" jhiSortBy="descripcion">
-            <div class="d-flex">
-              <span>Descripcion</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th> -->
           <th scope="col" jhiSortBy="urlGitLab">
             <div class="d-flex">
               <span>GitLab</span>
@@ -149,13 +143,12 @@
             <a [routerLink]="['/funcionalidad', funcionalidad.id, 'view']">{{ funcionalidad.id }}</a>
           </td>
           <td>{{ funcionalidad.nombre }}</td>
-          <!-- <td>{{ funcionalidad.descripcion }}</td> -->
           <td><a [href]="funcionalidad.urlGitLab"> Ir a GitLab </a></td>
           <td>{{ funcionalidad.creado | formatMediumDatetime }}</td>
           <td>{{ funcionalidad.modificado | formatMediumDatetime }}</td>
           <td>
             <div *ngFor="let user of funcionalidad.users; let last = last">
-              <div><i class="bi bi-person-circle"></i> {{ user.firstName }}</div>
+              <div><em class="bi bi-person-circle"></em> {{ user.firstName }}</div>
             </div>
           </td>
           <td>

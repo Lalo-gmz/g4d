@@ -50,7 +50,6 @@ export class IteracionUpdateComponent implements OnInit {
     if (this.proyectoId) {
       this.proyectoService.find(this.proyectoId).subscribe({
         next: res => {
-          console.log({ res });
           this.editForm.get('proyecto')?.setValue(res.body);
           this.editForm.get('proyecto')?.disable();
         },
@@ -72,9 +71,8 @@ export class IteracionUpdateComponent implements OnInit {
     }
   }
 
-  onCheckboxChange() {
+  onCheckboxChange(): void {
     this.isChecked = !this.isChecked;
-    console.log(this.isChecked);
     if (this.isChecked) {
       this.editForm.get('idGitLab')?.setValue('');
       this.editForm.get('idGitLab')?.disable();

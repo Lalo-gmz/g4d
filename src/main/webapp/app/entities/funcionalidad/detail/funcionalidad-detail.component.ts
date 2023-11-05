@@ -9,7 +9,6 @@ import { IFuncionalidad } from '../funcionalidad.model';
 })
 export class FuncionalidadDetailComponent implements OnInit {
   funcionalidad: IFuncionalidad | null = null;
-  GITURL?: string = 'https://gitlab.com/g4dadmin/';
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -17,13 +16,6 @@ export class FuncionalidadDetailComponent implements OnInit {
       this.funcionalidad = funcionalidad;
     });
   }
-
-  convertToSlugURL(text: string) {
-    return this.GITURL + text.toLowerCase().replace(/\s+/g, '-');
-  }
-
-  // asignar la función a una propiedad del componente
-  slugify = this.convertToSlugURL.bind(this);
 
   previousState(): void {
     window.history.back();

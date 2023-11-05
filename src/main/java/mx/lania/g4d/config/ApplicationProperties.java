@@ -1,8 +1,6 @@
 package mx.lania.g4d.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
 
 /**
  * Properties specific to G 4 D.

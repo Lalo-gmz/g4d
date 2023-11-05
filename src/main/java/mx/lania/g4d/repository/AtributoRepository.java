@@ -2,7 +2,7 @@ package mx.lania.g4d.repository;
 
 import java.util.Optional;
 import mx.lania.g4d.domain.Atributo;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**

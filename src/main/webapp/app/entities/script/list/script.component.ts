@@ -11,7 +11,6 @@ import { SortService } from 'app/shared/sort/sort.service';
 import { ICaptura } from '../captura.model';
 import * as XLSX from 'xlsx';
 import { AlertService } from 'app/core/util/alert.service';
-//import { FileSaverService } from 'ngx-filesaver';
 
 @Component({
   selector: 'jhi-script',
@@ -32,7 +31,7 @@ export class ScriptComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
-    protected alertService: AlertService //private filerSaver: FileSaverService
+    protected alertService: AlertService
   ) {
     this.proyectoId = this.activatedRoute.snapshot.params['id'];
   }
@@ -47,19 +46,14 @@ export class ScriptComponent implements OnInit {
     this.scriptService.findByProyect(this.proyectoId!).subscribe({
       next: res => {
         if (res.body) {
-          console.log(script);
           this.capturas = res.body;
-          // console.log(this.capturas);
           const nuevafuncion = new Function('capturas', script);
 
-          //console.log(nuevafuncion)
-          const resultado = nuevafuncion(this.capturas);
-          console.log(resultado);
+          nuevafuncion(this.capturas);
 
           //continuación
 
           const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
-          const EXCEL_EXTENSION = '.xlsx';
           //custome code
           const worksheet = XLSX.utils.json_to_sheet(nuevafuncion(this.capturas));
           const workbook = {
@@ -71,7 +65,6 @@ export class ScriptComponent implements OnInit {
 
           const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
           const blobData = new Blob([excelBuffer], { type: EXCEL_TYPE });
-          //this.filerSaver.save(blobData, "demoFile")
 
           const blobUrl = URL.createObjectURL(blobData);
 
@@ -90,16 +83,6 @@ export class ScriptComponent implements OnInit {
     });
   }
 
-  /*
-
-  obtenerFechas(capturas: ICaptura[]): any{
-    const res = [];
-    capturas.forEach(element => {
-          res.push(element.fecha)
-    });
-    return res;
-  }
-*/
   delete(script: IScript): void {
     const modalRef = this.modalService.open(ScriptDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.script = script;
@@ -186,11 +169,10 @@ export class ScriptComponent implements OnInit {
     window.history.back();
   }
 
-  copiarTextoAlPortapapeles(texto: string) {
+  copiarTextoAlPortapapeles(texto: string): void {
     navigator.clipboard
       .writeText(texto)
       .then(() => {
-        console.log('Texto copiado al portapapeles: ' + texto);
         this.alertService.addAlert({
           type: 'success',
           message: 'Script Copiado',

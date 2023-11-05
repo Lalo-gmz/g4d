@@ -1,6 +1,7 @@
 package mx.lania.g4d.security;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 import mx.lania.g4d.domain.Authority;
 import mx.lania.g4d.domain.User;

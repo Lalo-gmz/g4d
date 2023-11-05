@@ -8,14 +8,12 @@ export interface IFuncionalidad {
   descripcion?: string | null;
   urlGitLab?: string | null;
   enlaceGitLab?: string | null;
-  // fechaEntrega?: dayjs.Dayjs | null;
   creado?: dayjs.Dayjs | null;
   modificado?: dayjs.Dayjs | null;
   users?: IUser[] | null;
   estatusFuncionalidad?: string | null;
   iteracion?: IIteracion | null;
   prioridad?: string | null;
-  // etiquetas?: IEtiqueta[] | null;
 }
 
 export type NewFuncionalidad = Omit<IFuncionalidad, 'id'> & { id: null };

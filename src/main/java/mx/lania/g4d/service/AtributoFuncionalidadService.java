@@ -6,7 +6,7 @@ import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.Iteracion;
 import mx.lania.g4d.repository.AtributoFuncionalidadRepository;
-import mx.lania.g4d.service.Utils.GitLabService;
+import mx.lania.g4d.service.utils.GitLabService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,7 +67,7 @@ public class AtributoFuncionalidadService {
         //obtener proyecto mediante la iteración
         Optional<Iteracion> iteracion = iteracionService.findOne(atributoFuncionalidad.getFuncionalidad().getIteracion().getId());
         if (iteracion.isPresent()) {
-            String res = gitLabService.updateIssieLabels(
+            gitLabService.updateIssieLabels(
                 labels.toString(),
                 iteracion.get().getProyecto().getIdProyectoGitLab(),
                 atributoFuncionalidad.getFuncionalidad().getUrlGitLab()
@@ -154,9 +154,7 @@ public class AtributoFuncionalidadService {
 
     @Transactional(readOnly = true)
     public void deleteByFuncionalidad(Funcionalidad funcionalidad) {
-        List<AtributoFuncionalidad> atributoFuncionalidadList = atributoFuncionalidadRepository.deleteAtributoFuncionalidadsByFuncionalidadId(
-            funcionalidad.getId()
-        );
-        log.debug(atributoFuncionalidadList.toString());
+        log.debug("Request to delete AtributoFuncionalidad : {}", funcionalidad.getId());
+        atributoFuncionalidadRepository.deleteAtributoFuncionalidadsByFuncionalidadId(funcionalidad.getId());
     }
 }

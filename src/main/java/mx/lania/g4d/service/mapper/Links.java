@@ -1,6 +1,6 @@
 package mx.lania.g4d.service.mapper;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Links {
 

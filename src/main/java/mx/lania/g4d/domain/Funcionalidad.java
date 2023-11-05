@@ -5,18 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import mx.lania.g4d.service.mapper.AtributosAdicionales;
-import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 /**
  * A Funcionalidad.
@@ -73,8 +70,6 @@ public class Funcionalidad implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "funcionalidads", "proyecto" }, allowSetters = true)
     private Iteracion iteracion;
-
-    // pasar a string
 
     @OneToMany(mappedBy = "funcionalidad", cascade = CascadeType.REMOVE)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

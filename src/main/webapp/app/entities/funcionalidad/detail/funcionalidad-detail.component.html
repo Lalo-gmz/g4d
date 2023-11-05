@@ -8,7 +8,7 @@
       <div class="d-flex justify-content-between">
         <div>
           <span class="text-white-50">
-            <a (click)="previousState()"> <i class="bi bi-arrow-left"></i> Atrás </a> <i class="bi bi-chevron-right"></i>&nbsp;
+            <a (click)="previousState()"> <em class="bi bi-arrow-left"></em> Atrás </a> <em class="bi bi-chevron-right"></em>&nbsp;
           </span>
           <span>{{ funcionalidad.id }}</span>
         </div>
@@ -47,7 +47,7 @@
       <div class="mb-2">
         <span class="text-white-50"> Asignado a </span>
         <ng-container *ngIf="funcionalidad.users">
-          <span *ngFor="let user of funcionalidad.users"> [ <i class="bi bi-person-circle"></i> {{ user.firstName }}] </span>
+          <span *ngFor="let user of funcionalidad.users"> [ <em class="bi bi-person-circle"></em> {{ user.firstName }}] </span>
         </ng-container>
       </div>
       <p>{{ funcionalidad.descripcion }}</p>

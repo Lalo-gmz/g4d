@@ -7,13 +7,19 @@ import mx.lania.g4d.domain.Proyecto;
 
 public class CapturaResponse {
 
-    public List<Funcionalidad> funcionalidadList;
+    private List<Funcionalidad> funcionalidadList;
 
-    public Instant fecha;
+    private Instant fecha;
 
-    public Proyecto proyecto;
+    private Proyecto proyecto;
 
     public CapturaResponse() {}
+
+    public CapturaResponse(List<Funcionalidad> funcionalidadList, Instant fecha, Proyecto proyecto) {
+        this.funcionalidadList = funcionalidadList;
+        this.fecha = fecha;
+        this.proyecto = proyecto;
+    }
 
     public List<Funcionalidad> getFuncionalidadList() {
         return funcionalidadList;

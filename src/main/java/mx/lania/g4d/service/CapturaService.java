@@ -12,10 +12,10 @@ import java.time.LocalDate;
 import java.util.*;
 import mx.lania.g4d.domain.*;
 import mx.lania.g4d.repository.CapturaRepository;
-import mx.lania.g4d.service.Utils.InstantTypeAdapter;
-import mx.lania.g4d.service.Utils.LocalDateTypeAdapter;
 import mx.lania.g4d.service.mapper.AtributosAdicionales;
 import mx.lania.g4d.service.mapper.CapturaResponse;
+import mx.lania.g4d.service.utils.InstantTypeAdapter;
+import mx.lania.g4d.service.utils.LocalDateTypeAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -86,13 +86,12 @@ public class CapturaService {
 
             try {
                 String jsonString = objectMapper.writeValueAsString(funcionalidadList);
-                System.out.println(jsonString);
 
                 captura.setProyecto(proyecto);
                 captura.setFecha(Instant.now());
                 captura.setFuncionalidades(jsonString);
             } catch (JsonProcessingException e) {
-                e.printStackTrace();
+                log.debug("context", e);
             }
         }
 
@@ -171,7 +170,6 @@ public class CapturaService {
         List<CapturaResponse> capturaResponseList = new ArrayList<>();
         for (Captura captura : capturas) {
             String jsonString = captura.getFuncionalidades();
-            System.out.println(jsonString);
             List<Funcionalidad> funcionalidadesJson = parseJsonArray(jsonString);
 
             CapturaResponse capturaResponse = new CapturaResponse();
@@ -192,8 +190,8 @@ public class CapturaService {
             .registerTypeAdapter(Instant.class, new InstantTypeAdapter())
             .registerTypeAdapter(LocalDate.class, new LocalDateTypeAdapter())
             .create();
-        Type List = new TypeToken<List<Funcionalidad>>() {}.getType();
-        return gson.fromJson(jsonArrayString, List);
+        Type list = new TypeToken<List<Funcionalidad>>() {}.getType();
+        return gson.fromJson(jsonArrayString, list);
     }
 
     public List<Captura> getAllCapturasByProyectId(Long proyectoId) {

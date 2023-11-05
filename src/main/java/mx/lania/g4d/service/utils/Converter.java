@@ -1,11 +1,10 @@
-package mx.lania.g4d.service.Utils;
+package mx.lania.g4d.service.utils;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
@@ -13,12 +12,16 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
-import java.util.*;
+import java.util.List;
 import mx.lania.g4d.service.mapper.Issue;
 
 public class Converter {
 
     // Date-time helpers
+
+    private Converter() {
+        // converter
+    }
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = new DateTimeFormatterBuilder()
         .appendOptional(DateTimeFormatter.ISO_DATE_TIME)
@@ -70,8 +73,7 @@ public class Converter {
             OffsetDateTime.class,
             new JsonDeserializer<OffsetDateTime>() {
                 @Override
-                public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
-                    throws IOException, JsonProcessingException {
+                public OffsetDateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
                     String value = jsonParser.getText();
                     return Converter.parseDateTimeString(value);
                 }

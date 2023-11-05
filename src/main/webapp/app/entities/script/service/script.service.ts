@@ -50,14 +50,14 @@ export class ScriptService {
     return this.http.get<IScript>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  query(req?: any, id?: number): Observable<EntityArrayResponseType> {
+  query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http.get<IScript[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   findAllByProyectoId(req?: any, id?: number): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http.get<IScript[]>(`${this.resourceUrl}/proyecto/${id}`, { params: options, observe: 'response' });
+    return this.http.get<IScript[]>(`${this.resourceUrl}/proyecto/${id ?? 0}`, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {

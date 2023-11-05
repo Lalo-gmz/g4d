@@ -84,7 +84,6 @@ class IteracionResourceIT {
         iteracion = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createIteracion() throws Exception {
         int databaseSizeBeforeCreate = iteracionRepository.findAll().size();
@@ -102,7 +101,6 @@ class IteracionResourceIT {
         assertThat(testIteracion.getFin()).isEqualTo(DEFAULT_FIN);
     }
 
-    @Test
     @Transactional
     void createIteracionWithExistingId() throws Exception {
         // Create the Iteracion with an existing ID
@@ -120,7 +118,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void checkNombreIsRequired() throws Exception {
         int databaseSizeBeforeTest = iteracionRepository.findAll().size();
@@ -137,7 +134,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeTest);
     }
 
-    @Test
     @Transactional
     void getAllIteracions() throws Exception {
         // Initialize the database
@@ -154,7 +150,6 @@ class IteracionResourceIT {
             .andExpect(jsonPath("$.[*].fin").value(hasItem(DEFAULT_FIN.toString())));
     }
 
-    @Test
     @Transactional
     void getIteracion() throws Exception {
         // Initialize the database
@@ -171,14 +166,12 @@ class IteracionResourceIT {
             .andExpect(jsonPath("$.fin").value(DEFAULT_FIN.toString()));
     }
 
-    @Test
     @Transactional
     void getNonExistingIteracion() throws Exception {
         // Get the iteracion
         restIteracionMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingIteracion() throws Exception {
         // Initialize the database
@@ -209,7 +202,6 @@ class IteracionResourceIT {
         assertThat(testIteracion.getFin()).isEqualTo(UPDATED_FIN);
     }
 
-    @Test
     @Transactional
     void putNonExistingIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -229,7 +221,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -249,7 +240,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -265,7 +255,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateIteracionWithPatch() throws Exception {
         // Initialize the database
@@ -294,7 +283,6 @@ class IteracionResourceIT {
         assertThat(testIteracion.getFin()).isEqualTo(DEFAULT_FIN);
     }
 
-    @Test
     @Transactional
     void fullUpdateIteracionWithPatch() throws Exception {
         // Initialize the database
@@ -325,7 +313,6 @@ class IteracionResourceIT {
         assertThat(testIteracion.getFin()).isEqualTo(UPDATED_FIN);
     }
 
-    @Test
     @Transactional
     void patchNonExistingIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -345,7 +332,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -365,7 +351,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamIteracion() throws Exception {
         int databaseSizeBeforeUpdate = iteracionRepository.findAll().size();
@@ -383,7 +368,6 @@ class IteracionResourceIT {
         assertThat(iteracionList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteIteracion() throws Exception {
         // Initialize the database

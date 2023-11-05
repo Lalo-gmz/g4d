@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
-  configureSingleSignOn() {
+  configureSingleSignOn(): void {
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -52,27 +52,31 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.username.nativeElement.focus();
   }
 
-  loginWithGitLab() {
+  loginWithGitLab(): void {
     this.oauthService.initImplicitFlow();
   }
 
-  logOut() {
+  logOut(): void {
     this.oauthService.logOut();
   }
+
+  /*
 
   get token() {
     let claims: any = this.oauthService.getIdentityClaims();
     let token: any = this.oauthService.getAccessToken();
-    console.log(token);
+    // console.log(token);
     return claims ? claims : null;
   }
 
-  obtenerInfo() {
+  
+
+  obtenerInfo() : void {
     this.oauthService.loadUserProfile().then(userInfo => {
-      console.log('mail: ', userInfo);
+      // console.log('mail: ', userInfo);
     });
   }
-
+*/
   login(): void {
     this.loginService.login(this.loginForm.getRawValue()).subscribe({
       next: () => {

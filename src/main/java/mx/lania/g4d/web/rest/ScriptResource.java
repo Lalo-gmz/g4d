@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
-import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Script;
 import mx.lania.g4d.repository.ScriptRepository;
 import mx.lania.g4d.service.ScriptService;

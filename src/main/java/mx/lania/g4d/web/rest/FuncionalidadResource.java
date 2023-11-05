@@ -7,18 +7,15 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import mx.lania.g4d.domain.AtributoFuncionalidad;
 import mx.lania.g4d.domain.Bitacora;
 import mx.lania.g4d.domain.Funcionalidad;
 import mx.lania.g4d.domain.User;
 import mx.lania.g4d.domain.enumeration.AccionBitacora;
-import mx.lania.g4d.repository.BitacoraRepository;
 import mx.lania.g4d.repository.FuncionalidadRepository;
 import mx.lania.g4d.repository.UserRepository;
-import mx.lania.g4d.service.AtributoFuncionalidadService;
 import mx.lania.g4d.service.BitacoraService;
 import mx.lania.g4d.service.FuncionalidadService;
-import mx.lania.g4d.service.Utils.ExcelUploadService;
+import mx.lania.g4d.service.utils.ExcelUploadService;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,25 +50,20 @@ public class FuncionalidadResource {
 
     private final BitacoraService bitacoraService;
 
-    private AccionBitacora accionBitacora;
-
-    private ExcelUploadService excelUploadService;
-    private AtributoFuncionalidadService atributoFuncionalidadService;
+    private final ExcelUploadService excelUploadService;
 
     public FuncionalidadResource(
         FuncionalidadService funcionalidadService,
         FuncionalidadRepository funcionalidadRepository,
         UserRepository userRepository,
         BitacoraService bitacoraService,
-        ExcelUploadService excelUploadService,
-        AtributoFuncionalidadService atributoFuncionalidadService
+        ExcelUploadService excelUploadService
     ) {
         this.funcionalidadService = funcionalidadService;
         this.funcionalidadRepository = funcionalidadRepository;
         this.userRepository = userRepository;
         this.bitacoraService = bitacoraService;
         this.excelUploadService = excelUploadService;
-        this.atributoFuncionalidadService = atributoFuncionalidadService;
     }
 
     /**
@@ -95,42 +87,15 @@ public class FuncionalidadResource {
             .body(result);
     }
 
-    @PostMapping("funcionalidades/excel/proyecto/{id}")
-    public ResponseEntity<?> createFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
-        throws IOException {
-        /*
-        if (excelUploadService.isValidExcelFile(file)) {
-            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
-
-            return ResponseEntity.ok(funcionalidadService.saveAll(funcionalidads));
-        }
-        */
-        if (excelUploadService.isValidExcelFile(file)) {
-            List<Funcionalidad> funcionalidads = excelUploadService.updateFuncionalidadByExcel(file.getInputStream(), id);
-
-            return ResponseEntity.ok(funcionalidads);
-        }
-
-        return ResponseEntity.ok("ok");
-    }
-
     @PostMapping("funcionalidades/excelUpdate/proyecto/{id}")
-    public ResponseEntity<?> updateFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
+    public ResponseEntity<List<Funcionalidad>> updateFuncionalidadByExcel(@RequestParam("file") MultipartFile file, @PathVariable Long id)
         throws IOException {
-        /*
-        if (excelUploadService.isValidExcelFile(file)) {
-            List<Funcionalidad> funcionalidads = excelUploadService.getFuncionalidadsDataFromExcel(file.getInputStream(), id);
-
-            return ResponseEntity.ok(funcionalidadService.saveAll(funcionalidads));
-        }
-        */
         if (excelUploadService.isValidExcelFile(file)) {
             List<Funcionalidad> funcionalidads = excelUploadService.updateFuncionalidadByExcel(file.getInputStream(), id);
-            //List<Funcionalidad> result = funcionalidadService.saveAll(funcionalidads);
             return ResponseEntity.ok(funcionalidads);
         }
 
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -160,49 +125,56 @@ public class FuncionalidadResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Funcionalidad prev = funcionalidadService.findOne(funcionalidad.getId()).get();
+        Optional<Funcionalidad> prevOprional = funcionalidadService.findOne(funcionalidad.getId());
 
-        Funcionalidad result = funcionalidadService.update(funcionalidad);
+        Funcionalidad prev;
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
+        if (prevOprional.isPresent()) {
+            prev = prevOprional.get();
 
-        User user = null;
-        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+            Funcionalidad result = funcionalidadService.update(funcionalidad);
 
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String login = authentication.getName();
 
-            if (!result.getEstatusFuncionalidad().equals(prev.getEstatusFuncionalidad())) {
-                Bitacora bitacora = new Bitacora();
-                bitacora.setFuncionalidad(result);
-                bitacora.setUser(user);
-                bitacora.setCreado(Instant.now());
-                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ESTATUS) + " a " + result.getEstatusFuncionalidad());
-                bitacoraService.save(bitacora);
+            User user = null;
+            Optional<User> optionalUser = userRepository.findOneByLogin(login);
+
+            if (optionalUser.isPresent()) {
+                user = optionalUser.get();
+
+                if (!result.getEstatusFuncionalidad().equals(prev.getEstatusFuncionalidad())) {
+                    Bitacora bitacora = new Bitacora();
+                    bitacora.setFuncionalidad(result);
+                    bitacora.setUser(user);
+                    bitacora.setCreado(Instant.now());
+                    bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ESTATUS) + " a " + result.getEstatusFuncionalidad());
+                    bitacoraService.save(bitacora);
+                }
+                if (!result.getIteracion().equals(prev.getIteracion())) {
+                    Bitacora bitacora = new Bitacora();
+                    bitacora.setFuncionalidad(result);
+                    bitacora.setUser(user);
+                    bitacora.setCreado(Instant.now());
+                    bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ITERACION) + " a " + result.getIteracion().getNombre());
+                    bitacoraService.save(bitacora);
+                }
+                if (!result.getPrioridad().equals(prev.getPrioridad())) {
+                    Bitacora bitacora = new Bitacora();
+                    bitacora.setFuncionalidad(result);
+                    bitacora.setUser(user);
+                    bitacora.setCreado(Instant.now());
+                    bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_PRIORIDAD) + " a " + result.getPrioridad());
+                    bitacoraService.save(bitacora);
+                }
             }
-            if (!result.getIteracion().equals(prev.getIteracion())) {
-                Bitacora bitacora = new Bitacora();
-                bitacora.setFuncionalidad(result);
-                bitacora.setUser(user);
-                bitacora.setCreado(Instant.now());
-                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_ITERACION) + " a " + result.getIteracion().getNombre());
-                bitacoraService.save(bitacora);
-            }
-            if (!result.getPrioridad().equals(prev.getPrioridad())) {
-                Bitacora bitacora = new Bitacora();
-                bitacora.setFuncionalidad(result);
-                bitacora.setUser(user);
-                bitacora.setCreado(Instant.now());
-                bitacora.setAccion(String.valueOf(AccionBitacora.CAMBIO_PRIORIDAD) + " a " + result.getPrioridad());
-                bitacoraService.save(bitacora);
-            }
+
+            return ResponseEntity
+                .ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, funcionalidad.getId().toString()))
+                .body(result);
         }
-
-        return ResponseEntity
-            .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, funcionalidad.getId().toString()))
-            .body(result);
+        return ResponseEntity.notFound().build();
     }
 
     /**
@@ -253,7 +225,6 @@ public class FuncionalidadResource {
         return funcionalidadService.findAll();
     }
 
-    // updateFuncionalidadsWithGitLab
     @GetMapping("/funcionalidads/updateProyecto/{proyectoId}")
     public List<Funcionalidad> updateFuncionalidadsWithGitLab(
         @RequestParam(required = false, defaultValue = "false") boolean eagerload,

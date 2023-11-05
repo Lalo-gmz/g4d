@@ -43,11 +43,11 @@ public class FuncionalidadRepositoryWithBagRelationshipsImpl implements Funciona
     @Override
     public List<Funcionalidad> fetchBagRelationships(List<Funcionalidad> funcionalidads) {
         List<Funcionalidad> result = Optional.of(funcionalidads).map(this::fetchUsers).orElse(Collections.emptyList());
-        result.forEach(funcionalidad -> {
+        result.forEach(funcionalidad ->
             funcionalidad.setAtributoFuncionalidads(
                 atributoFuncionalidadRepository.findAtributoFuncionalidadByFuncionalidad(funcionalidad).get()
-            );
-        });
+            )
+        );
         return result;
     }
 

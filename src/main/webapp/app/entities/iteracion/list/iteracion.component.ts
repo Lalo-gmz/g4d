@@ -67,14 +67,13 @@ export class IteracionComponent implements OnInit {
   }
 
   sincronizar(): void {
-    console.log('sincronizar');
     this.isSync = true;
     if (this.proyectoId) {
       this.iteracionService.updateFuncionalidadesByIssuesAtGitLab(this.proyectoId).subscribe({
         next: (res: EntityArrayResponseType) => {
           this.alertService.addAlert({
             type: 'success',
-            message: 'Se actualizaron ' + res.body?.length + ' Funcionalidades desde GitLab',
+            message: `Se actualizaron ${res.body?.length ?? 0}  Funcionalidades desde GitLab`,
             timeout: 5000,
           });
           this.isSync = false;
@@ -102,7 +101,6 @@ export class IteracionComponent implements OnInit {
         next: res => {
           if (res.body) {
             this.scripts = res.body;
-            console.log(this.scripts);
           }
         },
       });
@@ -111,14 +109,14 @@ export class IteracionComponent implements OnInit {
 
   descargarExcel(proyectoId: number): void {
     this.iteracionService.exportarExcel(proyectoId).subscribe({
-      next: res => {
+      next: (res: any) => {
         const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         document.body.appendChild(a);
         a.style.display = 'none';
         a.href = url;
-        a.download = `Proyecto_${proyectoId}.xlsx`; // cambia el nombre del archivo según lo que desees
+        a.download = `Proyecto_${proyectoId}.xlsx`;
         a.click();
         window.URL.revokeObjectURL(url);
       },
@@ -160,7 +158,6 @@ export class IteracionComponent implements OnInit {
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
     };
-    console.log(this.proyectoId);
     return this.iteracionService.query(this.proyectoId, queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
@@ -192,20 +189,14 @@ export class IteracionComponent implements OnInit {
     this.scriptService.findByProyect(this.proyectoId!).subscribe({
       next: res => {
         if (res.body) {
-          console.log(script);
           this.capturas = res.body;
-          // console.log(this.capturas);
           const nuevafuncion = new Function('capturas', script);
 
-          //console.log(nuevafuncion)
-          const resultado = nuevafuncion(this.capturas);
-          console.log(resultado);
+          nuevafuncion(this.capturas);
 
           //continuación
 
           const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8';
-          const EXCEL_EXTENSION = '.xlsx';
-          //custome code
           const worksheet = XLSX.utils.json_to_sheet(nuevafuncion(this.capturas));
           const workbook = {
             Sheets: {
@@ -216,7 +207,6 @@ export class IteracionComponent implements OnInit {
 
           const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
           const blobData = new Blob([excelBuffer], { type: EXCEL_TYPE });
-          //this.filerSaver.save(blobData, "demoFile")
 
           const blobUrl = URL.createObjectURL(blobData);
 

@@ -11,7 +11,6 @@ import { IFuncionalidad } from 'app/entities/funcionalidad/funcionalidad.model';
 @Component({
   selector: 'jhi-list-by-id',
   templateUrl: './list-by-id.component.html',
-  styleUrls: ['./list-by-id.component.scss'],
 })
 export class ComentarioListByIdComponent implements OnInit {
   comentarios?: IComentario[];
@@ -48,9 +47,6 @@ export class ComentarioListByIdComponent implements OnInit {
             next: (res: any) => {
               this.onSuccess(res.body);
             },
-            error: e => {
-              this.onError(e);
-            },
           });
 
         this.funcionalidadService.find(this.funcionalodadId).subscribe({
@@ -64,20 +60,12 @@ export class ComentarioListByIdComponent implements OnInit {
 
   protected onSuccess(data: any): void {
     this.comentarios = data ?? [];
-    // eslint-disable-next-line no-console
-    console.log(this.comentarios);
-  }
-
-  protected onError(e: any): void {
-    // eslint-disable-next-line no-console
-    console.log(e);
   }
 
   save(): void {
     this.myForm.addControl('funcionalidad', this.formBuilder.control(this.funcionalidad));
     const msg: NewComentario = this.myForm.value;
-    console.log(msg);
-    let res = this.comentarioService.createByFuncidAndUserId(msg).subscribe({
+    this.comentarioService.createByFuncidAndUserId(msg).subscribe({
       next: res => {
         if (res.body) this.comentarios?.push(res.body);
         this.myForm.reset();

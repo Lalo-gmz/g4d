@@ -327,4 +327,9 @@ public class UserService {
     public Optional<User> findByLogin(String login) {
         return userRepository.findOneByLogin(login);
     }
+
+    @Transactional
+    public List<UserDTO> findAll() {
+        return userRepository.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
+    }
 }

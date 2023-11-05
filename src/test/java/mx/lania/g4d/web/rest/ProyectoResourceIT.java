@@ -111,7 +111,6 @@ class ProyectoResourceIT {
         proyecto = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createProyecto() throws Exception {
         int databaseSizeBeforeCreate = proyectoRepository.findAll().size();
@@ -130,7 +129,6 @@ class ProyectoResourceIT {
         assertThat(testProyecto.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void createProyectoWithExistingId() throws Exception {
         // Create the Proyecto with an existing ID
@@ -148,7 +146,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void checkIdProyectoGitLabIsRequired() throws Exception {
         int databaseSizeBeforeTest = proyectoRepository.findAll().size();
@@ -165,7 +162,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeTest);
     }
 
-    @Test
     @Transactional
     void getAllProyectos() throws Exception {
         // Initialize the database
@@ -200,7 +196,6 @@ class ProyectoResourceIT {
         verify(proyectoRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
-    @Test
     @Transactional
     void getProyecto() throws Exception {
         // Initialize the database
@@ -218,14 +213,12 @@ class ProyectoResourceIT {
             .andExpect(jsonPath("$.modificado").value(DEFAULT_MODIFICADO.toString()));
     }
 
-    @Test
     @Transactional
     void getNonExistingProyecto() throws Exception {
         // Get the proyecto
         restProyectoMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingProyecto() throws Exception {
         // Initialize the database
@@ -261,7 +254,6 @@ class ProyectoResourceIT {
         assertThat(testProyecto.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void putNonExistingProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -281,7 +273,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -301,7 +292,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -317,7 +307,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateProyectoWithPatch() throws Exception {
         // Initialize the database
@@ -349,7 +338,6 @@ class ProyectoResourceIT {
         assertThat(testProyecto.getModificado()).isEqualTo(DEFAULT_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void fullUpdateProyectoWithPatch() throws Exception {
         // Initialize the database
@@ -385,7 +373,6 @@ class ProyectoResourceIT {
         assertThat(testProyecto.getModificado()).isEqualTo(UPDATED_MODIFICADO);
     }
 
-    @Test
     @Transactional
     void patchNonExistingProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -405,7 +392,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -425,7 +411,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamProyecto() throws Exception {
         int databaseSizeBeforeUpdate = proyectoRepository.findAll().size();
@@ -441,7 +426,6 @@ class ProyectoResourceIT {
         assertThat(proyectoList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteProyecto() throws Exception {
         // Initialize the database

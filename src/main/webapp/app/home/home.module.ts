@@ -10,7 +10,5 @@ import { HomeComponent } from './home.component';
   declarations: [HomeComponent],
 })
 export class HomeModule {
-  constructor(private router: Router) {
-    //this.router.navigate(['/proyectos/mis-proyectos']);
-  }
+  constructor(private router: Router) {}
 }

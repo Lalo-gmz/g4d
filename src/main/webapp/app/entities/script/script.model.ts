@@ -1,4 +1,3 @@
-import dayjs from 'dayjs/esm';
 import { IProyecto } from '../proyecto/proyecto.model';
 
 export interface IScript {

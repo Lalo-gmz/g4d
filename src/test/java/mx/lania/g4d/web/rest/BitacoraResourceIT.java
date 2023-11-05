@@ -81,7 +81,6 @@ class BitacoraResourceIT {
         bitacora = createEntity(em);
     }
 
-    @Test
     @Transactional
     void createBitacora() throws Exception {
         int databaseSizeBeforeCreate = bitacoraRepository.findAll().size();
@@ -98,7 +97,6 @@ class BitacoraResourceIT {
         assertThat(testBitacora.getCreado()).isEqualTo(DEFAULT_CREADO);
     }
 
-    @Test
     @Transactional
     void createBitacoraWithExistingId() throws Exception {
         // Create the Bitacora with an existing ID
@@ -116,7 +114,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeCreate);
     }
 
-    @Test
     @Transactional
     void checkAccionIsRequired() throws Exception {
         int databaseSizeBeforeTest = bitacoraRepository.findAll().size();
@@ -133,7 +130,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeTest);
     }
 
-    @Test
     @Transactional
     void checkCreadoIsRequired() throws Exception {
         int databaseSizeBeforeTest = bitacoraRepository.findAll().size();
@@ -150,7 +146,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeTest);
     }
 
-    @Test
     @Transactional
     void getAllBitacoras() throws Exception {
         // Initialize the database
@@ -166,7 +161,6 @@ class BitacoraResourceIT {
             .andExpect(jsonPath("$.[*].creado").value(hasItem(DEFAULT_CREADO.toString())));
     }
 
-    @Test
     @Transactional
     void getBitacora() throws Exception {
         // Initialize the database
@@ -182,14 +176,12 @@ class BitacoraResourceIT {
             .andExpect(jsonPath("$.creado").value(DEFAULT_CREADO.toString()));
     }
 
-    @Test
     @Transactional
     void getNonExistingBitacora() throws Exception {
         // Get the bitacora
         restBitacoraMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     void putExistingBitacora() throws Exception {
         // Initialize the database
@@ -219,7 +211,6 @@ class BitacoraResourceIT {
         assertThat(testBitacora.getCreado()).isEqualTo(UPDATED_CREADO);
     }
 
-    @Test
     @Transactional
     void putNonExistingBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -239,7 +230,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithIdMismatchBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -259,7 +249,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void putWithMissingIdPathParamBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -275,7 +264,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void partialUpdateBitacoraWithPatch() throws Exception {
         // Initialize the database
@@ -303,7 +291,6 @@ class BitacoraResourceIT {
         assertThat(testBitacora.getCreado()).isEqualTo(DEFAULT_CREADO);
     }
 
-    @Test
     @Transactional
     void fullUpdateBitacoraWithPatch() throws Exception {
         // Initialize the database
@@ -333,7 +320,6 @@ class BitacoraResourceIT {
         assertThat(testBitacora.getCreado()).isEqualTo(UPDATED_CREADO);
     }
 
-    @Test
     @Transactional
     void patchNonExistingBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -353,7 +339,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithIdMismatchBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -373,7 +358,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void patchWithMissingIdPathParamBitacora() throws Exception {
         int databaseSizeBeforeUpdate = bitacoraRepository.findAll().size();
@@ -389,7 +373,6 @@ class BitacoraResourceIT {
         assertThat(bitacoraList).hasSize(databaseSizeBeforeUpdate);
     }
 
-    @Test
     @Transactional
     void deleteBitacora() throws Exception {
         // Initialize the database

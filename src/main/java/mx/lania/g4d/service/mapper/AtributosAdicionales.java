@@ -1,9 +1,8 @@
 package mx.lania.g4d.service.mapper;
 
-import java.util.List;
-import mx.lania.g4d.domain.Atributo;
+import java.io.Serializable;
 
-public class AtributosAdicionales {
+public class AtributosAdicionales implements Serializable {
 
     private String nombreAtributo;
 
