@@ -53,27 +53,24 @@ public class ProyectoService {
      */
     public Proyecto save(Proyecto proyecto) {
         log.debug("Request to save Proyecto : {}", proyecto);
-        Proyecto res = proyectoRepository.save(proyecto);
-
+        Proyecto res = new Proyecto();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
 
-        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        if (proyecto.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
+            Map<String, String> idGitLabProject = gitLabService.saveProjecto(proyecto.getNombre());
+            proyecto.setIdProyectoGitLab(idGitLabProject.get("id"));
+            proyecto.setEnlaceGitLab(idGitLabProject.get("web_url"));
+        }
 
+        Optional<User> optionalUser = userRepository.findOneByLogin(login);
+        res = proyectoRepository.save(proyecto);
         ParticipacionProyecto participacionProyecto = new ParticipacionProyecto();
         participacionProyecto.setProyecto(res);
         participacionProyecto.setEsAdmin(true);
         optionalUser.ifPresent(participacionProyecto::setUsuario);
+
         participacionProyectoService.save(participacionProyecto);
-        if (res.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
-            Map<String, String> idGitLabProyect = gitLabService.saveProjecto(res.getNombre());
-            res.setIdProyectoGitLab(idGitLabProyect.get("id"));
-            res.setEnlaceGitLab(idGitLabProyect.get("web_url"));
-            Optional<Proyecto> proyectoConGitLab = partialUpdate(res);
-            if (proyectoConGitLab.isPresent()) {
-                res = proyectoConGitLab.get();
-            }
-        }
 
         return res;
     }
@@ -113,8 +110,8 @@ public class ProyectoService {
                 if (proyecto.getModificado() != null) {
                     existingProyecto.setModificado(proyecto.getModificado());
                 }
-                if (proyecto.getIdProyectoGitLab() != null) {
-                    existingProyecto.setIdProyectoGitLab(proyecto.getIdProyectoGitLab());
+                if (proyecto.getEnlaceGitLab() != null) {
+                    existingProyecto.setEnlaceGitLab(proyecto.getEnlaceGitLab());
                 }
 
                 return existingProyecto;
