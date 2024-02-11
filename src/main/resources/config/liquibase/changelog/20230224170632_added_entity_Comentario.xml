@@ -17,10 +17,10 @@
             <column name="mensaje" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="creado" type="${datetimeType}">
+            <column name="creado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
-            <column name="modificado" type="${datetimeType}">
+            <column name="modificado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
             <column name="funcionalidad_id" type="bigint">
@@ -31,8 +31,8 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="comentario" columnName="creado" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="comentario" columnName="modificado" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="comentario" columnName="creado" columnDataType="TIMESTAMP"/>
+        <dropDefaultValue tableName="comentario" columnName="modificado" columnDataType="TIMESTAMP"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

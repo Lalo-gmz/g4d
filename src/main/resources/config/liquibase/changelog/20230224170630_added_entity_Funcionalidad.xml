@@ -35,10 +35,10 @@
             <column name="fecha_entrega" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="creado" type="${datetimeType}">
+            <column name="creado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
-            <column name="modificado" type="${datetimeType}">
+            <column name="modificado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
 
@@ -50,8 +50,8 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="funcionalidad" columnName="creado" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="funcionalidad" columnName="modificado" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="funcionalidad" columnName="creado" columnDataType="TIMESTAMP"/>
+        <dropDefaultValue tableName="funcionalidad" columnName="modificado" columnDataType="TIMESTAMP"/>
     </changeSet>
 
     <changeSet id="20230224170630-1-relations" author="jhipster">

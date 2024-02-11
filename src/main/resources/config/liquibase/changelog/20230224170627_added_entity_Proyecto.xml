@@ -23,10 +23,10 @@
             <column name="enlace_git_lab" type="varchar(255)">
                 <constraints nullable="false" unique="true" uniqueConstraintName="ux_proyecto__enlace_git_lab" />
             </column>
-            <column name="creado" type="${datetimeType}">
+            <column name="creado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
-            <column name="modificado" type="${datetimeType}">
+            <column name="modificado" type="TIMESTAMP">
                 <constraints nullable="true" />
             </column>
             <column name="abierto" type="boolean">
@@ -34,8 +34,8 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="proyecto" columnName="creado" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="proyecto" columnName="modificado" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="proyecto" columnName="creado" columnDataType="TIMESTAMP"/>
+        <dropDefaultValue tableName="proyecto" columnName="modificado" columnDataType="TIMESTAMP"/>
     </changeSet>
 
     <changeSet id="20230224170627-1-relations" author="jhipster">

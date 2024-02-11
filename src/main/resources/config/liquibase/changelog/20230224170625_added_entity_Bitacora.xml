@@ -17,7 +17,7 @@
             <column name="accion" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="creado" type="${datetimeType}">
+            <column name="creado" type="TIMESTAMP">
                 <constraints nullable="false" />
             </column>
             <column name="user_id" type="bigint">
