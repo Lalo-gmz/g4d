@@ -88,21 +88,22 @@ public class GitLabService {
     public Map<String, String> saveProjecto(String name) {
         JSONObject requestObject = new JSONObject();
         requestObject.put("name", name);
-
-        JSONObject res = apiCaller.httpCall(HttpMethod.POST, gitLabApiUrl, "projects", privateToken, requestObject);
-
-        if (!res.isEmpty()) {
-            String id = res.getAsString("id");
-            String webUrlTemp = res.getAsString(GitLabService.webUrl);
-
-            Map<String, String> result = new HashMap<>();
-            result.put("id", id);
-            result.put(GitLabService.webUrl, webUrlTemp);
-
-            return result;
+        Map<String, String> idGitLabProject = new HashMap<>();
+        try {
+            JSONObject res = apiCaller.httpCall(HttpMethod.POST, gitLabApiUrl, "projects", privateToken, requestObject);
+            if (res != null && !res.isEmpty()) {
+                String id = (String) res.get("id");
+                String webUrlTemp = (String) res.get("web_url");
+                idGitLabProject.put("id", id);
+                idGitLabProject.put("web_url", webUrlTemp);
+            }
+        } catch (HttpClientErrorException ex) {
+            String errorMessage = "Error in same name project.";
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", errorMessage);
+            return errorResponse;
         }
-
-        return new HashMap<>();
+        return idGitLabProject;
     }
 
     public Map<String, String> createIssue(String title, String[] labels, String description, String milestoneId, String projectId) {
@@ -176,8 +177,8 @@ public class GitLabService {
         JSONObject requestObject = new JSONObject();
         requestObject.put(GitLabService.title, title);
         requestObject.put(propDescripcion, description);
-        requestObject.put("due_date", dueDate);
-        requestObject.put("start_date", startDate);
+        requestObject.put("due_date", dueDate.toString());
+        requestObject.put("start_date", startDate.toString());
 
         String recurso = gitLabEndPointProyecto + projectId + gitLabEndPointMilestones;
 
