@@ -12,6 +12,8 @@ import mx.lania.g4d.domain.Proyecto;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.service.ProyectoService;
 import mx.lania.g4d.service.utils.ExcelUploadService;
+import mx.lania.g4d.service.utils.GitLabProjectNameAlreadyExistException;
+import mx.lania.g4d.service.utils.GitLabProjectNotFoundException;
 import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,16 +61,24 @@ public class ProyectoResource {
         if (proyecto.getId() != null) {
             throw new BadRequestAlertException("A new proyecto cannot already have an ID", ENTITY_NAME, "idexists");
         }
-
-        Proyecto result = proyectoService.save(proyecto);
-        if (result.getId() == null) {
-            throw new BadRequestAlertException("El nombre del proyecto ya existe. Por favor, elija otro nombre.", ENTITY_NAME, "idexists");
+        try {
+            Proyecto result = proyectoService.save(proyecto);
+            if (result.getId() == null) {
+                throw new BadRequestAlertException(
+                    "El nombre del proyecto ya existe. Por favor, elija otro nombre.",
+                    ENTITY_NAME,
+                    "idexists"
+                );
+            }
+            return ResponseEntity
+                .created(new URI("/api/proyectos/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
+        } catch (GitLabProjectNotFoundException e) {
+            throw new GitLabProjectNotFoundException(e.getMessage());
+        } catch (GitLabProjectNameAlreadyExistException e) {
+            throw new GitLabProjectNameAlreadyExistException(e.getMessage());
         }
-
-        return ResponseEntity
-            .created(new URI("/api/proyectos/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
     }
 
     /**

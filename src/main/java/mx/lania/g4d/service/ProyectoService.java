@@ -9,7 +9,6 @@ import mx.lania.g4d.domain.User;
 import mx.lania.g4d.repository.ProyectoRepository;
 import mx.lania.g4d.repository.UserRepository;
 import mx.lania.g4d.service.utils.GitLabService;
-import mx.lania.g4d.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -58,20 +57,15 @@ public class ProyectoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String login = authentication.getName();
 
+        Map<String, String> idGitLabProject;
         if (proyecto.getIdProyectoGitLab().equalsIgnoreCase("NUEVO")) {
-            Map<String, String> idGitLabProject = gitLabService.saveProjecto(proyecto.getNombre());
-            Optional<Map.Entry<String, String>> result = idGitLabProject
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getKey().equals("error"))
-                .findFirst();
-
-            if (result.isPresent()) {
-                return new Proyecto();
-            }
-            proyecto.setIdProyectoGitLab(idGitLabProject.get("id"));
-            proyecto.setEnlaceGitLab(idGitLabProject.get("web_url"));
+            idGitLabProject = gitLabService.saveProjecto(proyecto.getNombre());
+        } else {
+            idGitLabProject = gitLabService.findProject(proyecto.getIdProyectoGitLab());
         }
+
+        proyecto.setIdProyectoGitLab(idGitLabProject.get("id"));
+        proyecto.setEnlaceGitLab(idGitLabProject.get("web_url"));
 
         Optional<User> optionalUser = userRepository.findOneByLogin(login);
         res = proyectoRepository.save(proyecto);

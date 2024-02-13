@@ -13,6 +13,7 @@ import mx.lania.g4d.service.mapper.Issue;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
@@ -84,6 +85,30 @@ public class GitLabService {
         }
     }
 
+    public Map<String, String> findProject(String idGitLab) {
+        JSONObject requestObject = new JSONObject();
+        requestObject.put("id", idGitLab);
+        Map<String, String> idGitLabProject = new HashMap<>();
+        try {
+            JSONObject res = apiCaller.httpCall(HttpMethod.GET, gitLabApiUrl, "projects/" + idGitLab, privateToken, requestObject);
+            if (res != null && !res.isEmpty()) {
+                String id = res.get("id").toString();
+                String webUrlTemp = res.get("web_url").toString();
+                idGitLabProject.put("id", id);
+                idGitLabProject.put("web_url", webUrlTemp);
+            } else {
+                throw new GitLabProjectNotFoundException("Project not found in GitLab.");
+            }
+        } catch (HttpClientErrorException ex) {
+            String errorMessage = "El id del Proyecto no Existe en Gitlab.";
+            throw new GitLabProjectNotFoundException(errorMessage);
+        } catch (Exception ex) {
+            String errorMessage = "Se ha producido un error inesperado.";
+            throw new GitLabProjectNotFoundException(errorMessage);
+        }
+        return idGitLabProject;
+    }
+
     // hace uso de la ApiCaller
     public Map<String, String> saveProjecto(String name) {
         JSONObject requestObject = new JSONObject();
@@ -98,10 +123,7 @@ public class GitLabService {
                 idGitLabProject.put("web_url", webUrlTemp);
             }
         } catch (HttpClientErrorException ex) {
-            String errorMessage = "Error in same name project.";
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", errorMessage);
-            return errorResponse;
+            throw new GitLabProjectNameAlreadyExistException("El nombre del proyecto ya Existe en GitLab, intenta con otro");
         }
         return idGitLabProject;
     }
